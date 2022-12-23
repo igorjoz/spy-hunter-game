@@ -20,7 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SDL.cpp" />
     <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="cs8x8.bmp" />
@@ -29,7 +31,9 @@
   <ItemGroup>
     <ClInclude Include="Constants.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SDL.h" />
     <ClInclude Include="Surface.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="szablon2vs19.rc" />

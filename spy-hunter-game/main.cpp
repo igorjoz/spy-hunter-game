@@ -12,12 +12,12 @@
 #include "Surface.h"
 
 
-void freeMemoryAllocatedBySDL(SDL_Surface* screen, SDL_Surface* charset, SDL_Surface* etiBMP, SDL_Texture* scrtex, SDL_Window* window, SDL_Renderer* renderer) {
+void freeMemoryAllocatedBySDL(SDL_Surface* screen, SDL_Surface* charset, SDL_Surface* etiBMP, SDL_Texture* screenTexture, SDL_Window* window, SDL_Renderer* renderer) {
 	SDL_FreeSurface(screen);
 	SDL_FreeSurface(charset);
 	SDL_FreeSurface(etiBMP);
 
-	SDL_DestroyTexture(scrtex);
+	SDL_DestroyTexture(screenTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 }
@@ -55,6 +55,28 @@ void handleEvents(SDL_Event *event, int* quit, int* frames, double* etiBMPSpeed)
 	frames++;
 }
 
+
+void initializeSDL() {
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+		printf("SDL_Init error: %s\n", SDL_GetError());
+
+		exit(1);
+	}
+}
+
+
+//void initializeWindowAndRenderer(SDL_Window* window, SDL_Renderer* renderer) {
+//	int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &window, &renderer); // fullscreen mode
+//	// windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &window, &renderer); // windowed mode
+//
+//	if (windowAndRendererCreationCode != 0) {
+//		SDL_Quit();
+//		printf("SDL_CreateWindowAndRenderer error: %s\n", SDL_GetError());
+//
+//		exit(1);
+//	}
+//}
+
 		
 int main(int argc, char **argv) {
 	int time1, time2, quit, frames, rc;
@@ -62,18 +84,14 @@ int main(int argc, char **argv) {
 	SDL_Event event;
 	SDL_Surface *screen, *charset;
 	SDL_Surface *etiBMP;
-	SDL_Texture *scrtex;
+	SDL_Texture *screenTexture;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 
 	printf("printf output goes here\n");
 	printf("printf testing\n");
 
-	if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		printf("SDL_Init error: %s\n", SDL_GetError());
-			
-		return 1;
-	}
+	initializeSDL();
 
 	rc = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &window, &renderer); // fullscreen mode
 	//rc = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &window, &renderer); // windowed mode
@@ -92,7 +110,7 @@ int main(int argc, char **argv) {
 	SDL_SetWindowTitle(window, "Spy Hunter");
 
 	screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
+	screenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	SDL_ShowCursor(SDL_DISABLE); // turn off cursor visibility
 
@@ -100,7 +118,7 @@ int main(int argc, char **argv) {
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	if (charset == NULL) {
 		printf("SDL_LoadBMP(cs8x8.bmp) error: %s\n", SDL_GetError());
-		freeMemoryAllocatedBySDL(screen, charset, NULL, scrtex, window, renderer);
+		freeMemoryAllocatedBySDL(screen, charset, NULL, screenTexture, window, renderer);
 		SDL_Quit();
 		
 		return 1;
@@ -111,7 +129,7 @@ int main(int argc, char **argv) {
 	etiBMP = SDL_LoadBMP("./eti.bmp");
 	if (etiBMP == NULL) {
 		printf("SDL_LoadBMP(eti.bmp) error: %s\n", SDL_GetError());
-		freeMemoryAllocatedBySDL(screen, charset, etiBMP, scrtex, window, renderer);
+		freeMemoryAllocatedBySDL(screen, charset, etiBMP, screenTexture, window, renderer);
 		SDL_Quit();
 		
 		return 1;
@@ -155,15 +173,15 @@ int main(int argc, char **argv) {
 
 		Surface::printProjectAndTimeInformation(text, screen, charset, red, blue, worldTime, fps);
 
-		SDL_UpdateTexture(scrtex, NULL, screen->pixels, screen->pitch);
+		SDL_UpdateTexture(screenTexture, NULL, screen->pixels, screen->pitch);
 		// SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, scrtex, NULL, NULL);
+		SDL_RenderCopy(renderer, screenTexture, NULL, NULL);
 		SDL_RenderPresent(renderer);
 
 		handleEvents(&event, &quit, &frames, &etiBMPSpeed);
 	}
 
-	freeMemoryAllocatedBySDL(screen, charset, etiBMP, scrtex, window, renderer);
+	freeMemoryAllocatedBySDL(screen, charset, etiBMP, screenTexture, window, renderer);
 	SDL_Quit();
 	
 	return 0;

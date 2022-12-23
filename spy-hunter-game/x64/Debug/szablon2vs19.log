@@ -1,8 +1,10 @@
-﻿  main.cpp
-C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(211,26): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(210,32): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(224,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(227,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(223,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(226,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+﻿  Surface.cpp
+  main.cpp
+C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(127,26): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(126,32): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(140,86): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(143,86): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(139,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\main.cpp(142,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Generating Code...
   szablon2vs19.vcxproj -> C:\Users\Igor\source\spy-hunter-game\spy-hunter-game\x64\Debug\szablon2vs19.exe

@@ -2,12 +2,28 @@
 
 
 #include"SDL.h"
+#include"Window.h"
+#include"Game.h"
 
 
 class Program
 {
 public:
-	Program();
+	Program(SDL* sdl, Window* window, Game* game);
 	~Program();
+	void run();
+	double calculateWorldTime();
+	void handleKeyEvents();
+
+	// get / set
+	bool getIsQuit();
+	void setIsQuit(bool isQuit);
+
+private:
+	SDL* sdl;
+	Window* window;
+	Game* game;
+	
+	bool isQuit;
 };
 

@@ -1,6 +1,9 @@
 #include "SDL.h"
 
 
+#include "Constants.h"
+
+
 #include<stdio.h>
 
 
@@ -34,9 +37,8 @@ void SDL::initializeSDL() {
 
 
 void SDL::initializeWindowAndRenderer() {
-	int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &this->window, &this->renderer); // fullscreen mode
-	//int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &(*window), &(*renderer)); // fullscreen mode
-	// windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &window, &renderer); // windowed mode
+	//int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &this->window, &this->renderer); // fullscreen mode
+	int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &this->window, &this->renderer); // windowed mode
 
 	if (windowAndRendererCreationCode != 0) {
 		printf("SDL_CreateWindowAndRenderer error: %s\n", SDL_GetError());

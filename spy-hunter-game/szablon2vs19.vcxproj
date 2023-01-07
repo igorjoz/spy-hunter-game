@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Program.cpp" />
     <ClCompile Include="SDL.cpp" />
+    <ClCompile Include="BMPService.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WindowGetSetService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="cs8x8.bmp" />
@@ -30,8 +34,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Program.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL.h" />
+    <ClInclude Include="BMPService.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

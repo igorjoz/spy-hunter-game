@@ -8,13 +8,16 @@
 class SDL
 {
 public:
-	void freeAllocatedMemory(SDL_Surface* charset, SDL_Surface* etiBMP);
+	SDL();
+	~SDL();
+	void initializeSDL();
+	void initializeWindowAndRenderer();
 	
 //private:
 	SDL_Event event;
 	SDL_Surface* screen;
-	/*SDL_Surface* charset;
-	SDL_Surface* etiBMP;*/
+	SDL_Surface* charset;
+	SDL_Surface* etiBMP;
 	SDL_Texture* screenTexture;
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;

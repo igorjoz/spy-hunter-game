@@ -25,7 +25,6 @@ int main(int argc, char* argv[]) {
 	Window* window = new Window(sdl);
 	Game* game = new Game(sdl, window);
 	Program* program = new Program(sdl, window, game);
-	
 
 	if (!sdl or !window or !game or !program) {
 		printf("Error: Memory allocation failed.\n");
@@ -39,6 +38,8 @@ int main(int argc, char* argv[]) {
 
 	sdl->screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
 	sdl->screenTexture = SDL_CreateTexture(sdl->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	sdl->initializeColors();
 
 	BMPService::loadCharset(sdl);
 	BMPService::loadETI(sdl);

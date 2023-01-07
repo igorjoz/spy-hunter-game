@@ -13,6 +13,7 @@ public:
 	~Program();
 	void run();
 	double calculateWorldTime();
+	double calculateDelta();
 	void handleKeyEvents();
 
 	// get / set

@@ -28,23 +28,10 @@ Program::~Program()
 void Program::run() {
 	while (!this->getIsQuit()) {
 		this->calculateWorldTime();
-
 		double delta = this->window->getDelta();
-		
-		double etiBMPSpeed = this->game->getEtiBMPSpeed();
-		double distance = this->game->getDistance() + (etiBMPSpeed * delta);
-		this->game->setDistance(distance);
+		double distance = this->game->calculateDistance(delta);
 
-
-		
-		int black = SDL_MapRGB(this->sdl->screen->format, 0x00, 0x00, 0x00);
-		int green = SDL_MapRGB(this->sdl->screen->format, 0x00, 0xFF, 0x00);
-		int red = SDL_MapRGB(this->sdl->screen->format, 0xFF, 0x00, 0x00);
-		int blue = SDL_MapRGB(this->sdl->screen->format, 0x11, 0x11, 0xCC);
-
-
-
-		SDL_FillRect(this->sdl->screen, NULL, black);
+		SDL_FillRect(this->sdl->screen, NULL, this->sdl->getBlackColor());
 
 		Surface::drawSurface(this->sdl->screen, this->sdl->etiBMP, SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3, SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3);
 
@@ -61,7 +48,7 @@ void Program::run() {
 		this->window->setFps(fps);
 
 		char text[128];
-		Surface::printProjectAndTimeInformation(text, sdl->screen, sdl->charset, red, blue, this->window->getWorldTime(), this->window->getFps());
+		Surface::printProjectAndTimeInformation(text, sdl->screen, sdl->charset, this->sdl->getRedColor(), this->sdl->getBlueColor(), this->window->getWorldTime(), this->window->getFps());
 
 		SDL_UpdateTexture(sdl->screenTexture, NULL, sdl->screen->pixels, sdl->screen->pitch);
 		// SDL_RenderClear(renderer);
@@ -74,21 +61,28 @@ void Program::run() {
 
 
 double Program::calculateWorldTime() {
-	int sdlTicks = SDL_GetTicks();
-	this->window->setFrameFinishTime(sdlTicks);
+	this->window->setFrameFinishTime(SDL_GetTicks());
 
-	int frameFinishTime = this->window->getFrameFinishTime();
-	int frameStartTime = this->window->getFrameStartTime();
-
-	double delta = (frameFinishTime - frameStartTime) * 0.001; // time in seconds; finishTime - startTime is time in milliseconds since the last screen was drawn
-	this->window->setDelta(delta);
-	this->window->setFrameStartTime(frameFinishTime);
-	this->window->setFrameFinishTime(frameFinishTime);
+	double delta = this->calculateDelta();
+	
+	this->window->setFrameStartTime(this->window->getFrameFinishTime());
 
 	double worldTime = this->window->getWorldTime() + delta;
 	this->window->setWorldTime(worldTime);
 
 	return worldTime;
+}
+
+
+double Program::calculateDelta() {
+	int frameFinishTime = this->window->getFrameFinishTime();
+	int frameStartTime = this->window->getFrameStartTime();
+
+	// time in seconds; finishTime - startTime is time in milliseconds since the last screen was drawn
+	double delta = (frameFinishTime - frameStartTime) * 0.001;
+	this->window->setDelta(delta);
+
+	return delta;
 }
 
 

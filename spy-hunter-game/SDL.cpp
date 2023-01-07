@@ -10,6 +10,7 @@
 SDL::SDL() {
 	this->initializeSDL();
 	this->initializeWindowAndRenderer();
+	//this->initializeColors();
 }
 
 
@@ -46,4 +47,45 @@ void SDL::initializeWindowAndRenderer() {
 
 		exit(1);
 	}
+}
+
+
+void SDL::initializeColors() {
+	this->whiteColor = this->createColor(0xFF, 0xFF, 0xFF);
+	this->blackColor = this->createColor(0x00, 0x00, 0x00);
+	this->redColor = this->createColor(0xFF, 0x00, 0x00);
+	this->greenColor = this->createColor(0x00, 0xFF, 0x00);
+	this->blueColor = this->createColor(0x11, 0x11, 0xCC);
+}
+
+
+int SDL::createColor(int red, int green, int blue) {
+	int color = SDL_MapRGB(this->screen->format, red, green, blue);
+	return color;
+}
+
+
+// get / set
+int SDL::getWhiteColor() {
+	return this->whiteColor;
+}
+
+
+int SDL::getBlackColor() {
+	return this->blackColor;
+}
+
+
+int SDL::getRedColor() {
+	return this->redColor;
+}
+
+
+int SDL::getGreenColor() {
+	return this->greenColor;
+}
+
+
+int SDL::getBlueColor() {
+	return this->blueColor;
 }

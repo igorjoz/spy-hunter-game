@@ -9,6 +9,7 @@ class Game
 {
 public:
 	Game(SDL* sdl, Window* window);
+	double calculateDistance(double delta);
 	
 	// get / set
 	double getDistance();

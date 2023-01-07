@@ -11,6 +11,14 @@ Game::Game(SDL* sdl, Window* window)
 }
 
 
+double Game::calculateDistance(double delta)
+{
+	this->distance += etiBMPSpeed * delta;
+
+	return this->distance;
+}
+
+
 double Game::getDistance()
 {
 	return this->distance;

@@ -26,7 +26,6 @@
     <ClCompile Include="BMPService.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowGetSetService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="cs8x8.bmp" />

@@ -43,6 +43,8 @@ void Program::run() {
 		int y = SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3;
 
 		Surface::drawSurface(this->sdl->screen, this->sdl->etiBMP, x, y);
+		
+		this->game->run();
 
 		double fpsTimer = this->window->getFpsTimer() + delta;
 		double fps = this->window->getFps();
@@ -106,9 +108,17 @@ void Program::handleKeyEvents() {
 			}
 			else if (event->key.keysym.sym == SDLK_UP) {
 				this->game->setEtiBMPSpeed(Speed().FAST);
+				this->game->handleArrowUpKeyPressed();
 			}
-			else if ((*event).key.keysym.sym == SDLK_DOWN) {
+			else if (event->key.keysym.sym == SDLK_DOWN) {
 				this->game->setEtiBMPSpeed(Speed().SLOW);
+				this->game->handleArrowDownKeyPressed();
+			}
+			else if (event->key.keysym.sym == SDLK_LEFT) {
+				this->game->handleArrowLeftKeyPressed();
+			}
+			else if (event->key.keysym.sym == SDLK_RIGHT) {
+				this->game->handleArrowRightKeyPressed();
 			}
 
 			break;

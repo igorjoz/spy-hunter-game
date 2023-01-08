@@ -10,21 +10,34 @@ class Game
 public:
 	Game(SDL* sdl, Window* window);
 	double calculateDistance(double delta);
+	void run();
+
+	void handleArrowUpKeyPressed();
+	void handleArrowDownKeyPressed();
+	void handleArrowLeftKeyPressed();
+	void handleArrowRightKeyPressed();
 	
 	// get / set
+	int getPlayerCarX();
+	int getPlayerCarY();
+
+	void setPlayerCarX();
+	void setPlayerCarY();
+
+
 	double getDistance();
 	double getEtiBMPSpeed();
 
 	void setDistance(double distance);
 	void setEtiBMPSpeed(double etiBMPSpeed);
-
-	//void handleKeyEvents(SDL_Event* event, int* quit, int* frames, double* etiBMPSpeed);
-	//void draw(SDL* sdl, Window* window, int* frames, double* etiBMPSpeed);
 	
 private:
 	SDL* sdl;
 	Window* window;
 	
+	int playerCarX;
+	int playerCarY;
+
 	double distance;
 	double etiBMPSpeed;
 };

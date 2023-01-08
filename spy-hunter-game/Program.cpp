@@ -125,6 +125,7 @@ void Program::handleKeyEvents() {
 
 		case SDL_KEYUP:
 			this->game->setEtiBMPSpeed(1.0);
+			//this->game->playerCar->stopMoving();
 
 			break;
 

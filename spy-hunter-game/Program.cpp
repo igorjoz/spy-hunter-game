@@ -13,6 +13,12 @@ Program::Program(SDL* sdl, Window* window, Game* game)
 	this->window = window;
 	this->game = game;
 
+	if (!this or !this->sdl or !this->window or !this->game) {
+		printf("Error: Memory allocation failed.\n");
+
+		exit(1);
+	}
+
 	this->isQuit = false;
 }
 
@@ -33,7 +39,10 @@ void Program::run() {
 
 		SDL_FillRect(this->sdl->screen, NULL, this->sdl->getBlackColor());
 
-		Surface::drawSurface(this->sdl->screen, this->sdl->etiBMP, SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3, SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3);
+		int x = SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3;
+		int y = SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3;
+
+		Surface::drawSurface(this->sdl->screen, this->sdl->etiBMP, x, y);
 
 		double fpsTimer = this->window->getFpsTimer() + delta;
 		double fps = this->window->getFps();

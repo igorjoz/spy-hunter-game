@@ -10,7 +10,6 @@
 SDL::SDL() {
 	this->initializeSDL();
 	this->initializeWindowAndRenderer();
-	//this->initializeColors();
 }
 
 
@@ -47,6 +46,31 @@ void SDL::initializeWindowAndRenderer() {
 
 		exit(1);
 	}
+}
+
+
+void SDL::initializeSDLVariables() {
+	this->initializeRendererSettings();
+	this->initializeScreen();
+	this->initializeScreenTexture();
+	this->initializeColors();
+}
+
+
+void SDL::initializeRendererSettings() {
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+	SDL_RenderSetLogicalSize(this->renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+	SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+}
+
+
+void SDL::initializeScreen() {
+	this->screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+}
+
+
+void SDL::initializeScreenTexture() {
+	this->screenTexture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 

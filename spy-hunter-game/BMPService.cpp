@@ -7,6 +7,12 @@
 #include<stdio.h>
 
 
+void BMPService::loadImages(SDL* sdl) {
+	BMPService::loadCharset(sdl);
+	BMPService::loadETI(sdl);
+}
+
+
 // load charset BMP file: "cs8x8.bmp"
 void BMPService::loadCharset(SDL* sdl) {
 	sdl->charset = SDL_LoadBMP("./charset.bmp");

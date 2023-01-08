@@ -12,6 +12,10 @@ public:
 	~SDL();
 	void initializeSDL();
 	void initializeWindowAndRenderer();
+	void initializeSDLVariables();
+	void initializeRendererSettings();
+	void initializeScreen();
+	void initializeScreenTexture();
 	void initializeColors();
 	int createColor(int red, int green, int blue);
 
@@ -22,7 +26,7 @@ public:
 	int getGreenColor();
 	int getBlueColor();
 	
-//private:
+	// SDL variables
 	SDL_Event event;
 	SDL_Surface* screen;
 	SDL_Surface* charset;
@@ -31,6 +35,7 @@ public:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 
+private:
 	int whiteColor;
 	int blackColor;
 	int redColor;

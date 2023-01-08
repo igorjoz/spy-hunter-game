@@ -11,6 +11,7 @@ Window::Window(SDL* sdl)
 	
 	this->frameStartTime = SDL_GetTicks();
 	this->frameFinishTime = 0;
+	this->delta = 0;
 	this->frames = 0;
 	this->worldTime = 0.0;
 	this->fpsTimer = 0.0;

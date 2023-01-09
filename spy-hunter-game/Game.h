@@ -12,11 +12,16 @@ public:
 	Game(SDL* sdl, Window* window);
 	double calculateDistance(double delta);
 	void run();
+	void drawRoadside();
+	void drawRoad();
+	void drawPlayerCar();
 
+	void handleArrowKeyPressed();
 	void handleArrowUpKeyPressed();
 	void handleArrowDownKeyPressed();
 	void handleArrowLeftKeyPressed();
 	void handleArrowRightKeyPressed();
+	void handleKeyUp();
 	
 	// get / set
 	PlayerCar* getPlayerCar();

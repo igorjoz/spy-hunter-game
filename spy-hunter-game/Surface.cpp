@@ -70,10 +70,13 @@ void Surface::drawRectangle(SDL_Surface* screen, int x, int y, int l, int k, Uin
 };
 
 
-void Surface::printProjectAndTimeInformation(char* text, SDL_Surface* screen, SDL_Surface* charset, int red, int blue, double worldTime, double fps) {
+void Surface::printProjectAndTimeInformation(SDL_Surface* screen, SDL_Surface* charset, int red, int blue, double worldTime, double fps) {
+	char text[100];
+	
 	Surface::drawRectangle(screen, 4, 4, SCREEN_WIDTH - 8, 36, red, blue);
-	sprintf(text, "template for the second project, elapsed time = %.1lf s  %.0lf frames / s", worldTime, fps);
+	sprintf(text, "Igor Jozefowicz, 193257, elapsed time = %.1lf s  %.0lf frames / s", worldTime, fps);
 	Surface::printString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
-	sprintf(text, "Esc - exit, \030 - faster, \031 - slower");
+	sprintf(text, "Esc - exit, \030 - faster, \031 - slower, \032 - left, \033 - right");
+
 	Surface::printString(screen, screen->w / 2 - strlen(text) * 8 / 2, 26, text, charset);
 }

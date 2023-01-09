@@ -39,10 +39,10 @@ void Program::run() {
 
 		SDL_FillRect(this->sdl->screen, NULL, this->sdl->getBlackColor());
 
-		int x = SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3;
-		int y = SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3;
+		/*int x = static_cast<int>(SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3);
+		int y = static_cast<int>(SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3);
 
-		Surface::drawSurface(this->sdl->screen, this->sdl->etiBMP, x, y);
+		Surface::drawSurface(this->sdl->screen, this->sdl->etiBMP, x, y);*/
 		
 		this->game->run();
 

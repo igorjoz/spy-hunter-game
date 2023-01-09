@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include "Surface.h"
+#include "PlayerCar.h"
 
 
 Game::Game(SDL* sdl, Window* window)
@@ -10,11 +11,12 @@ Game::Game(SDL* sdl, Window* window)
 	this->sdl = sdl;
 	this->window = window;
 
-	this->playerCarX = PLAYER_CAR_STARTING_X;
-	this->playerCarY = PLAYER_CAR_STARTING_Y;
+	this->playerCar = new PlayerCar();
 
 	this->distance = 0;
 	this->etiBMPSpeed = 1;
+
+	
 }
 
 
@@ -28,8 +30,8 @@ double Game::calculateDistance(double delta)
 
 void Game::run()
 {
-	int x = this->getPlayerCarX();
-	int y = this->getPlayerCarY();
+	int x = this->getPlayerCar()->getX();
+	int y = this->getPlayerCar()->getY();
 	
 	Surface::drawSurface(this->sdl->screen, this->sdl->playerCar, x, y);
 }
@@ -37,54 +39,35 @@ void Game::run()
 
 void Game::handleArrowUpKeyPressed()
 {
-	this->playerCarY -= static_cast<int>(CarSpeed::REGULAR);
+	this->getPlayerCar()->setIsMoving(true);
+	
+	//this->playerCarY -= static_cast<int>(CarSpeed::REGULAR);
 }
 
 
 void Game::handleArrowDownKeyPressed()
 {
-	this->playerCarY += static_cast<int>(CarSpeed::REGULAR);
+	//this->playerCarY += static_cast<int>(CarSpeed::REGULAR);
 }
 
 
 void Game::handleArrowLeftKeyPressed()
 {
-	this->playerCarX -= static_cast<int>(CarSpeed::REGULAR);
+	//this->playerCarX -= static_cast<int>(CarSpeed::REGULAR);
 }
 
 
 void Game::handleArrowRightKeyPressed()
 {
-	this->playerCarX += static_cast<int>(CarSpeed::REGULAR);
+	//this->playerCarX += static_cast<int>(CarSpeed::REGULAR);
 }
 
 
 // get / set
-int Game::getPlayerCarX()
+PlayerCar* Game::getPlayerCar()
 {
-	return this->playerCarX;
+	return this->playerCar;
 }
-
-
-int Game::getPlayerCarY()
-{
-	return this->playerCarY;
-}
-
-
-void Game::setPlayerCarX()
-{
-	this->playerCarX = 0;
-}
-
-
-void Game::setPlayerCarY()
-{
-	this->playerCarY = 0;
-}
-
-
-
 
 
 double Game::getDistance()

@@ -6,5 +6,8 @@
 
 class PlayerCar: public Car
 {
+public:
+	PlayerCar();
+	void stopMovement();
 };
 

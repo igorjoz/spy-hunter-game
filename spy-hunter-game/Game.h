@@ -3,6 +3,7 @@
 
 #include"SDL.h"
 #include"Window.h"
+#include"PlayerCar.h"
 
 
 class Game
@@ -18,13 +19,7 @@ public:
 	void handleArrowRightKeyPressed();
 	
 	// get / set
-	int getPlayerCarX();
-	int getPlayerCarY();
-
-	void setPlayerCarX();
-	void setPlayerCarY();
-
-
+	PlayerCar* getPlayerCar();
 	double getDistance();
 	double getEtiBMPSpeed();
 
@@ -34,9 +29,7 @@ public:
 private:
 	SDL* sdl;
 	Window* window;
-	
-	int playerCarX;
-	int playerCarY;
+	PlayerCar* playerCar;
 
 	double distance;
 	double etiBMPSpeed;

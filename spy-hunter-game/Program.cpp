@@ -32,7 +32,12 @@ Program::~Program()
 
 
 void Program::run() {
-	while (!this->getIsQuit()) {
+	Uint32 frameStart;
+	int frameTime;
+	
+	while (!this->getIsQuit()) {		
+		frameStart = SDL_GetTicks();
+
 		this->calculateWorldTime();
 		double delta = this->window->getDelta();
 		double distance = this->game->calculateDistance(delta);
@@ -58,8 +63,7 @@ void Program::run() {
 		this->window->setFpsTimer(fpsTimer);
 		this->window->setFps(fps);
 
-		char text[128];
-		Surface::printProjectAndTimeInformation(text, sdl->screen, sdl->charset, this->sdl->getRedColor(), this->sdl->getBlueColor(), this->window->getWorldTime(), this->window->getFps());
+		Surface::printProjectAndTimeInformation(sdl->screen, sdl->charset, this->sdl->getRedColor(), this->sdl->getBlueColor(), this->window->getWorldTime(), this->window->getFps());
 
 		SDL_UpdateTexture(sdl->screenTexture, NULL, sdl->screen->pixels, sdl->screen->pitch);
 		// SDL_RenderClear(renderer);
@@ -67,6 +71,12 @@ void Program::run() {
 		SDL_RenderPresent(sdl->renderer);
 		
 		this->handleKeyEvents();
+
+		frameTime = SDL_GetTicks() - frameStart;
+		
+		if (FRAME_DELAY > frameTime) {
+			SDL_Delay(FRAME_DELAY - frameTime);
+		}
 	}
 }
 
@@ -103,15 +113,17 @@ void Program::handleKeyEvents() {
 	while (SDL_PollEvent(event)) {
 		switch (event->type) {
 		case SDL_KEYDOWN:
+			this->game->handleArrowKeyPressed();
+
 			if (event->key.keysym.sym == SDLK_ESCAPE) {
 				this->setIsQuit(1);
 			}
 			else if (event->key.keysym.sym == SDLK_UP) {
-				this->game->setEtiBMPSpeed(Speed().FAST);
+				//this->game->setEtiBMPSpeed(Speed().FAST);
 				this->game->handleArrowUpKeyPressed();
 			}
 			else if (event->key.keysym.sym == SDLK_DOWN) {
-				this->game->setEtiBMPSpeed(Speed().SLOW);
+				//this->game->setEtiBMPSpeed(Speed().SLOW);
 				this->game->handleArrowDownKeyPressed();
 			}
 			else if (event->key.keysym.sym == SDLK_LEFT) {
@@ -124,7 +136,8 @@ void Program::handleKeyEvents() {
 			break;
 
 		case SDL_KEYUP:
-			this->game->setEtiBMPSpeed(1.0);
+			this->game->handleKeyUp();
+			//this->game->setEtiBMPSpeed(1.0);
 			//this->game->playerCar->stopMoving();
 
 			break;

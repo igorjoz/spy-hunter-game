@@ -19,8 +19,6 @@
 
 
 int main(int argc, char* argv[]) {
-	int quit = 0;
-	
 	SDL* sdl = new SDL();
 	Window* window = new Window(sdl);
 	Game* game = new Game(sdl, window);

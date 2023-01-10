@@ -105,6 +105,7 @@ double Program::calculateDelta() {
 void Program::handleKeyEvents() {
 	SDL_Event* event = &this->sdl->event;
 
+	// TODO: SDL_PollEvent(event)
 	while (SDL_PollEvent(event)) {
 		switch (event->type) {
 		case SDL_KEYDOWN:

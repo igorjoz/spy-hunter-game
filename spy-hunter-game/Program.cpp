@@ -32,11 +32,11 @@ Program::~Program()
 
 
 void Program::run() {
-	Uint32 frameStart;
-	int frameTime;
+	//Uint32 frameStart;
+	//int frameTime;
 	
 	while (!getIsQuit()) {		
-		frameStart = SDL_GetTicks();
+		//frameStart = SDL_GetTicks();
 
 		window->calculateWorldTime();
 
@@ -50,11 +50,7 @@ void Program::run() {
 		
 		handleKeyEvents();
 
-		frameTime = SDL_GetTicks() - frameStart;
-		
-		if (FRAME_DELAY > frameTime) {
-			SDL_Delay(FRAME_DELAY - frameTime);
-		}
+		window->maintainConstantFPS();
 	}
 }
 

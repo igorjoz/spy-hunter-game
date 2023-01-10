@@ -59,6 +59,15 @@ void Window::calculateFPS() {
 }
 
 
+void Window::maintainConstantFPS() {
+	int frameTime = SDL_GetTicks() - frameStartTime;
+
+	if (FRAME_DELAY > frameTime) {
+		SDL_Delay(FRAME_DELAY - frameTime);
+	}
+}
+
+
 int Window::getFrameStartTime() {
 	return this->frameStartTime;
 }

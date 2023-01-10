@@ -1,6 +1,9 @@
 #include "Surface.h"
 
 
+#include "Window.h"
+
+
 // print text on surface screen, starting from the point (x, y)
 // charset is a 128x128 bitmap containing character images
 void Surface::printString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset) {
@@ -74,7 +77,7 @@ void Surface::printGameInformation(SDL_Surface* screen, SDL_Surface* charset, in
 	char text[100];
 	double scoreDoubleValue = static_cast<double>(score);
 	
-	Surface::drawRectangle(screen, 4, 4, SCREEN_WIDTH - 8, 36, red, blue);
+	Surface::drawRectangle(screen, 4, 4, Window::WINDOW_WIDTH - 8, 36, red, blue);
 	sprintf_s(text, "Score: %.0lf, elapsed time: %.1lf s  %.0lf frames/s", scoreDoubleValue, worldTime, fps);
 	Surface::printString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
 	

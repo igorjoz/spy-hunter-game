@@ -7,6 +7,9 @@
 class Car
 {
 public:
+	static int const CAR_WIDTH = 50;
+	static int const CAR_HEIGHT = 90;
+
 	Car();
 	bool checkIfInsideRoad();
 	

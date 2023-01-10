@@ -1,6 +1,7 @@
 #include "DrawService.h"
 #include "Map.h"
 #include "Surface.h"
+#include "Window.h"
 
 
 void DrawService::drawGame(SDL* sdl, Game* game)
@@ -18,8 +19,8 @@ void DrawService::drawRoadside(SDL* sdl)
 	SDL_Rect roadsideRectangle;
 	roadsideRectangle.x = 0;
 	roadsideRectangle.y = 0;
-	roadsideRectangle.w = SCREEN_WIDTH;
-	roadsideRectangle.h = SCREEN_HEIGHT;
+	roadsideRectangle.w = Window::WINDOW_WIDTH;
+	roadsideRectangle.h = Window::WINDOW_HEIGHT;
 
 	SDL_FillRect(screenSurface, &roadsideRectangle, SDL_MapRGB(screenSurface->format, 0x00, 0xFF, 0x00));
 }

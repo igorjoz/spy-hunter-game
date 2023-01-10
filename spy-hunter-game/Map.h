@@ -1,16 +1,16 @@
 #pragma once
 
 
-#include"Constants.h"
+#include"Window.h"
 
 
 class Map
 {
 public:
 	static int const ROAD_WIDTH = 250;
-	static int const ROAD_HEIGHT = SCREEN_HEIGHT;
+	static int const ROAD_HEIGHT = Window::WINDOW_HEIGHT;
 
-	static int const ROAD_LEFT_X = SCREEN_WIDTH / 2 - ROAD_WIDTH / 2;
+	static int const ROAD_LEFT_X = Window::WINDOW_WIDTH / 2 - ROAD_WIDTH / 2;
 	static int const ROAD_TOP_Y = 0;
 
 	static int const ROAD_RIGHT_X = ROAD_LEFT_X + ROAD_WIDTH;

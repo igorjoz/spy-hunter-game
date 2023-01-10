@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include "Map.h"
+#include "Window.h"
 
 
 Car::Car()
@@ -44,7 +45,7 @@ void Car::moveForward()
 void Car::moveBackward()
 {
 	// check if the car is not at the bottom of the screen
-	if (this->y < SCREEN_HEIGHT - CAR_HEIGHT / 2) {
+	if (this->y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2) {
 		if (this->checkIfInsideRoad()) {
 			this->y += static_cast<int>(CarSpeed::REGULAR);
 		}
@@ -72,7 +73,7 @@ void Car::moveLeft()
 void Car::moveRight()
 {
 	// check if the car is not at the right side of the screen
-	if (this->x < SCREEN_WIDTH - CAR_WIDTH / 2) {
+	if (this->x < Window::WINDOW_WIDTH - CAR_WIDTH / 2) {
 		if (this->checkIfInsideRoad()) {
 			this->x += static_cast<int>(CarSpeed::REGULAR);
 		}

@@ -1,4 +1,4 @@
-#include "BMPService.h"
+#include "AssetsLoader.h"
 
 
 #include "SDL.h"
@@ -7,14 +7,14 @@
 #include<stdio.h>
 
 
-void BMPService::loadImages(SDL* sdl) {
-	BMPService::loadCharset(sdl);
-	BMPService::loadPlayerCar(sdl);
+void AssetsLoader::loadImages(SDL* sdl) {
+	AssetsLoader::loadCharset(sdl);
+	AssetsLoader::loadPlayerCar(sdl);
 }
 
 
 // load charset BMP file: "cs8x8.bmp"
-void BMPService::loadCharset(SDL* sdl) {
+void AssetsLoader::loadCharset(SDL* sdl) {
 	sdl->charset = SDL_LoadBMP("./assets/charset.bmp");
 
 	if (sdl->charset == NULL) {
@@ -27,7 +27,7 @@ void BMPService::loadCharset(SDL* sdl) {
 
 
 // load player car BMP file: "player_car.bmp"
-void BMPService::loadPlayerCar(SDL* sdl) {
+void AssetsLoader::loadPlayerCar(SDL* sdl) {
 	sdl->playerCar = SDL_LoadBMP("./assets/player_car.bmp");
 
 	if (sdl->playerCar == NULL) {

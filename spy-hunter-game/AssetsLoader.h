@@ -4,7 +4,7 @@
 #include"SDL.h"
 
 
-class BMPService
+class AssetsLoader
 {
 public:
 	static void loadImages(SDL* sdl);

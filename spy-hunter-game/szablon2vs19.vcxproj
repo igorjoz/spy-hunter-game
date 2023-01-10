@@ -26,7 +26,7 @@
     <ClCompile Include="PlayerCar.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="SDL.cpp" />
-    <ClCompile Include="BMPService.cpp" />
+    <ClCompile Include="AssetsLoader.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -43,7 +43,7 @@
     <ClInclude Include="Program.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL.h" />
-    <ClInclude Include="BMPService.h" />
+    <ClInclude Include="AssetsLoader.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

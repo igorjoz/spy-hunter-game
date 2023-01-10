@@ -11,7 +11,7 @@
 #include "Constants.h"
 
 #include "SDL.h"
-#include "BMPService.h"
+#include "AssetsLoader.h"
 #include "Program.h"
 #include "Window.h"
 #include "Surface.h"
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
 	sdl->initializeSDLVariables();
 
-	BMPService::loadImages(sdl);
+	AssetsLoader::loadImages(sdl);
 	
 	window->setInitialSettings();
 

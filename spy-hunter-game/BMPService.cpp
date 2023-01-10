@@ -9,7 +9,6 @@
 
 void BMPService::loadImages(SDL* sdl) {
 	BMPService::loadCharset(sdl);
-	BMPService::loadETI(sdl);
 	BMPService::loadPlayerCar(sdl);
 }
 
@@ -20,19 +19,6 @@ void BMPService::loadCharset(SDL* sdl) {
 
 	if (sdl->charset == NULL) {
 		printf("SDL_LoadBMP(cs8x8.bmp) error: %s\n", SDL_GetError());
-		delete sdl;
-
-		exit(1);
-	}
-}
-
-
-// load ETI logo BMP file: "eti.bmp"
-void BMPService::loadETI(SDL* sdl) {
-	sdl->etiBMP = SDL_LoadBMP("./assets/eti.bmp");
-
-	if (sdl->etiBMP == NULL) {
-		printf("SDL_LoadBMP(eti.bmp) error: %s\n", SDL_GetError());
 		delete sdl;
 
 		exit(1);

@@ -16,7 +16,7 @@ SDL::SDL() {
 SDL::~SDL() {
 	SDL_FreeSurface(this->screen);
 	SDL_FreeSurface(this->charset);
-	SDL_FreeSurface(this->etiBMP);
+	//SDL_FreeSurface(this->etiBMP);
 
 	SDL_DestroyTexture(this->screenTexture);
 	SDL_DestroyRenderer(this->renderer);

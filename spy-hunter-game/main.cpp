@@ -5,8 +5,8 @@
 #include<stdio.h>
 #include<string.h>
 
-#include"SDL2-2.0.10/include/SDL.h"
-#include"SDL2-2.0.10/include/SDL_main.h"
+#include "SDL2-2.0.10/include/SDL.h"
+#include "SDL2-2.0.10/include/SDL_main.h"
 
 #include "Constants.h"
 

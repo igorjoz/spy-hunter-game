@@ -12,9 +12,6 @@ public:
 	Game(SDL* sdl, Window* window);
 	~Game();
 	void run();
-	void drawRoadside();
-	void drawRoad();
-	void drawPlayerCar();
 
 	void handleArrowKeyPressed();
 	void handleArrowUpKeyPressed();

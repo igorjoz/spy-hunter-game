@@ -23,9 +23,9 @@ Game::Game(SDL* sdl, Window* window)
 
 double Game::calculateDistance(double delta)
 {
-	this->distance += etiBMPSpeed * delta;
+	distance += etiBMPSpeed * delta;
 
-	return this->distance;
+	return distance;
 }
 
 
@@ -90,6 +90,26 @@ void Game::drawPlayerCar()
 	int x = playerCar->getX();
 	int y = playerCar->getY();
 
+	//SDL_Rect textureRectangle;
+	//textureRectangle.x = 0;  //the x coordinate
+	//textureRectangle.y = 0; // the y coordinate
+	//textureRectangle.w = 50; //the width of the texture
+	//textureRectangle.h = 50;
+
+	//SDL_Rect destinationRectangle;
+	//destinationRectangle.x = x;
+	//destinationRectangle.y = y;
+	//destinationRectangle.w = 50;
+	//destinationRectangle.h = 50;
+	
+	//SDL_Texture* playerCarTexture = this->sdl->playerCarTexture;
+
+	//SDL_RenderCopy(sdl->renderer, playerCarTexture, &textureRectangle, &destinationRectangle);
+	
+	//SDL_RenderPresent(sdl->renderer);
+
+
+	
 	Surface::drawSurface(this->sdl->screen, this->sdl->playerCar, x, y);
 
 	/*Surface* playerCarSurface = playerCar->getSurface();

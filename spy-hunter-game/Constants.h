@@ -13,9 +13,6 @@ int const SCREEN_HEIGHT = 480;
 int const CAR_WIDTH = 50;
 int const CAR_HEIGHT = 90;
 
-int const PLAYER_CAR_STARTING_X = SCREEN_WIDTH / 2;
-int const PLAYER_CAR_STARTING_Y = SCREEN_HEIGHT - 80;
-
 
 //struct Speed {
 //	const double FAST = 30.0;

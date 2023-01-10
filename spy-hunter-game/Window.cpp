@@ -20,9 +20,42 @@ Window::Window(SDL* sdl)
 
 
 void Window::setInitialSettings() {
-	SDL_SetWindowTitle(this->sdl->window, "Spy Hunter by Igor Jozefowicz");
+	SDL_SetWindowTitle(this->sdl->window, "Spy Hunter by Igor Jozefowicz (193257)");
 	SDL_ShowCursor(SDL_DISABLE); // turn off cursor visibility
 	SDL_SetColorKey(this->sdl->charset, true, 0x000000);
+}
+
+
+double Window::calculateWorldTime() {
+	frameFinishTime = SDL_GetTicks();
+
+	double delta = calculateDelta();
+
+	frameStartTime = frameFinishTime;
+
+	worldTime += delta;
+
+	return worldTime;
+}
+
+
+double Window::calculateDelta() {
+	// time in seconds; frameFinishTime - frameStartTime is time in milliseconds since the last screen was drawn
+	delta = (frameFinishTime - frameStartTime) * 0.001;
+
+	return delta;
+}
+
+
+void Window::calculateFPS() {
+	
+	fpsTimer += delta;
+
+	if (fpsTimer > 0.5) {
+		fps = frames * 2;
+		frames = 0;
+		fpsTimer -= 0.5;
+	}
 }
 
 
@@ -61,14 +94,14 @@ double Window::getFps() {
 }
 
 
-void Window::setFrameStartTime(int time) {
-	this->frameStartTime = time;
-}
-
-
-void Window::setFrameFinishTime(int time) {
-	this->frameFinishTime = time;
-}
+//void Window::setFrameStartTime(int time) {
+//	this->frameStartTime = time;
+//}
+//
+//
+//void Window::setFrameFinishTime(int time) {
+//	this->frameFinishTime = time;
+//}
 
 
 void Window::setFrames(int frames) {

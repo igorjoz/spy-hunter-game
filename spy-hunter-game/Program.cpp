@@ -35,37 +35,20 @@ void Program::run() {
 	Uint32 frameStart;
 	int frameTime;
 	
-	while (!this->getIsQuit()) {		
+	while (!getIsQuit()) {		
 		frameStart = SDL_GetTicks();
 
-		this->calculateWorldTime();
-		double delta = this->window->getDelta();
-		double distance = this->game->calculateDistance(delta);
+		window->calculateWorldTime();
 
-		SDL_FillRect(this->sdl->screen, NULL, this->sdl->getBlackColor());
+		game->run();
+
+		window->calculateFPS();
+
+		sdl->printGameInformation(game->getScore(), window->getWorldTime(), window->getFps());
+
+		sdl->renderFrame();
 		
-		this->game->run();
-
-		double fpsTimer = this->window->getFpsTimer() + delta;
-		double fps = this->window->getFps();
-
-		if (fpsTimer > 0.5) {
-			fps = this->window->getFrames() * 2;
-			this->window->setFrames(0);
-			fpsTimer -= 0.5;
-		}
-
-		this->window->setFpsTimer(fpsTimer);
-		this->window->setFps(fps);
-
-		Surface::printProjectAndTimeInformation(sdl->screen, sdl->charset, this->sdl->getRedColor(), this->sdl->getBlueColor(), this->window->getWorldTime(), this->window->getFps());
-
-		SDL_UpdateTexture(sdl->screenTexture, NULL, sdl->screen->pixels, sdl->screen->pitch);
-		// SDL_RenderClear(renderer);
-		SDL_RenderCopy(sdl->renderer, sdl->screenTexture, NULL, NULL);
-		SDL_RenderPresent(sdl->renderer);
-		
-		this->handleKeyEvents();
+		handleKeyEvents();
 
 		frameTime = SDL_GetTicks() - frameStart;
 		
@@ -76,82 +59,51 @@ void Program::run() {
 }
 
 
-double Program::calculateWorldTime() {
-	this->window->setFrameFinishTime(SDL_GetTicks());
-
-	double delta = this->calculateDelta();
-	
-	this->window->setFrameStartTime(this->window->getFrameFinishTime());
-
-	double worldTime = this->window->getWorldTime() + delta;
-	this->window->setWorldTime(worldTime);
-
-	return worldTime;
-}
-
-
-double Program::calculateDelta() {
-	int frameFinishTime = this->window->getFrameFinishTime();
-	int frameStartTime = this->window->getFrameStartTime();
-
-	// time in seconds; finishTime - startTime is time in milliseconds since the last screen was drawn
-	double delta = (frameFinishTime - frameStartTime) * 0.001;
-	this->window->setDelta(delta);
-
-	return delta;
-}
-
-
 void Program::handleKeyEvents() {
-	SDL_Event* event = &this->sdl->event;
+	SDL_Event* event = &sdl->event;
 
-	// TODO: SDL_PollEvent(event)
 	while (SDL_PollEvent(event)) {
 		switch (event->type) {
 		case SDL_KEYDOWN:
-			this->game->handleArrowKeyPressed();
+			game->handleArrowKeyPressed();
 
 			if (event->key.keysym.sym == SDLK_ESCAPE) {
-				this->setIsQuit(1);
+				setIsQuit(1);
 			}
 			else if (event->key.keysym.sym == SDLK_UP) {
-				//this->game->setEtiBMPSpeed(Speed().FAST);
-				this->game->handleArrowUpKeyPressed();
+				game->handleArrowUpKeyPressed();
 			}
 			else if (event->key.keysym.sym == SDLK_DOWN) {
-				//this->game->setEtiBMPSpeed(Speed().SLOW);
-				this->game->handleArrowDownKeyPressed();
+				game->handleArrowDownKeyPressed();
 			}
 			else if (event->key.keysym.sym == SDLK_LEFT) {
-				this->game->handleArrowLeftKeyPressed();
+				game->handleArrowLeftKeyPressed();
 			}
 			else if (event->key.keysym.sym == SDLK_RIGHT) {
-				this->game->handleArrowRightKeyPressed();
+				game->handleArrowRightKeyPressed();
 			}
 
 			break;
 
 		case SDL_KEYUP:
-			this->game->handleKeyUp();
-			//this->game->setEtiBMPSpeed(1.0);
-			//this->game->playerCar->stopMoving();
+			game->handleKeyUp();
 
 			break;
 
 		case SDL_QUIT:
-			this->setIsQuit(1);
+			setIsQuit(1);
 
 			break;
 		};
 	}
 
-	int frames = this->window->getFrames() + 1;
-	this->window->setFrames(frames);
+	int frames = window->getFrames() + 1;
+	window->setFrames(frames);
 }
 
 
 bool Program::getIsQuit() {
-	return this->isQuit;
+	return isQuit;
 }
 
 

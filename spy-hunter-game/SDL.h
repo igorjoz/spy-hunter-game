@@ -19,6 +19,9 @@ public:
 	void initializeColors();
 	int createColor(int red, int green, int blue);
 
+	void printGameInformation(int score, double worldTime, double fps);
+	void renderFrame();
+
 	// get / set
 	int getWhiteColor();
 	int getBlackColor();
@@ -34,8 +37,9 @@ public:
 	SDL_Renderer* renderer = NULL;
 	
 	SDL_Surface* charset;
-	SDL_Surface* etiBMP;
 	SDL_Surface* playerCar;
+
+	SDL_Texture* playerCarTexture;
 
 private:
 	int whiteColor;

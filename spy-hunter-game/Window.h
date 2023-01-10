@@ -9,6 +9,9 @@ class Window
 public:
 	Window(SDL* sdl);
 	void setInitialSettings();
+	double calculateWorldTime();
+	double calculateDelta();
+	void calculateFPS();
 
 	// get / set
 	int getFrameStartTime();
@@ -19,8 +22,8 @@ public:
 	double getFpsTimer();
 	double getFps();
 	
-	void setFrameStartTime(int time);
-	void setFrameFinishTime(int time);
+	//void setFrameStartTime(int time);
+	//void setFrameFinishTime(int time);
 	void setFrames(int frames);
 	void setDelta(double delta);
 	void setWorldTime(double time);

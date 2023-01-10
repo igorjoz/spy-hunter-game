@@ -2,6 +2,7 @@
 
 
 #include "Constants.h"
+#include "Surface.h"
 
 
 #include<stdio.h>
@@ -16,7 +17,6 @@ SDL::SDL() {
 SDL::~SDL() {
 	SDL_FreeSurface(this->screen);
 	SDL_FreeSurface(this->charset);
-	//SDL_FreeSurface(this->etiBMP);
 
 	SDL_DestroyTexture(this->screenTexture);
 	SDL_DestroyRenderer(this->renderer);
@@ -37,8 +37,11 @@ void SDL::initializeSDL() {
 
 
 void SDL::initializeWindowAndRenderer() {
-	//int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &this->window, &this->renderer); // fullscreen mode
-	int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &this->window, &this->renderer); // windowed mode
+	// fullscreen mode
+	//int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &this->window, &this->renderer); 
+
+	// windowed mode
+	int windowAndRendererCreationCode = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &this->window, &this->renderer);
 
 	if (windowAndRendererCreationCode != 0) {
 		printf("SDL_CreateWindowAndRenderer error: %s\n", SDL_GetError());
@@ -86,6 +89,19 @@ void SDL::initializeColors() {
 int SDL::createColor(int red, int green, int blue) {
 	int color = SDL_MapRGB(this->screen->format, red, green, blue);
 	return color;
+}
+
+
+void SDL::printGameInformation(int score, double worldTime, double fps) {
+	Surface::printGameInformation(screen, charset, redColor, blueColor, score,  worldTime, fps);
+}
+
+
+void SDL::renderFrame() {
+	SDL_UpdateTexture(screenTexture, NULL, screen->pixels, screen->pitch);
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, screenTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 }
 
 

@@ -21,5 +21,5 @@ public:
 	void static drawPixel(SDL_Surface* surface, int x, int y, Uint32 color);
 	void static drawLine(SDL_Surface* screen, int x, int y, int l, int dx, int dy, Uint32 color);
 	void static drawRectangle(SDL_Surface* screen, int x, int y, int l, int k, Uint32 outlineColor, Uint32 fillColor);
-	void static printProjectAndTimeInformation(SDL_Surface* screen, SDL_Surface* charset, int red, int blue, double worldTime, double fps);
+	void static printGameInformation(SDL_Surface* screen, SDL_Surface* charset, int red, int blue, int score, double worldTime, double fps);
 };

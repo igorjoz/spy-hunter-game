@@ -12,8 +12,6 @@ public:
 	Program(SDL* sdl, Window* window, Game* game);
 	~Program();
 	void run();
-	double calculateWorldTime();
-	double calculateDelta();
 	void handleKeyEvents();
 
 	// get / set

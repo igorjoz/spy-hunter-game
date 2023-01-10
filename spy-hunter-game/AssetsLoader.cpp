@@ -28,7 +28,11 @@ void AssetsLoader::loadCharset(SDL* sdl) {
 
 // load player car BMP file: "player_car.bmp"
 void AssetsLoader::loadPlayerCar(SDL* sdl) {
-	sdl->playerCar = SDL_LoadBMP("./assets/player_car.bmp");
+	SDL_Surface* playerCarSurface = SDL_LoadBMP("./assets/player_car.bmp");
+	
+	sdl->playerCar = playerCarSurface;
+
+	sdl->playerCarTexture = SDL_CreateTextureFromSurface(sdl->renderer, sdl->playerCar);
 
 	if (sdl->playerCar == NULL) {
 		printf("SDL_LoadBMP(player_car.bmp) error: %s\n", SDL_GetError());

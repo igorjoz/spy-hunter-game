@@ -10,7 +10,7 @@ class Game
 {
 public:
 	Game(SDL* sdl, Window* window);
-	double calculateDistance(double delta);
+	~Game();
 	void run();
 	void drawRoadside();
 	void drawRoad();
@@ -25,18 +25,13 @@ public:
 	
 	// get / set
 	PlayerCar* getPlayerCar();
-	double getDistance();
-	double getEtiBMPSpeed();
-
-	void setDistance(double distance);
-	void setEtiBMPSpeed(double etiBMPSpeed);
+	int getScore();
 	
 private:
 	SDL* sdl;
 	Window* window;
 	PlayerCar* playerCar;
 
-	double distance;
-	double etiBMPSpeed;
+	int score;
 };
 

@@ -14,18 +14,13 @@ Game::Game(SDL* sdl, Window* window)
 
 	this->playerCar = new PlayerCar();
 
-	this->distance = 0;
-	this->etiBMPSpeed = 1;
-
-	
+	int score = 0;
 }
 
 
-double Game::calculateDistance(double delta)
+Game::~Game()
 {
-	distance += etiBMPSpeed * delta;
-
-	return distance;
+	delete playerCar;
 }
 
 
@@ -127,66 +122,48 @@ void Game::drawPlayerCar()
 
 void Game::handleArrowKeyPressed()
 {
-	this->playerCar->setIsMoving(true);
+	playerCar->setIsMoving(true);
 }
 
 
 void Game::handleArrowUpKeyPressed()
 {
-	this->playerCar->setMovementDirection(MovementDirection::UP);
+	playerCar->setMovementDirection(MovementDirection::UP);
 }
 
 
 void Game::handleArrowDownKeyPressed()
 {
-	this->playerCar->setMovementDirection(MovementDirection::DOWN);
+	playerCar->setMovementDirection(MovementDirection::DOWN);
 }
 
 
 void Game::handleArrowLeftKeyPressed()
 {
-	this->playerCar->setMovementDirection(MovementDirection::LEFT);
+	playerCar->setMovementDirection(MovementDirection::LEFT);
 }
 
 
 void Game::handleArrowRightKeyPressed()
 {
-	this->playerCar->setMovementDirection(MovementDirection::RIGHT);
+	playerCar->setMovementDirection(MovementDirection::RIGHT);
 }
 
 
 void Game::handleKeyUp()
 {
-	this->getPlayerCar()->setIsMoving(false);
+	playerCar->setIsMoving(false);
 }
 
 
 // get / set
 PlayerCar* Game::getPlayerCar()
 {
-	return this->playerCar;
+	return playerCar;
 }
 
 
-double Game::getDistance()
+int Game::getScore()
 {
-	return this->distance;
-}
-
-
-double Game::getEtiBMPSpeed()
-{
-	return this->etiBMPSpeed;
-}
-
-
-void Game::setDistance(double distance)
-{
-	this->distance = distance;
-}
-
-
-void Game::setEtiBMPSpeed(double etiBMPSpeed)
-{
-	this->etiBMPSpeed = etiBMPSpeed;
+	return score;
 }

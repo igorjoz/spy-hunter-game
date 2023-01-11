@@ -15,7 +15,6 @@ public:
 	bool checkIfAboveBottomOfWindow();
 	bool checkIfBeforeLeftSideOfWindow();
 	bool checkIfBeforeRightSideOfWindow();
-	//bool checkIfWithinWindow();
 	bool checkIfInsideRoad();
 	
 	void move();
@@ -29,12 +28,10 @@ public:
 	int getY();
 	CarSpeed getCarSpeed();
 	bool getIsMoving();
-	MovementDirection getMovementDirection();
 
 	void setX(int x);
 	void setY(int y);
 	void setIsMoving(bool isMoving);
-	void setMovementDirection(MovementDirection movementDirection);
 	void setVerticalMovementDirection(MovementDirection verticalMovementDirection);
 	void setHorizontalMovementDirection(MovementDirection horizontalMovementDirection);
 	void setVerticalVelocity(CarSpeed velocity);
@@ -47,7 +44,6 @@ protected:
 	CarSpeed verticalVelocity;
 	CarSpeed horizontalVelocity;
 	bool isMoving;
-	MovementDirection movementDirection;
 	MovementDirection verticalMovementDirection;
 	MovementDirection horizontalMovementDirection;
 };

@@ -18,7 +18,6 @@ Car::Car()
 	this->verticalVelocity = CarSpeed::NONE;
 
 	this->isMoving = false;
-	this->movementDirection = MovementDirection::NONE;
 	this->horizontalMovementDirection = MovementDirection::NONE;
 	this->verticalMovementDirection = MovementDirection::NONE;
 }
@@ -47,24 +46,6 @@ bool Car::checkIfBeforeRightSideOfWindow()
 	return x < Window::WINDOW_WIDTH - CAR_WIDTH / 2;
 }
 
-//bool Car::checkIfWithinWindow()
-//{	if (
-//		// check of the car is below the top of the screen
-//		y > CAR_HEIGHT / 2 and
-//		// check if the car is not at the bottom of the screen
-//		y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2 and
-//		// check if the car is not at the left side of the screen
-//		x > CAR_WIDTH / 2 and
-//		// check if the car is not at the right side of the screen
-//		x < Window::WINDOW_WIDTH - CAR_WIDTH / 2
-//		) {
-//		return true;
-//	}
-//	else {
-//		return false;
-//	}
-//}
-
 
 bool Car::checkIfInsideRoad()
 {
@@ -81,28 +62,21 @@ void Car::move()
 		return;
 	}
 
-	printf("horizontalVelocityValue: %d\n", horizontalVelocityValue);
-	printf("verticalMovementDirection: %d\n", verticalMovementDirection);
-	
 	if (verticalVelocityValue) {
 		if (verticalMovementDirection == MovementDirection::UP) {
 			moveForward();
-			//y -= verticalVelocityValue;
 		}
 		else if (verticalMovementDirection == MovementDirection::DOWN) {
 			moveBackward();
-			//y += horizontalVelocityValue;
 		}
 	}
 	
 	if (horizontalVelocityValue) {
 		if (horizontalMovementDirection == MovementDirection::LEFT) {
 			moveLeft();
-			//x -= horizontalVelocityValue;
 		}
 		else if (horizontalMovementDirection == MovementDirection::RIGHT) {
 			moveRight();
-			//x += horizontalVelocityValue;
 		}
 	}
 }
@@ -162,7 +136,6 @@ void Car::moveRight()
 
 void Car::resetMovementDirection()
 {
-	movementDirection = MovementDirection::NONE;
 	verticalMovementDirection = MovementDirection::NONE;
 	horizontalMovementDirection = MovementDirection::NONE;
 }
@@ -191,12 +164,6 @@ bool Car::getIsMoving() {
 }
 
 
-MovementDirection Car::getMovementDirection()
-{
-	return movementDirection;
-}
-
-
 void Car::setX(int x)
 {
 	this->x = x;
@@ -212,12 +179,6 @@ void Car::setY(int y)
 void Car::setIsMoving(bool isMoving)
 {
 	this->isMoving = isMoving;
-}
-
-
-void Car::setMovementDirection(MovementDirection movementDirection)
-{
-	this->movementDirection = movementDirection;
 }
 
 

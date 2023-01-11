@@ -6,9 +6,10 @@
 
 
 enum class CarSpeed {
+	NONE = 0,
 	SLOW = 1,
 	REGULAR = 2,
-	FAST = 3,
+	FAST = 3
 };
 
 
@@ -23,5 +24,9 @@ enum class MovementDirection {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP_LEFT,
+	UP_RIGHT,
+	DOWN_LEFT,
+	DOWN_RIGHT
 };

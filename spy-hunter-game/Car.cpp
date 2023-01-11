@@ -11,15 +11,26 @@ Car::Car()
 	this->x = 0;
 	this->y = 0;
 	this->speed = CarSpeed::REGULAR;
+	this->horizontalVelocity = CarSpeed::NONE;
+	this->verticalVelocity = CarSpeed::NONE;
 
 	this->isMoving = false;
 	this->movementDirection = MovementDirection::NONE;
 }
 
 
-bool Car::checkIfInsideRoad()
+bool Car::checkIfWithinWindow()
 {
-	if (Map::checkIfInsideRoad(this->x, this->y)) {
+	if (
+		// check of the car is below the top of the screen
+		y > CAR_HEIGHT / 2 and
+		// check if the car is not at the bottom of the screen
+		y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2 and
+		// check if the car is not at the left side of the screen
+		x > CAR_WIDTH / 2 and
+		// check if the car is not at the right side of the screen
+		x < Window::WINDOW_WIDTH - CAR_WIDTH / 2
+		) {
 		return true;
 	}
 	else {
@@ -28,10 +39,15 @@ bool Car::checkIfInsideRoad()
 }
 
 
+bool Car::checkIfInsideRoad()
+{
+	return Map::checkIfInsideRoad(this->x, this->y);
+}
+
+
 void Car::moveForward()
 {
-	// check of the car is below the top of the screen
-	if (this->y > CAR_HEIGHT / 2) {
+	if (checkIfWithinWindow()) {
 		if (this->checkIfInsideRoad()) {
 			this->y -= static_cast<int>(CarSpeed::REGULAR);
 		}
@@ -44,8 +60,7 @@ void Car::moveForward()
 
 void Car::moveBackward()
 {
-	// check if the car is not at the bottom of the screen
-	if (this->y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2) {
+	if (checkIfWithinWindow()) {
 		if (this->checkIfInsideRoad()) {
 			this->y += static_cast<int>(CarSpeed::REGULAR);
 		}
@@ -58,8 +73,7 @@ void Car::moveBackward()
 
 void Car::moveLeft()
 {
-	// check if the car is not at the left side of the screen
-	if (this->x > CAR_WIDTH / 2) {
+	if (checkIfWithinWindow()) {
 		if (this->checkIfInsideRoad()) {
 			this->x -= static_cast<int>(CarSpeed::REGULAR);
 		}
@@ -72,13 +86,12 @@ void Car::moveLeft()
 
 void Car::moveRight()
 {
-	// check if the car is not at the right side of the screen
-	if (this->x < Window::WINDOW_WIDTH - CAR_WIDTH / 2) {
-		if (this->checkIfInsideRoad()) {
-			this->x += static_cast<int>(CarSpeed::REGULAR);
+	if (checkIfWithinWindow()) {
+		if (checkIfInsideRoad()) {
+			x += static_cast<int>(CarSpeed::REGULAR);
 		}
 		else {
-			this->x += static_cast<int>(CarSpeed::SLOW);
+			x += static_cast<int>(CarSpeed::SLOW);
 		}
 	}
 }
@@ -86,30 +99,30 @@ void Car::moveRight()
 
 int Car::getX()
 {
-	return this->x;
+	return x;
 }
 
 
 int Car::getY()
 {
-	return this->y;
+	return y;
 }
 
 
 CarSpeed Car::getCarSpeed()
 {
-	return this->speed;
+	return speed;
 }
 
 
 bool Car::getIsMoving() {
-	return this->isMoving;
+	return isMoving;
 }
 
 
 MovementDirection Car::getMovementDirection()
 {
-	return this->movementDirection;
+	return movementDirection;
 }
 
 

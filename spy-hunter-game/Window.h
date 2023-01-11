@@ -29,8 +29,6 @@ public:
 	double getFpsTimer();
 	double getFps();
 	
-	//void setFrameStartTime(int time);
-	//void setFrameFinishTime(int time);
 	void setFrames(int frames);
 	void setDelta(double delta);
 	void setWorldTime(double time);

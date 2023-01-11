@@ -11,6 +11,7 @@ public:
 	static int const CAR_HEIGHT = 90;
 
 	Car();
+	bool checkIfWithinWindow();
 	bool checkIfInsideRoad();
 	
 	void moveForward();
@@ -33,6 +34,8 @@ protected:
 	int x;
 	int y;
 	CarSpeed speed;
+	CarSpeed horizontalVelocity;
+	CarSpeed verticalVelocity;
 	bool isMoving;
 	MovementDirection movementDirection;
 };

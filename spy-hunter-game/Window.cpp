@@ -103,16 +103,6 @@ double Window::getFps() {
 }
 
 
-//void Window::setFrameStartTime(int time) {
-//	this->frameStartTime = time;
-//}
-//
-//
-//void Window::setFrameFinishTime(int time) {
-//	this->frameFinishTime = time;
-//}
-
-
 void Window::setFrames(int frames) {
 	this->frames = frames;
 }

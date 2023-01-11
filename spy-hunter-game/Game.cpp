@@ -44,6 +44,25 @@ void Game::run()
 		else if (movementDirection == MovementDirection::RIGHT) {
 			playerCar->moveRight();
 		}
+
+		//// switch case
+		//switch (movementDirection) {
+		//case MovementDirection::UP: {
+		//	this->handleArrowUpKeyPressed();
+		//	break;
+		//}
+		//case MovementDirection::DOWN: {
+		//	this->handleArrowDownKeyPressed();
+		//	break;
+		//}
+		//case MovementDirection::LEFT: {
+		//	this->handleArrowLeftKeyPressed();
+		//	break;
+		//}
+		//case MovementDirection::RIGHT: {
+
+		//}
+		//}
 	}
 
 	DrawService::drawGame(sdl, this);

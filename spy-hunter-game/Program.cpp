@@ -32,12 +32,7 @@ Program::~Program()
 
 
 void Program::run() {
-	//Uint32 frameStart;
-	//int frameTime;
-	
 	while (!getIsQuit()) {		
-		//frameStart = SDL_GetTicks();
-
 		window->calculateWorldTime();
 
 		game->run();
@@ -57,39 +52,51 @@ void Program::run() {
 
 void Program::handleKeyEvents() {
 	SDL_Event* event = &sdl->event;
-
+	
 	while (SDL_PollEvent(event)) {
+		Uint32 eventType = event->type;
+		const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+
+		printf("Key !pressed: %d\n", keyboardState[SDL_SCANCODE_UP]);
+		printf("Key #pressed: %d\n", keyboardState[SDL_SCANCODE_LEFT]);
+
 		switch (event->type) {
-		case SDL_KEYDOWN:
-			game->handleArrowKeyPressed();
+			case SDL_KEYDOWN: {
+				game->handleArrowKeyPressed();
 
-			if (event->key.keysym.sym == SDLK_ESCAPE) {
-				setIsQuit(1);
+				if (keyboardState[SDL_SCANCODE_UP]) {
+					game->handleArrowUpKeyPressed();
+				}
+
+				if (keyboardState[SDL_SCANCODE_DOWN]) {
+					game->handleArrowDownKeyPressed();
+				}
+
+				if (keyboardState[SDL_SCANCODE_LEFT]) {
+					game->handleArrowLeftKeyPressed();
+				}
+
+				if (keyboardState[SDL_SCANCODE_RIGHT]) {
+					game->handleArrowRightKeyPressed();
+				}
+
+				if (keyboardState[SDL_SCANCODE_ESCAPE]) {
+					setIsQuit(true);
+				}
+
+				break;
 			}
-			else if (event->key.keysym.sym == SDLK_UP) {
-				game->handleArrowUpKeyPressed();
+
+			case SDL_KEYUP: {
+				game->handleKeyUp();
+
+				break;
 			}
-			else if (event->key.keysym.sym == SDLK_DOWN) {
-				game->handleArrowDownKeyPressed();
+			case SDL_QUIT: {
+				setIsQuit(true);
+
+				break;
 			}
-			else if (event->key.keysym.sym == SDLK_LEFT) {
-				game->handleArrowLeftKeyPressed();
-			}
-			else if (event->key.keysym.sym == SDLK_RIGHT) {
-				game->handleArrowRightKeyPressed();
-			}
-
-			break;
-
-		case SDL_KEYUP:
-			game->handleKeyUp();
-
-			break;
-
-		case SDL_QUIT:
-			setIsQuit(1);
-
-			break;
 		};
 	}
 

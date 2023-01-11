@@ -6,6 +6,9 @@
 #include "Window.h"
 
 
+#include <iostream>
+
+
 Car::Car()
 {
 	this->x = 0;
@@ -16,43 +19,103 @@ Car::Car()
 
 	this->isMoving = false;
 	this->movementDirection = MovementDirection::NONE;
+	this->horizontalMovementDirection = MovementDirection::NONE;
+	this->verticalMovementDirection = MovementDirection::NONE;
 }
 
 
-bool Car::checkIfWithinWindow()
+bool Car::checkIfBelowTopOfWindow()
 {
-	if (
-		// check of the car is below the top of the screen
-		y > CAR_HEIGHT / 2 and
-		// check if the car is not at the bottom of the screen
-		y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2 and
-		// check if the car is not at the left side of the screen
-		x > CAR_WIDTH / 2 and
-		// check if the car is not at the right side of the screen
-		x < Window::WINDOW_WIDTH - CAR_WIDTH / 2
-		) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return y > CAR_HEIGHT / 2;
 }
+
+
+bool Car::checkIfAboveBottomOfWindow()
+{
+	return y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2;
+}
+
+
+bool Car::checkIfBeforeLeftSideOfWindow()
+{
+	return x > CAR_WIDTH / 2;
+}
+
+
+bool Car::checkIfBeforeRightSideOfWindow()
+{
+	return x < Window::WINDOW_WIDTH - CAR_WIDTH / 2;
+}
+
+//bool Car::checkIfWithinWindow()
+//{	if (
+//		// check of the car is below the top of the screen
+//		y > CAR_HEIGHT / 2 and
+//		// check if the car is not at the bottom of the screen
+//		y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2 and
+//		// check if the car is not at the left side of the screen
+//		x > CAR_WIDTH / 2 and
+//		// check if the car is not at the right side of the screen
+//		x < Window::WINDOW_WIDTH - CAR_WIDTH / 2
+//		) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
 
 
 bool Car::checkIfInsideRoad()
 {
-	return Map::checkIfInsideRoad(this->x, this->y);
+	return Map::checkIfInsideRoad(x, y);
+}
+
+
+void Car::move()
+{
+	int verticalVelocityValue = static_cast<int>(verticalVelocity);
+	int horizontalVelocityValue = static_cast<int>(horizontalVelocity);
+		
+	if (horizontalVelocity == CarSpeed::NONE and verticalVelocity == CarSpeed::NONE) {
+		return;
+	}
+
+	printf("horizontalVelocityValue: %d\n", horizontalVelocityValue);
+	printf("verticalMovementDirection: %d\n", verticalMovementDirection);
+	
+	if (verticalVelocityValue) {
+		if (verticalMovementDirection == MovementDirection::UP) {
+			moveForward();
+			//y -= verticalVelocityValue;
+		}
+		else if (verticalMovementDirection == MovementDirection::DOWN) {
+			moveBackward();
+			//y += horizontalVelocityValue;
+		}
+	}
+	
+	if (horizontalVelocityValue) {
+		if (horizontalMovementDirection == MovementDirection::LEFT) {
+			moveLeft();
+			//x -= horizontalVelocityValue;
+		}
+		else if (horizontalMovementDirection == MovementDirection::RIGHT) {
+			moveRight();
+			//x += horizontalVelocityValue;
+		}
+	}
 }
 
 
 void Car::moveForward()
 {
-	if (checkIfWithinWindow()) {
-		if (this->checkIfInsideRoad()) {
-			this->y -= static_cast<int>(CarSpeed::REGULAR);
+	if (checkIfBelowTopOfWindow()) {
+		if (checkIfInsideRoad()) {
+			y -= static_cast<int>(CarSpeed::REGULAR);
 		}
 		else {
-			this->y -= static_cast<int>(CarSpeed::SLOW);
+			y -= static_cast<int>(CarSpeed::SLOW);
 		}
 	}
 }
@@ -60,12 +123,12 @@ void Car::moveForward()
 
 void Car::moveBackward()
 {
-	if (checkIfWithinWindow()) {
-		if (this->checkIfInsideRoad()) {
-			this->y += static_cast<int>(CarSpeed::REGULAR);
+	if (checkIfAboveBottomOfWindow()) {
+		if (checkIfInsideRoad()) {
+			y += static_cast<int>(CarSpeed::REGULAR);
 		}
 		else {
-			this->y += static_cast<int>(CarSpeed::SLOW);
+			y += static_cast<int>(CarSpeed::SLOW);
 		}
 	}
 }
@@ -73,12 +136,12 @@ void Car::moveBackward()
 
 void Car::moveLeft()
 {
-	if (checkIfWithinWindow()) {
-		if (this->checkIfInsideRoad()) {
-			this->x -= static_cast<int>(CarSpeed::REGULAR);
+	if (checkIfBeforeLeftSideOfWindow()) {
+		if (checkIfInsideRoad()) {
+			x -= static_cast<int>(CarSpeed::SLOW);
 		}
 		else {
-			this->x -= static_cast<int>(CarSpeed::SLOW);
+			x -= static_cast<int>(CarSpeed::SLOW);
 		}
 	}
 }
@@ -86,14 +149,22 @@ void Car::moveLeft()
 
 void Car::moveRight()
 {
-	if (checkIfWithinWindow()) {
+	if (checkIfBeforeRightSideOfWindow()) {
 		if (checkIfInsideRoad()) {
-			x += static_cast<int>(CarSpeed::REGULAR);
+			x += static_cast<int>(CarSpeed::SLOW);
 		}
 		else {
 			x += static_cast<int>(CarSpeed::SLOW);
 		}
 	}
+}
+
+
+void Car::resetMovementDirection()
+{
+	movementDirection = MovementDirection::NONE;
+	verticalMovementDirection = MovementDirection::NONE;
+	horizontalMovementDirection = MovementDirection::NONE;
 }
 
 
@@ -147,4 +218,28 @@ void Car::setIsMoving(bool isMoving)
 void Car::setMovementDirection(MovementDirection movementDirection)
 {
 	this->movementDirection = movementDirection;
+}
+
+
+void Car::setVerticalMovementDirection(MovementDirection verticalMovementDirection)
+{
+	this->verticalMovementDirection = verticalMovementDirection;
+}
+
+
+void Car::setHorizontalMovementDirection(MovementDirection horizontalMovementDirection)
+{
+	this->horizontalMovementDirection = horizontalMovementDirection;
+}
+
+
+void Car::setVerticalVelocity(CarSpeed velocity)
+{
+	this->verticalVelocity = velocity;
+}
+
+
+void Car::setHorizontalVelocity(CarSpeed velocity)
+{
+	this->horizontalVelocity = velocity;
 }

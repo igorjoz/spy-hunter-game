@@ -31,8 +31,12 @@ void Game::run()
 	bool isMoving = playerCar->getIsMoving();
 	MovementDirection movementDirection = playerCar->getMovementDirection();
 
-	if (isMoving) {
-		if (movementDirection == MovementDirection::UP) {
+	playerCar->move();
+
+	/*if (isMoving) {
+		playerCar->move();*/
+
+		/*if (movementDirection == MovementDirection::UP) {
 			playerCar->moveForward();
 		}
 		else if (movementDirection == MovementDirection::DOWN) {
@@ -43,27 +47,8 @@ void Game::run()
 		}
 		else if (movementDirection == MovementDirection::RIGHT) {
 			playerCar->moveRight();
-		}
-
-		//// switch case
-		//switch (movementDirection) {
-		//case MovementDirection::UP: {
-		//	this->handleArrowUpKeyPressed();
-		//	break;
-		//}
-		//case MovementDirection::DOWN: {
-		//	this->handleArrowDownKeyPressed();
-		//	break;
-		//}
-		//case MovementDirection::LEFT: {
-		//	this->handleArrowLeftKeyPressed();
-		//	break;
-		//}
-		//case MovementDirection::RIGHT: {
-
-		//}
-		//}
-	}
+		}*/
+	//}
 
 	DrawService::drawGame(sdl, this);
 }
@@ -72,36 +57,46 @@ void Game::run()
 void Game::handleArrowKeyPressed()
 {
 	playerCar->setIsMoving(true);
+	playerCar->move();
 }
 
 
 void Game::handleArrowUpKeyPressed()
 {
 	playerCar->setMovementDirection(MovementDirection::UP);
+	playerCar->setVerticalMovementDirection(MovementDirection::UP);
+	playerCar->setVerticalVelocity(CarSpeed::REGULAR);
 }
 
 
 void Game::handleArrowDownKeyPressed()
 {
 	playerCar->setMovementDirection(MovementDirection::DOWN);
+	playerCar->setVerticalMovementDirection(MovementDirection::DOWN);
+	playerCar->setVerticalVelocity(CarSpeed::REGULAR);
 }
 
 
 void Game::handleArrowLeftKeyPressed()
 {
 	playerCar->setMovementDirection(MovementDirection::LEFT);
+	playerCar->setHorizontalMovementDirection(MovementDirection::LEFT);
+	playerCar->setHorizontalVelocity(CarSpeed::REGULAR);
 }
 
 
 void Game::handleArrowRightKeyPressed()
 {
 	playerCar->setMovementDirection(MovementDirection::RIGHT);
+	playerCar->setHorizontalMovementDirection(MovementDirection::RIGHT);
+	playerCar->setHorizontalVelocity(CarSpeed::REGULAR);
 }
 
 
 void Game::handleKeyUp()
 {
 	playerCar->setIsMoving(false);
+	playerCar->resetMovementDirection();
 }
 
 

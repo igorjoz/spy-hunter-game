@@ -11,13 +11,19 @@ public:
 	static int const CAR_HEIGHT = 90;
 
 	Car();
-	bool checkIfWithinWindow();
+	bool checkIfBelowTopOfWindow();
+	bool checkIfAboveBottomOfWindow();
+	bool checkIfBeforeLeftSideOfWindow();
+	bool checkIfBeforeRightSideOfWindow();
+	//bool checkIfWithinWindow();
 	bool checkIfInsideRoad();
 	
+	void move();
 	void moveForward();
 	void moveBackward();
 	void moveLeft();
 	void moveRight();
+	void resetMovementDirection();
 	
 	int getX();
 	int getY();
@@ -29,14 +35,20 @@ public:
 	void setY(int y);
 	void setIsMoving(bool isMoving);
 	void setMovementDirection(MovementDirection movementDirection);
+	void setVerticalMovementDirection(MovementDirection verticalMovementDirection);
+	void setHorizontalMovementDirection(MovementDirection horizontalMovementDirection);
+	void setVerticalVelocity(CarSpeed velocity);
+	void setHorizontalVelocity(CarSpeed velocity);
 	
 protected:
 	int x;
 	int y;
 	CarSpeed speed;
-	CarSpeed horizontalVelocity;
 	CarSpeed verticalVelocity;
+	CarSpeed horizontalVelocity;
 	bool isMoving;
 	MovementDirection movementDirection;
+	MovementDirection verticalMovementDirection;
+	MovementDirection horizontalMovementDirection;
 };
 

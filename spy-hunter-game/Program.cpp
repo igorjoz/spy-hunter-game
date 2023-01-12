@@ -18,6 +18,7 @@ Program::Program(SDL* sdl, Window* window, Game* game) {
 		exit(1);
 	}
 
+	this->keyboardState = nullptr;
 	this->isQuit = false;
 	this->areMultipleArrowKeysPressed = true;
 }
@@ -35,12 +36,11 @@ void Program::run() {
 		window->calculateWorldTime();
 
 		game->run();
+		
 
 		window->calculateFPS();
 
-		sdl->printGameInformation(game->getScore(), window->getWorldTime(), window->getFps());
-
-		sdl->renderFrame();
+		drawGUI();
 		
 		handleKeyEvents();
 
@@ -53,71 +53,99 @@ void Program::handleKeyEvents() {
 	SDL_Event* event = &sdl->event;
 	
 	while (SDL_PollEvent(event)) {
-		Uint32 eventType = event->type;
-		const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+		keyboardState = SDL_GetKeyboardState(NULL);
 
 		switch (event->type) {
 		case SDL_KEYDOWN: {
-			if (keyboardState[SDL_SCANCODE_UP] or keyboardState[SDL_SCANCODE_DOWN] or keyboardState[SDL_SCANCODE_LEFT] or keyboardState[SDL_SCANCODE_RIGHT]) {
-				game->handleArrowKeyPressed();
-			}
-
-			if (keyboardState[SDL_SCANCODE_UP]) {
-				game->handleArrowUpKeyPressed();
-			}
-
-			if (keyboardState[SDL_SCANCODE_DOWN]) {
-				game->handleArrowDownKeyPressed();
-			}
-
-			if (keyboardState[SDL_SCANCODE_LEFT]) {
-				game->handleArrowLeftKeyPressed();
-			}
-
-			if (keyboardState[SDL_SCANCODE_RIGHT]) {
-				game->handleArrowRightKeyPressed();
-			}
-
-			if (keyboardState[SDL_SCANCODE_ESCAPE]) {
-				setIsQuit(true);
-			}
+			handleKeyDownEvent();
 
 			break;
 		}
 		case SDL_KEYUP: {
-			bool hasVerticalMovement = static_cast<bool>(game->getPlayerCar()->getVerticalMovementDirection());
-			bool hasHorizontalMovement = static_cast<bool>(game->getPlayerCar()->getHorizontalMovementDirection());
-
-			if (hasVerticalMovement and !keyboardState[SDL_SCANCODE_UP] and !keyboardState[SDL_SCANCODE_DOWN]) {
-				game->stopVerticalMovement();
-			}
-
-			if (hasHorizontalMovement and !keyboardState[SDL_SCANCODE_LEFT] and !keyboardState[SDL_SCANCODE_RIGHT]) {
-				game->stopHorizontalMovement();
-			}
+			handleKeyUpEvent();
 
 			break;
 		}
 		case SDL_QUIT: {
-			setIsQuit(true);
+			handleQuitEvent();
 
 			break;
 		}
 		};
 	}
 
-	int frames = window->getFrames() + 1;
-	window->setFrames(frames);
+	window->incrementFramesCount();
+}
+
+
+void Program::handleKeyDownEvent() {
+	if (keyboardState[SDL_SCANCODE_UP] or keyboardState[SDL_SCANCODE_DOWN] or keyboardState[SDL_SCANCODE_LEFT] or keyboardState[SDL_SCANCODE_RIGHT]) {
+		game->handleArrowKeyPressed();
+	}
+
+	if (keyboardState[SDL_SCANCODE_UP]) {
+		game->handleArrowUpKeyPressed();
+	}
+
+	if (keyboardState[SDL_SCANCODE_DOWN]) {
+		game->handleArrowDownKeyPressed();
+	}
+
+	if (keyboardState[SDL_SCANCODE_LEFT]) {
+		game->handleArrowLeftKeyPressed();
+	}
+
+	if (keyboardState[SDL_SCANCODE_RIGHT]) {
+		game->handleArrowRightKeyPressed();
+	}
+
+	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
+		isQuit = true;
+	}
+
+	if (keyboardState[SDL_SCANCODE_N]) {
+		restart();
+	}
+}
+
+
+void Program::handleKeyUpEvent() {
+	bool hasVerticalMovement = static_cast<bool>(game->getPlayerCar()->getVerticalMovementDirection());
+	bool hasHorizontalMovement = static_cast<bool>(game->getPlayerCar()->getHorizontalMovementDirection());
+
+	if (hasVerticalMovement and !keyboardState[SDL_SCANCODE_UP] and !keyboardState[SDL_SCANCODE_DOWN]) {
+		game->stopVerticalMovement();
+	}
+
+	if (hasHorizontalMovement and !keyboardState[SDL_SCANCODE_LEFT] and !keyboardState[SDL_SCANCODE_RIGHT]) {
+		game->stopHorizontalMovement();
+	}
+}
+
+
+void Program::handleQuitEvent() {
+	isQuit = true;
+}
+
+
+void Program::drawGUI() {
+	DrawService::drawGame(sdl, game);
+
+	sdl->printGameInformation(game->getScore(), window->getWorldTime(), window->getFps());
+
+	sdl->renderFrame();
+}
+
+
+void Program::restart() {
+	game->restart();
+
+	window->resetTime();
 }
 
 
 bool Program::getIsQuit() const {
 	return isQuit;
-}
-
-
-void Program::setIsQuit(bool isQuit) {
-	this->isQuit = isQuit;
 }
 
 

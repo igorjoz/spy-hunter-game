@@ -68,6 +68,16 @@ void Window::maintainConstantFPS() {
 }
 
 
+void Window::incrementFramesCount() {
+	frames++;
+}
+
+
+void Window::resetTime() {
+	worldTime = 0.0;
+}
+
+
 int Window::getFrameStartTime() {
 	return this->frameStartTime;
 }
@@ -75,11 +85,6 @@ int Window::getFrameStartTime() {
 
 int Window::getFrameFinishTime() {
 	return this->frameFinishTime;
-}
-
-
-int Window::getFrames() {
-	return this->frames;
 }
 
 
@@ -100,11 +105,6 @@ double Window::getFpsTimer() {
 
 double Window::getFps() {
 	return this->fps;
-}
-
-
-void Window::setFrames(int frames) {
-	this->frames = frames;
 }
 
 

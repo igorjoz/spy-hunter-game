@@ -39,8 +39,12 @@ public:
 	
 	SDL_Surface* charset;
 	SDL_Surface* playerCar;
+	SDL_Surface* enemyCar;
+	SDL_Surface* neutralCar;
 
 	SDL_Texture* playerCarTexture;
+	SDL_Texture* enemyCarTexture;
+	SDL_Texture* neutralCarTexture;
 
 private:
 	int whiteColor;

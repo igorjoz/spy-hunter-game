@@ -27,7 +27,7 @@ void Surface::printString(SDL_Surface* screen, int x, int y, const char* text, S
 		
 		x += 8;
 		text++;
-	};
+	}
 };
 
 
@@ -39,6 +39,7 @@ void Surface::drawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y
 	dest.y = y - sprite->h / 2;
 	dest.w = sprite->w;
 	dest.h = sprite->h;
+	
 	SDL_BlitSurface(sprite, NULL, screen, &dest);
 };
 

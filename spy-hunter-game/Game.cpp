@@ -4,6 +4,8 @@
 #include "Constants.h"
 #include "Surface.h"
 #include "PlayerCar.h"
+#include "EnemyCar.h"
+#include "NeutralCar.h"
 #include "Map.h"
 #include "DrawService.h"
 
@@ -13,6 +15,8 @@ Game::Game(SDL* sdl, Window* window) {
 	this->window = window;
 
 	this->playerCar = new PlayerCar();
+	this->enemyCar = new EnemyCar();
+	this->neutralCar = new NeutralCar();
 
 	this->score = 0;
 }
@@ -24,13 +28,18 @@ Game::~Game() {
 
 
 void Game::run() {
-	PlayerCar* playerCar = this->getPlayerCar();
-	
 	calculateScore();
 	
-	playerCar->move();
+	this->getPlayerCar()->move();
+}
 
-	DrawService::drawGame(sdl, this);
+
+void Game::restart() {
+	delete playerCar;
+
+	playerCar = new PlayerCar();
+
+	score = 0;
 }
 
 
@@ -89,6 +98,16 @@ void Game::stopHorizontalMovement() {
 // get / set
 PlayerCar* Game::getPlayerCar() const {
 	return playerCar;
+}
+
+
+EnemyCar* Game::getEnemyCar() const {
+	return enemyCar;
+}
+
+
+NeutralCar* Game::getNeutralCar() const {
+	return neutralCar;
 }
 
 

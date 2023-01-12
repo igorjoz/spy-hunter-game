@@ -14,5 +14,7 @@ public:
 	static void drawDividingLines(SDL* sdl);
 	static void drawRoad(SDL* sdl);
 	static void drawPlayerCar(SDL* sdl, Game* game);
+	static void drawEnemyCar(SDL* sdl, Game* game);
+	static void drawNeutralCar(SDL* sdl, Game* game);
 };
 

@@ -14,11 +14,16 @@ public:
 	~Program();
 	void run();
 	void handleKeyEvents();
+	void handleKeyDownEvent();
+	void handleKeyUpEvent();
+	void handleQuitEvent();
+	
+	void drawGUI();
+	void restart();
 
 	// get / set
 	bool getIsQuit() const;
 	
-	void setIsQuit(bool isQuit);
 	void setAreMultipleArrowKeysPressed(bool areMultipleArrowKeysPressed);
 
 private:
@@ -26,6 +31,7 @@ private:
 	Window* window;
 	Game* game;
 	
+	const Uint8* keyboardState;
 	bool isQuit;
 	bool areMultipleArrowKeysPressed;
 };

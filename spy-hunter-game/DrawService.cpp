@@ -8,6 +8,8 @@ void DrawService::drawGame(SDL* sdl, Game* game) {
 	drawRoadside(sdl);
 	drawRoad(sdl);
 	drawPlayerCar(sdl, game);
+	drawEnemyCar(sdl, game);
+	drawNeutralCar(sdl, game);
 }
 
 
@@ -91,4 +93,22 @@ void DrawService::drawPlayerCar(SDL* sdl, Game* game) {
 	playerCarRect.h = CAR_HEIGHT;
 
 	SDL_RenderCopy(this->window->getRenderer(), playerCarTexture, NULL, &playerCarRect);*/
+}
+
+
+void DrawService::drawEnemyCar(SDL* sdl, Game* game) {
+	EnemyCar* enemyCar = game->getEnemyCar();
+	int x = enemyCar->getX();
+	int y = enemyCar->getY();
+
+	Surface::drawSurface(sdl->screen, sdl->enemyCar, x, y);
+}
+
+
+void DrawService::drawNeutralCar(SDL* sdl, Game* game) {
+	NeutralCar* neutralCar = game->getNeutralCar();
+	int x = neutralCar->getX();
+	int y = neutralCar->getY();
+
+	Surface::drawSurface(sdl->screen, sdl->neutralCar, x, y);
 }

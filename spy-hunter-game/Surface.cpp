@@ -78,9 +78,24 @@ void Surface::printGameInformation(SDL_Surface* screen, SDL_Surface* charset, in
 	double scoreDoubleValue = static_cast<double>(score);
 	
 	Surface::drawRectangle(screen, 4, 4, Window::WINDOW_WIDTH - 8, 36, red, blue);
+	
 	sprintf_s(text, "Score: %.0lf, elapsed time: %.1lf s  %.0lf frames/s", scoreDoubleValue, worldTime, fps);
 	Surface::printString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
 	
 	sprintf_s(text, "Esc - exit, \030 - faster, \031 - slower, \032 - left, \033 - right");
 	Surface::printString(screen, screen->w / 2 - strlen(text) * 8 / 2, 26, text, charset);
+}
+
+
+void Surface::printListOfImplementedFunctionalities(SDL_Surface* screen, SDL_Surface* charset, int red, int blue) {
+	char text[100];
+	
+	Surface::drawRectangle(screen, Window::WINDOW_WIDTH - 120, Window::WINDOW_HEIGHT - 100, 100, 96, red, blue);
+
+	sprintf_s(text, "Implemented:");
+	Surface::printString(screen, Window::WINDOW_WIDTH - 120, Window::WINDOW_HEIGHT - 100 + 2, text, charset);
+
+	// missing: d, g - r
+	sprintf_s(text, " - abcef");
+	Surface::printString(screen, Window::WINDOW_WIDTH - 120, Window::WINDOW_HEIGHT - 100 + 12, text, charset);
 }

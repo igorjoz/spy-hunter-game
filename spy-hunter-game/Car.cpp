@@ -82,52 +82,60 @@ void Car::move()
 
 void Car::moveForward()
 {
+	int verticalVelocityValue;
+
+	if (checkIfInsideRoad()) {
+		verticalVelocity = CarSpeed::REGULAR;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+	else {
+		verticalVelocity = CarSpeed::SLOW;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+	
 	if (checkIfBelowTopOfWindow()) {
-		if (checkIfInsideRoad()) {
-			y -= static_cast<int>(CarSpeed::REGULAR);
-		}
-		else {
-			y -= static_cast<int>(CarSpeed::SLOW);
-		}
+		y -= verticalVelocityValue;
 	}
 }
 
 
 void Car::moveBackward()
 {
+	int verticalVelocityValue;
+	
+	if (checkIfInsideRoad()) {
+		verticalVelocity = CarSpeed::REGULAR;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+	else {
+		verticalVelocity = CarSpeed::SLOW;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+	
 	if (checkIfAboveBottomOfWindow()) {
-		if (checkIfInsideRoad()) {
-			y += static_cast<int>(CarSpeed::REGULAR);
-		}
-		else {
-			y += static_cast<int>(CarSpeed::SLOW);
-		}
+		y += verticalVelocityValue;
 	}
 }
 
 
 void Car::moveLeft()
 {
+	horizontalVelocity = CarSpeed::SLOW;
+	int horizontalVelocityValue = static_cast<int>(horizontalVelocity);
+	
 	if (checkIfBeforeLeftSideOfWindow()) {
-		if (checkIfInsideRoad()) {
-			x -= static_cast<int>(CarSpeed::SLOW);
-		}
-		else {
-			x -= static_cast<int>(CarSpeed::SLOW);
-		}
+		x -= horizontalVelocityValue;
 	}
 }
 
 
 void Car::moveRight()
 {
+	horizontalVelocity = CarSpeed::SLOW;
+	int horizontalVelocityValue = static_cast<int>(horizontalVelocity);
+	
 	if (checkIfBeforeRightSideOfWindow()) {
-		if (checkIfInsideRoad()) {
-			x += static_cast<int>(CarSpeed::SLOW);
-		}
-		else {
-			x += static_cast<int>(CarSpeed::SLOW);
-		}
+		x += horizontalVelocityValue;
 	}
 }
 
@@ -160,6 +168,18 @@ MovementDirection Car::getVerticalMovementDirection()
 MovementDirection Car::getHorizontalMovementDirection()
 {
 	return horizontalMovementDirection;
+}
+
+
+CarSpeed Car::getVerticalVelocity()
+{
+	return verticalVelocity;
+}
+
+
+CarSpeed Car::getHorizontalVelocity()
+{
+	return horizontalVelocity;
 }
 
 

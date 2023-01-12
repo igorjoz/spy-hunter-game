@@ -28,6 +28,8 @@ public:
 	int getY();
 	MovementDirection getVerticalMovementDirection();
 	MovementDirection getHorizontalMovementDirection();
+	CarSpeed getVerticalVelocity();
+	CarSpeed getHorizontalVelocity();
 
 	void setX(int x);
 	void setY(int y);

@@ -28,10 +28,23 @@ Game::~Game()
 void Game::run()
 {
 	PlayerCar* playerCar = this->getPlayerCar();
-
+	
+	calculateScore();
+	
 	playerCar->move();
 
 	DrawService::drawGame(sdl, this);
+}
+
+
+void Game::calculateScore() {
+	int verticalVelocity = static_cast<int>(playerCar->getVerticalVelocity());
+	int slowVelocity = static_cast<int>(CarSpeed::SLOW);
+	MovementDirection playerVerticalMovementDirection = playerCar->getVerticalMovementDirection();
+
+	if (verticalVelocity > slowVelocity and playerVerticalMovementDirection == MovementDirection::UP) {
+		this->score++;
+	}
 }
 
 
@@ -72,12 +85,14 @@ void Game::handleArrowRightKeyPressed()
 void Game::stopVerticalMovement()
 {
 	playerCar->setVerticalMovementDirection(MovementDirection::NONE);
+	playerCar->setVerticalVelocity(CarSpeed::NONE);
 }
 
 
 void Game::stopHorizontalMovement()
 {
 	playerCar->setHorizontalMovementDirection(MovementDirection::NONE);
+	playerCar->setHorizontalVelocity(CarSpeed::NONE);
 }
 
 

@@ -22,7 +22,7 @@ void DrawService::drawRoadside(SDL* sdl)
 	roadsideRectangle.w = Window::WINDOW_WIDTH;
 	roadsideRectangle.h = Window::WINDOW_HEIGHT;
 
-	SDL_FillRect(screenSurface, &roadsideRectangle, SDL_MapRGB(screenSurface->format, 0x00, 0xFF, 0x00));
+	SDL_FillRect(screenSurface, &roadsideRectangle, SDL_MapRGB(screenSurface->format, 244, 255, 31));
 }
 
 
@@ -36,7 +36,18 @@ void DrawService::drawRoad(SDL* sdl)
 	roadRectangle.w = Map::ROAD_WIDTH;
 	roadRectangle.h = Map::ROAD_HEIGHT;
 
-	SDL_FillRect(screenSurface, &roadRectangle, SDL_MapRGB(screenSurface->format, 0xFF, 0x00, 0x00));
+	SDL_FillRect(screenSurface, &roadRectangle, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+
+	// draw multiple white lanes dividing the roadways
+	for (int i = 0; i < Map::ROAD_HEIGHT; i += Map::WHITE_LANE_HEIGHT * 2) {
+		SDL_Rect whiteLaneRectangle;
+		whiteLaneRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
+		whiteLaneRectangle.y = i;
+		whiteLaneRectangle.w = Map::WHITE_LANE_WIDTH;
+		whiteLaneRectangle.h = Map::WHITE_LANE_HEIGHT;
+
+		SDL_FillRect(screenSurface, &whiteLaneRectangle, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+	}
 }
 
 

@@ -12,6 +12,7 @@ public:
 	Game(SDL* sdl, Window* window);
 	~Game();
 	void run();
+	void calculateScore();
 
 	void handleArrowKeyPressed();
 	void handleArrowUpKeyPressed();

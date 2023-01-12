@@ -8,8 +8,7 @@
 #include "DrawService.h"
 
 
-Game::Game(SDL* sdl, Window* window)
-{
+Game::Game(SDL* sdl, Window* window) {
 	this->sdl = sdl;
 	this->window = window;
 
@@ -19,14 +18,12 @@ Game::Game(SDL* sdl, Window* window)
 }
 
 
-Game::~Game()
-{
+Game::~Game() {
 	delete playerCar;
 }
 
 
-void Game::run()
-{
+void Game::run() {
 	PlayerCar* playerCar = this->getPlayerCar();
 	
 	calculateScore();
@@ -48,62 +45,53 @@ void Game::calculateScore() {
 }
 
 
-void Game::handleArrowKeyPressed()
-{
+void Game::handleArrowKeyPressed() {
 	playerCar->move();
 }
 
 
-void Game::handleArrowUpKeyPressed()
-{
+void Game::handleArrowUpKeyPressed() {
 	playerCar->setVerticalMovementDirection(MovementDirection::UP);
 	playerCar->setVerticalVelocity(CarSpeed::REGULAR);
 }
 
 
-void Game::handleArrowDownKeyPressed()
-{
+void Game::handleArrowDownKeyPressed() {
 	playerCar->setVerticalMovementDirection(MovementDirection::DOWN);
 	playerCar->setVerticalVelocity(CarSpeed::REGULAR);
 }
 
 
-void Game::handleArrowLeftKeyPressed()
-{
+void Game::handleArrowLeftKeyPressed() {
 	playerCar->setHorizontalMovementDirection(MovementDirection::LEFT);
 	playerCar->setHorizontalVelocity(CarSpeed::REGULAR);
 }
 
 
-void Game::handleArrowRightKeyPressed()
-{
+void Game::handleArrowRightKeyPressed() {
 	playerCar->setHorizontalMovementDirection(MovementDirection::RIGHT);
 	playerCar->setHorizontalVelocity(CarSpeed::REGULAR);
 }
 
 
-void Game::stopVerticalMovement()
-{
+void Game::stopVerticalMovement() {
 	playerCar->setVerticalMovementDirection(MovementDirection::NONE);
 	playerCar->setVerticalVelocity(CarSpeed::NONE);
 }
 
 
-void Game::stopHorizontalMovement()
-{
+void Game::stopHorizontalMovement() {
 	playerCar->setHorizontalMovementDirection(MovementDirection::NONE);
 	playerCar->setHorizontalVelocity(CarSpeed::NONE);
 }
 
 
 // get / set
-PlayerCar* Game::getPlayerCar()
-{
+PlayerCar* Game::getPlayerCar() const {
 	return playerCar;
 }
 
 
-int Game::getScore()
-{
+int Game::getScore() const {
 	return score;
 }

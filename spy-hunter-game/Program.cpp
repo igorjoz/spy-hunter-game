@@ -7,8 +7,7 @@
 #include "Window.h"
 
 
-Program::Program(SDL* sdl, Window* window, Game* game)
-{
+Program::Program(SDL* sdl, Window* window, Game* game) {
 	this->sdl = sdl;
 	this->window = window;
 	this->game = game;
@@ -24,8 +23,7 @@ Program::Program(SDL* sdl, Window* window, Game* game)
 }
 
 
-Program::~Program()
-{
+Program::~Program() {
 	delete sdl;
 	delete window;
 	delete game;
@@ -113,7 +111,7 @@ void Program::handleKeyEvents() {
 }
 
 
-bool Program::getIsQuit() {
+bool Program::getIsQuit() const {
 	return isQuit;
 }
 

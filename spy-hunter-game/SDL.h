@@ -23,12 +23,12 @@ public:
 	void printListOfImplementedFunctionalities();
 	void renderFrame();
 
-	// get / set
-	int getWhiteColor();
-	int getBlackColor();
-	int getRedColor();
-	int getGreenColor();
-	int getBlueColor();
+	// get
+	int getWhiteColor() const;
+	int getBlackColor() const;
+	int getRedColor() const;
+	int getGreenColor() const;
+	int getBlueColor() const;
 	
 	// SDL variables
 	SDL_Event event;

@@ -9,8 +9,7 @@
 #include <iostream>
 
 
-Car::Car()
-{
+Car::Car() {
 	this->x = 0;
 	this->y = 0;
 	this->horizontalVelocity = CarSpeed::NONE;
@@ -21,38 +20,32 @@ Car::Car()
 }
 
 
-bool Car::checkIfBelowTopOfWindow()
-{
+bool Car::checkIfBelowTopOfWindow() {
 	return y > CAR_HEIGHT / 2;
 }
 
 
-bool Car::checkIfAboveBottomOfWindow()
-{
+bool Car::checkIfAboveBottomOfWindow() {
 	return y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2;
 }
 
 
-bool Car::checkIfBeforeLeftSideOfWindow()
-{
+bool Car::checkIfBeforeLeftSideOfWindow() {
 	return x > CAR_WIDTH / 2;
 }
 
 
-bool Car::checkIfBeforeRightSideOfWindow()
-{
+bool Car::checkIfBeforeRightSideOfWindow() {
 	return x < Window::WINDOW_WIDTH - CAR_WIDTH / 2;
 }
 
 
-bool Car::checkIfInsideRoad()
-{
+bool Car::checkIfInsideRoad() {
 	return Map::checkIfInsideRoad(x, y);
 }
 
 
-void Car::move()
-{
+void Car::move() {
 	int verticalVelocityValue = static_cast<int>(verticalVelocity);
 	int horizontalVelocityValue = static_cast<int>(horizontalVelocity);
 		
@@ -80,8 +73,7 @@ void Car::move()
 }
 
 
-void Car::moveForward()
-{
+void Car::moveForward() {
 	int verticalVelocityValue;
 
 	if (checkIfInsideRoad()) {
@@ -99,8 +91,7 @@ void Car::moveForward()
 }
 
 
-void Car::moveBackward()
-{
+void Car::moveBackward() {
 	int verticalVelocityValue;
 	
 	if (checkIfInsideRoad()) {
@@ -118,8 +109,7 @@ void Car::moveBackward()
 }
 
 
-void Car::moveLeft()
-{
+void Car::moveLeft() {
 	horizontalVelocity = CarSpeed::SLOW;
 	int horizontalVelocityValue = static_cast<int>(horizontalVelocity);
 	
@@ -129,8 +119,7 @@ void Car::moveLeft()
 }
 
 
-void Car::moveRight()
-{
+void Car::moveRight() {
 	horizontalVelocity = CarSpeed::SLOW;
 	int horizontalVelocityValue = static_cast<int>(horizontalVelocity);
 	
@@ -140,80 +129,67 @@ void Car::moveRight()
 }
 
 
-void Car::resetMovementDirection()
-{
+void Car::resetMovementDirection() {
 	verticalMovementDirection = MovementDirection::NONE;
 	horizontalMovementDirection = MovementDirection::NONE;
 }
 
 
-int Car::getX()
-{
+int Car::getX() const {
 	return x;
 }
 
 
-int Car::getY()
-{
+int Car::getY() const {
 	return y;
 }
 
 
-MovementDirection Car::getVerticalMovementDirection()
-{
+MovementDirection Car::getVerticalMovementDirection() const {
 	return verticalMovementDirection;
 }
 
 
-MovementDirection Car::getHorizontalMovementDirection()
-{
+MovementDirection Car::getHorizontalMovementDirection() const {
 	return horizontalMovementDirection;
 }
 
 
-CarSpeed Car::getVerticalVelocity()
-{
+CarSpeed Car::getVerticalVelocity() const {
 	return verticalVelocity;
 }
 
 
-CarSpeed Car::getHorizontalVelocity()
-{
+CarSpeed Car::getHorizontalVelocity() const {
 	return horizontalVelocity;
 }
 
 
-void Car::setX(int x)
-{
+void Car::setX(int x) {
 	this->x = x;
 }
 
 
-void Car::setY(int y)
-{
+void Car::setY(int y) {
 	this->y = y;
 }
 
 
-void Car::setVerticalMovementDirection(MovementDirection verticalMovementDirection)
-{
+void Car::setVerticalMovementDirection(MovementDirection verticalMovementDirection) {
 	this->verticalMovementDirection = verticalMovementDirection;
 }
 
 
-void Car::setHorizontalMovementDirection(MovementDirection horizontalMovementDirection)
-{
+void Car::setHorizontalMovementDirection(MovementDirection horizontalMovementDirection) {
 	this->horizontalMovementDirection = horizontalMovementDirection;
 }
 
 
-void Car::setVerticalVelocity(CarSpeed velocity)
-{
+void Car::setVerticalVelocity(CarSpeed velocity) {
 	this->verticalVelocity = velocity;
 }
 
 
-void Car::setHorizontalVelocity(CarSpeed velocity)
-{
+void Car::setHorizontalVelocity(CarSpeed velocity) {
 	this->horizontalVelocity = velocity;
 }

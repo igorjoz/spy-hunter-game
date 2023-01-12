@@ -24,12 +24,12 @@ public:
 	void moveRight();
 	void resetMovementDirection();
 	
-	int getX();
-	int getY();
-	MovementDirection getVerticalMovementDirection();
-	MovementDirection getHorizontalMovementDirection();
-	CarSpeed getVerticalVelocity();
-	CarSpeed getHorizontalVelocity();
+	int getX() const;
+	int getY() const;
+	MovementDirection getVerticalMovementDirection() const;
+	MovementDirection getHorizontalMovementDirection() const;
+	CarSpeed getVerticalVelocity() const;
+	CarSpeed getHorizontalVelocity() const;
 
 	void setX(int x);
 	void setY(int y);

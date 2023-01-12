@@ -4,8 +4,7 @@
 #include"Window.h"
 
 
-class Map
-{
+class Map {
 public:
 	static int const ROAD_WIDTH = 250;
 	static int const ROAD_HEIGHT = Window::WINDOW_HEIGHT;

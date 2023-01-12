@@ -4,16 +4,14 @@
 #include "Window.h"
 
 
-void DrawService::drawGame(SDL* sdl, Game* game)
-{
+void DrawService::drawGame(SDL* sdl, Game* game) {
 	drawRoadside(sdl);
 	drawRoad(sdl);
 	drawPlayerCar(sdl, game);
 }
 
 
-void DrawService::drawRoadside(SDL* sdl)
-{
+void DrawService::drawRoadside(SDL* sdl) {
 	SDL_Surface* screenSurface = sdl->screen;
 
 	SDL_Rect roadsideRectangle;
@@ -26,8 +24,7 @@ void DrawService::drawRoadside(SDL* sdl)
 }
 
 
-void DrawService::drawRoad(SDL* sdl)
-{
+void DrawService::drawRoad(SDL* sdl) {
 	SDL_Surface* screenSurface = sdl->screen;
 
 	SDL_Rect roadRectangle;
@@ -38,7 +35,13 @@ void DrawService::drawRoad(SDL* sdl)
 
 	SDL_FillRect(screenSurface, &roadRectangle, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
 
-	// draw multiple white lanes dividing the roadways
+	DrawService::drawDividingLines(sdl);
+}
+
+
+void DrawService::drawDividingLines(SDL* sdl) {
+	SDL_Surface* screenSurface = sdl->screen;
+	
 	for (int i = 0; i < Map::ROAD_HEIGHT; i += Map::WHITE_LANE_HEIGHT * 2) {
 		SDL_Rect whiteLaneRectangle;
 		whiteLaneRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
@@ -51,8 +54,7 @@ void DrawService::drawRoad(SDL* sdl)
 }
 
 
-void DrawService::drawPlayerCar(SDL* sdl, Game* game)
-{
+void DrawService::drawPlayerCar(SDL* sdl, Game* game) {
 	PlayerCar* playerCar = game->getPlayerCar();
 	int x = playerCar->getX();
 	int y = playerCar->getY();

@@ -16,7 +16,7 @@ public:
 	void handleKeyEvents();
 
 	// get / set
-	bool getIsQuit();
+	bool getIsQuit() const;
 	
 	void setIsQuit(bool isQuit);
 	void setAreMultipleArrowKeysPressed(bool areMultipleArrowKeysPressed);

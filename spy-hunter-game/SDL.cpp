@@ -114,26 +114,26 @@ void SDL::renderFrame() {
 
 
 // get / set
-int SDL::getWhiteColor() {
+int SDL::getWhiteColor() const {
 	return this->whiteColor;
 }
 
 
-int SDL::getBlackColor() {
+int SDL::getBlackColor() const {
 	return this->blackColor;
 }
 
 
-int SDL::getRedColor() {
+int SDL::getRedColor() const {
 	return this->redColor;
 }
 
 
-int SDL::getGreenColor() {
+int SDL::getGreenColor() const {
 	return this->greenColor;
 }
 
 
-int SDL::getBlueColor() {
+int SDL::getBlueColor() const {
 	return this->blueColor;
 }

@@ -24,8 +24,8 @@ public:
 	void stopHorizontalMovement();
 	
 	// get / set
-	PlayerCar* getPlayerCar();
-	int getScore();
+	PlayerCar* getPlayerCar() const;
+	int getScore() const;
 	
 private:
 	SDL* sdl;

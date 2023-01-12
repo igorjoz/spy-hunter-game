@@ -13,11 +13,9 @@ Car::Car()
 {
 	this->x = 0;
 	this->y = 0;
-	this->speed = CarSpeed::REGULAR;
 	this->horizontalVelocity = CarSpeed::NONE;
 	this->verticalVelocity = CarSpeed::NONE;
 
-	this->isMoving = false;
 	this->horizontalMovementDirection = MovementDirection::NONE;
 	this->verticalMovementDirection = MovementDirection::NONE;
 }
@@ -153,14 +151,15 @@ int Car::getY()
 }
 
 
-CarSpeed Car::getCarSpeed()
+MovementDirection Car::getVerticalMovementDirection()
 {
-	return speed;
+	return verticalMovementDirection;
 }
 
 
-bool Car::getIsMoving() {
-	return isMoving;
+MovementDirection Car::getHorizontalMovementDirection()
+{
+	return horizontalMovementDirection;
 }
 
 
@@ -173,12 +172,6 @@ void Car::setX(int x)
 void Car::setY(int y)
 {
 	this->y = y;
-}
-
-
-void Car::setIsMoving(bool isMoving)
-{
-	this->isMoving = isMoving;
 }
 
 

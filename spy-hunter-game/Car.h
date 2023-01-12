@@ -26,12 +26,11 @@ public:
 	
 	int getX();
 	int getY();
-	CarSpeed getCarSpeed();
-	bool getIsMoving();
+	MovementDirection getVerticalMovementDirection();
+	MovementDirection getHorizontalMovementDirection();
 
 	void setX(int x);
 	void setY(int y);
-	void setIsMoving(bool isMoving);
 	void setVerticalMovementDirection(MovementDirection verticalMovementDirection);
 	void setHorizontalMovementDirection(MovementDirection horizontalMovementDirection);
 	void setVerticalVelocity(CarSpeed velocity);
@@ -40,10 +39,8 @@ public:
 protected:
 	int x;
 	int y;
-	CarSpeed speed;
 	CarSpeed verticalVelocity;
 	CarSpeed horizontalVelocity;
-	bool isMoving;
 	MovementDirection verticalMovementDirection;
 	MovementDirection horizontalMovementDirection;
 };

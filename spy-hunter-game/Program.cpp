@@ -20,14 +20,15 @@ Program::Program(SDL* sdl, Window* window, Game* game)
 	}
 
 	this->isQuit = false;
+	this->areMultipleArrowKeysPressed = true;
 }
 
 
 Program::~Program()
 {
-	delete this->sdl;
-	delete this->window;
-	delete this->game;
+	delete sdl;
+	delete window;
+	delete game;
 }
 
 
@@ -57,46 +58,53 @@ void Program::handleKeyEvents() {
 		Uint32 eventType = event->type;
 		const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 
-		printf("Key !pressed: %d\n", keyboardState[SDL_SCANCODE_UP]);
-		printf("Key #pressed: %d\n", keyboardState[SDL_SCANCODE_LEFT]);
-
 		switch (event->type) {
-			case SDL_KEYDOWN: {
+		case SDL_KEYDOWN: {
+			if (keyboardState[SDL_SCANCODE_UP] or keyboardState[SDL_SCANCODE_DOWN] or keyboardState[SDL_SCANCODE_LEFT] or keyboardState[SDL_SCANCODE_RIGHT]) {
 				game->handleArrowKeyPressed();
-
-				if (keyboardState[SDL_SCANCODE_UP]) {
-					game->handleArrowUpKeyPressed();
-				}
-
-				if (keyboardState[SDL_SCANCODE_DOWN]) {
-					game->handleArrowDownKeyPressed();
-				}
-
-				if (keyboardState[SDL_SCANCODE_LEFT]) {
-					game->handleArrowLeftKeyPressed();
-				}
-
-				if (keyboardState[SDL_SCANCODE_RIGHT]) {
-					game->handleArrowRightKeyPressed();
-				}
-
-				if (keyboardState[SDL_SCANCODE_ESCAPE]) {
-					setIsQuit(true);
-				}
-
-				break;
 			}
 
-			case SDL_KEYUP: {
-				game->handleKeyUp();
-
-				break;
+			if (keyboardState[SDL_SCANCODE_UP]) {
+				game->handleArrowUpKeyPressed();
 			}
-			case SDL_QUIT: {
+
+			if (keyboardState[SDL_SCANCODE_DOWN]) {
+				game->handleArrowDownKeyPressed();
+			}
+
+			if (keyboardState[SDL_SCANCODE_LEFT]) {
+				game->handleArrowLeftKeyPressed();
+			}
+
+			if (keyboardState[SDL_SCANCODE_RIGHT]) {
+				game->handleArrowRightKeyPressed();
+			}
+
+			if (keyboardState[SDL_SCANCODE_ESCAPE]) {
 				setIsQuit(true);
-
-				break;
 			}
+
+			break;
+		}
+		case SDL_KEYUP: {
+			bool hasVerticalMovement = static_cast<bool>(game->getPlayerCar()->getVerticalMovementDirection());
+			bool hasHorizontalMovement = static_cast<bool>(game->getPlayerCar()->getHorizontalMovementDirection());
+
+			if (hasVerticalMovement and !keyboardState[SDL_SCANCODE_UP] and !keyboardState[SDL_SCANCODE_DOWN]) {
+				game->stopVerticalMovement();
+			}
+
+			if (hasHorizontalMovement and !keyboardState[SDL_SCANCODE_LEFT] and !keyboardState[SDL_SCANCODE_RIGHT]) {
+				game->stopHorizontalMovement();
+			}
+
+			break;
+		}
+		case SDL_QUIT: {
+			setIsQuit(true);
+
+			break;
+		}
 		};
 	}
 
@@ -112,4 +120,9 @@ bool Program::getIsQuit() {
 
 void Program::setIsQuit(bool isQuit) {
 	this->isQuit = isQuit;
+}
+
+
+void Program::setAreMultipleArrowKeysPressed(bool areMultipleArrowKeysPressed) {
+	this->areMultipleArrowKeysPressed = areMultipleArrowKeysPressed;
 }

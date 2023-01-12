@@ -17,7 +17,9 @@ public:
 
 	// get / set
 	bool getIsQuit();
+	
 	void setIsQuit(bool isQuit);
+	void setAreMultipleArrowKeysPressed(bool areMultipleArrowKeysPressed);
 
 private:
 	SDL* sdl;
@@ -25,5 +27,6 @@ private:
 	Game* game;
 	
 	bool isQuit;
+	bool areMultipleArrowKeysPressed;
 };
 

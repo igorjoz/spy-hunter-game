@@ -28,7 +28,6 @@ Game::~Game()
 void Game::run()
 {
 	PlayerCar* playerCar = this->getPlayerCar();
-	bool isMoving = playerCar->getIsMoving();
 
 	playerCar->move();
 
@@ -38,7 +37,6 @@ void Game::run()
 
 void Game::handleArrowKeyPressed()
 {
-	playerCar->setIsMoving(true);
 	playerCar->move();
 }
 
@@ -71,10 +69,15 @@ void Game::handleArrowRightKeyPressed()
 }
 
 
-void Game::handleKeyUp()
+void Game::stopVerticalMovement()
 {
-	playerCar->setIsMoving(false);
-	playerCar->resetMovementDirection();
+	playerCar->setVerticalMovementDirection(MovementDirection::NONE);
+}
+
+
+void Game::stopHorizontalMovement()
+{
+	playerCar->setHorizontalMovementDirection(MovementDirection::NONE);
 }
 
 

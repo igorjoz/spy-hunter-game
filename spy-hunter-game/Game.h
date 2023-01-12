@@ -18,7 +18,9 @@ public:
 	void handleArrowDownKeyPressed();
 	void handleArrowLeftKeyPressed();
 	void handleArrowRightKeyPressed();
-	void handleKeyUp();
+
+	void stopVerticalMovement();
+	void stopHorizontalMovement();
 	
 	// get / set
 	PlayerCar* getPlayerCar();

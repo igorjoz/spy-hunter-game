@@ -8,6 +8,4 @@ PlayerCar::PlayerCar()
 {
 	this->x = PlayerCar::STARTING_X;
 	this->y = PlayerCar::STARTING_Y;
-
-	this->isMoving = false;
 }

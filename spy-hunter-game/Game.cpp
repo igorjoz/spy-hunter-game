@@ -31,6 +31,10 @@ void Game::run() {
 	calculateScore();
 	
 	this->getPlayerCar()->move();
+
+	if (isPlayerCollidingWithEnemy()) {
+		restart();
+	}
 }
 
 
@@ -40,6 +44,8 @@ void Game::restart() {
 	playerCar = new PlayerCar();
 
 	score = 0;
+
+	window->resetTime();
 }
 
 
@@ -51,6 +57,26 @@ void Game::calculateScore() {
 	if (verticalVelocity > slowVelocity and playerVerticalMovementDirection == MovementDirection::UP) {
 		this->score++;
 	}
+}
+
+
+bool Game::isPlayerCollidingWithEnemy() {
+	int playerCarX = playerCar->getX();
+	int playerCarY = playerCar->getY();
+
+	int enemyCarX = enemyCar->getX();
+	int enemyCarY = enemyCar->getY();
+
+	if (
+		playerCarX < enemyCarX + Car::CAR_WIDTH and
+		playerCarX + Car::CAR_WIDTH > enemyCarX and
+		playerCarY < enemyCarY + Car::CAR_HEIGHT and
+		playerCarY + Car::CAR_HEIGHT > enemyCarY
+		) {
+		return true;
+	}
+
+	return false;
 }
 
 

@@ -17,6 +17,8 @@ public:
 	void restart();
 	void calculateScore();
 
+	bool isPlayerCollidingWithEnemy();
+
 	void handleArrowKeyPressed();
 	void handleArrowUpKeyPressed();
 	void handleArrowDownKeyPressed();
@@ -26,7 +28,7 @@ public:
 	void stopVerticalMovement();
 	void stopHorizontalMovement();
 	
-	// get / set
+	// get
 	PlayerCar* getPlayerCar() const;
 	EnemyCar* getEnemyCar() const;
 	NeutralCar* getNeutralCar() const;

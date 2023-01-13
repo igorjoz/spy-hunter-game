@@ -129,7 +129,7 @@ void Program::handleQuitEvent() {
 
 
 void Program::drawGUI() {
-	DrawService::drawGame(sdl, game);
+	DrawService::drawGame();
 
 	sdl->printGameInformation(game->getScore(), window->getWorldTime(), window->getFps());
 

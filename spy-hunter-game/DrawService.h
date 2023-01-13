@@ -9,12 +9,20 @@
 class DrawService
 {
 public:
-	static void drawGame(SDL* sdl, Game* game);
-	static void drawRoadside(SDL* sdl);
-	static void drawDividingLines(SDL* sdl);
-	static void drawRoad(SDL* sdl);
-	static void drawPlayerCar(SDL* sdl, Game* game);
-	static void drawEnemyCar(SDL* sdl, Game* game);
-	static void drawNeutralCar(SDL* sdl, Game* game);
+	static SDL* sdl;
+	static Window* window;
+	static Game* game;
+	
+	static void initialize(SDL* sdl, Window* window, Game* game);
+	
+	static void drawGame();
+	static void drawCars();
+	static void drawRoadside();
+	static void drawDividingLines();
+	static void drawRoad();
+	static void drawPlayerCar();
+	static void drawPlayerCarBorder();
+	static void drawEnemyCar();
+	static void drawNeutralCar();
 };
 

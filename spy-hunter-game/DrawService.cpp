@@ -66,12 +66,10 @@ void DrawService::drawDividingLines() {
 	SDL_Surface* screenSurface = sdl->screen;
 	double worldTime = window->getWorldTime();
 	
-	for (int i = 0; i < Map::ROAD_HEIGHT; i += Map::WHITE_LANE_HEIGHT * 2) {
-		int y = i + worldTime * 50;
-
+	for (int i = -worldTime * 100; i < Map::ROAD_HEIGHT + worldTime * 100; i += Map::WHITE_LANE_HEIGHT * 2) {
 		SDL_Rect whiteLineRectangle;
 		whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
-		whiteLineRectangle.y = y;
+		whiteLineRectangle.y = -i + Window::WINDOW_HEIGHT;
 		whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
 		whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
 

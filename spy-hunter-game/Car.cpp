@@ -21,22 +21,22 @@ Car::Car() {
 
 
 bool Car::checkIfBelowTopOfWindow() {
-	return y > CAR_HEIGHT / 2;
+	return y > 0;
 }
 
 
 bool Car::checkIfAboveBottomOfWindow() {
-	return y < Window::WINDOW_HEIGHT - CAR_HEIGHT / 2;
+	return y < Window::WINDOW_HEIGHT - CAR_HEIGHT;
 }
 
 
 bool Car::checkIfBeforeLeftSideOfWindow() {
-	return x > CAR_WIDTH / 2;
+	return x > 0;
 }
 
 
 bool Car::checkIfBeforeRightSideOfWindow() {
-	return x < Window::WINDOW_WIDTH - CAR_WIDTH / 2;
+	return x < Window::WINDOW_WIDTH - CAR_WIDTH;
 }
 
 

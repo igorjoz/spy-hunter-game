@@ -28,9 +28,9 @@ void DrawService::drawGame() {
 
 
 void DrawService::drawCars() {
-	drawPlayerCar();
-	drawEnemyCar();
 	drawNeutralCar();
+	drawEnemyCar();
+	drawPlayerCar();
 }
 
 
@@ -65,10 +65,14 @@ void DrawService::drawRoad() {
 void DrawService::drawDividingLines() {
 	SDL_Surface* screenSurface = sdl->screen;
 	double worldTime = window->getWorldTime();
+
+	PlayerCar* playerCar = game->getPlayerCar();
+	int playerCarVerticalVelocity = static_cast<int>(playerCar->getVerticalVelocity()) + 1;
 	
-	for (int i = -worldTime * 100; i < Map::ROAD_HEIGHT + worldTime * 100; i += Map::WHITE_LANE_HEIGHT * 2) {
+	for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
 		SDL_Rect whiteLineRectangle;
 		whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
+		//whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::WINDOW_HEIGHT;
 		whiteLineRectangle.y = -i + Window::WINDOW_HEIGHT;
 		whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
 		whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
@@ -96,38 +100,6 @@ void DrawService::drawPlayerCar() {
 	SDL_BlitSurface(sdl->playerCar, NULL, screenSurface, &playerCarRectangle);
 }
 
-	/*SDL_Rect playerCarRectangle;
-	playerCarRectangle.x = x;
-	playerCarRectangle.y = y;
-	playerCarRectangle.w = Car::CAR_WIDTH;
-	playerCarRectangle.h = Car::CAR_HEIGHT;
-
-	SDL_Rect destinationRectangle;
-	destinationRectangle.x = x;
-	destinationRectangle.y = y;
-	destinationRectangle.w = 50;
-	destinationRectangle.h = 50;
-
-	SDL_Texture* playerCarTexture = sdl->playerCarTexture;
-
-	SDL_RenderCopy(sdl->renderer, playerCarTexture, &playerCarRectangle, &destinationRectangle);
-
-	SDL_RenderPresent(sdl->renderer);*/
-
-
-
-	//Surface::drawSurface(sdl->screen, sdl->playerCar, x, y);
-
-
-	
-	/*Surface* playerCarSurface = playerCar->getSurface();
-	SDL_Texture* playerCarTexture = playerCarSurface->getTexture();
-
-	
-
-	SDL_RenderCopy(this->window->getRenderer(), playerCarTexture, NULL, &playerCarRect);*/
-//}
-
 
 void DrawService::drawPlayerCarBorder() {
 	SDL_Surface* screenSurface = sdl->screen;
@@ -137,28 +109,53 @@ void DrawService::drawPlayerCarBorder() {
 	int y = playerCar->getY();
 
 	SDL_Rect playerCarBorderRectangle;
-	playerCarBorderRectangle.x = x - 1;
-	playerCarBorderRectangle.y = y - 1;
-	playerCarBorderRectangle.w = Car::CAR_WIDTH + 2;
-	playerCarBorderRectangle.h = Car::CAR_HEIGHT + 2;
+	playerCarBorderRectangle.x = x;
+	playerCarBorderRectangle.y = y;
+	playerCarBorderRectangle.w = Car::CAR_WIDTH;
+	playerCarBorderRectangle.h = Car::CAR_HEIGHT;
 
-	SDL_FillRect(screenSurface, &playerCarBorderRectangle, SDL_MapRGB(screenSurface->format, 0xFF, 0x00, 0x00));
+	SDL_FillRect(screenSurface, &playerCarBorderRectangle, SDL_MapRGB(screenSurface->format, 0x00, 0xFF, 0x00));
+
+	// if collision with enemy car is detected, draw a red border around the player car
+	if (game->isPlayerCollidingWithEnemy()) {
+		SDL_FillRect(screenSurface, &playerCarBorderRectangle, SDL_MapRGB(screenSurface->format, 0xFF, 0x00, 0x00));
+	}
 }
 
 
 void DrawService::drawEnemyCar() {
+	SDL_Surface* screenSurface = sdl->screen;
+	
 	EnemyCar* enemyCar = game->getEnemyCar();
 	int x = enemyCar->getX();
 	int y = enemyCar->getY();
 
-	Surface::drawSurface(sdl->screen, sdl->enemyCar, x, y);
+	SDL_Rect enemyCarRectangle;
+	enemyCarRectangle.x = x;
+	enemyCarRectangle.y = y;
+	enemyCarRectangle.w = Car::CAR_WIDTH;
+	enemyCarRectangle.h = Car::CAR_HEIGHT;
+
+	SDL_BlitSurface(sdl->enemyCar, NULL, screenSurface, &enemyCarRectangle);
+	
+	//Surface::drawSurface(sdl->screen, sdl->enemyCar, x, y);
 }
 
 
 void DrawService::drawNeutralCar() {
+	SDL_Surface* screenSurface = sdl->screen;
+	
 	NeutralCar* neutralCar = game->getNeutralCar();
 	int x = neutralCar->getX();
 	int y = neutralCar->getY();
 
-	Surface::drawSurface(sdl->screen, sdl->neutralCar, x, y);
+	SDL_Rect neutralCarRectangle;
+	neutralCarRectangle.x = x;
+	neutralCarRectangle.y = y;
+	neutralCarRectangle.w = Car::CAR_WIDTH;
+	neutralCarRectangle.h = Car::CAR_HEIGHT;
+
+	SDL_BlitSurface(sdl->neutralCar, NULL, screenSurface, &neutralCarRectangle);
+
+	//Surface::drawSurface(sdl->screen, sdl->neutralCar, x, y);
 }

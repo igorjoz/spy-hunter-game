@@ -7,8 +7,8 @@
 class NeutralCar : public Car
 {
 public:
-	static const int STARTING_X = 250;
-	static const int STARTING_Y = 250;
+	static const int STARTING_X = 150;
+	static const int STARTING_Y = 150;
 
 	NeutralCar();
 };

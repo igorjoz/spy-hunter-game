@@ -7,8 +7,8 @@
 class Car
 {
 public:
-	static int const CAR_WIDTH = 50;
-	static int const CAR_HEIGHT = 90;
+	static int const WIDTH = 50;
+	static int const HEIGHT = 90;
 
 	Car();
 	bool checkIfBelowTopOfWindow();

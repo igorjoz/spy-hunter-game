@@ -68,10 +68,10 @@ bool Game::isPlayerCollidingWithEnemy() {
 	int enemyCarY = enemyCar->getY();
 
 	if (
-		playerCarX < enemyCarX + Car::CAR_WIDTH and
-		playerCarX + Car::CAR_WIDTH > enemyCarX and
-		playerCarY < enemyCarY + Car::CAR_HEIGHT and
-		playerCarY + Car::CAR_HEIGHT > enemyCarY
+		playerCarX < enemyCarX + Car::WIDTH and
+		playerCarX + Car::WIDTH > enemyCarX and
+		playerCarY < enemyCarY + Car::HEIGHT and
+		playerCarY + Car::HEIGHT > enemyCarY
 		) {
 		return true;
 	}

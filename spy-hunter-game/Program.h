@@ -19,6 +19,9 @@ public:
 	void handleQuitEvent();
 	
 	void drawGUI();
+	void drawPauseScreen();
+	//void drawGameOverScreen();
+	
 	void restart();
 
 	// get / set
@@ -32,7 +35,9 @@ private:
 	Game* game;
 	
 	const Uint8* keyboardState;
+	
 	bool isQuit;
+	bool isPaused;
 	bool areMultipleArrowKeysPressed;
 };
 

@@ -19,8 +19,10 @@ Program::Program(SDL* sdl, Window* window, Game* game) {
 	}
 
 	this->keyboardState = nullptr;
+	
 	this->isQuit = false;
-	this->areMultipleArrowKeysPressed = true;
+	this->isPaused = false;
+	this->areMultipleArrowKeysPressed = false;
 }
 
 
@@ -32,26 +34,35 @@ Program::~Program() {
 
 
 void Program::run() {
-	while (!getIsQuit()) {		
-		window->calculateWorldTime();
+	while (!isQuit) {
+		if (isPaused) {
+			//pause();
+			window->calculateWorldTime();
 
-		game->run();
-		
+			window->calculateFPS();
 
-		window->calculateFPS();
+			drawPauseScreen();
 
-		drawGUI();
-		
-		handleKeyEvents();
+			handleKeyEvents();
+		}
+		else {
+			window->calculateWorldTime();
+			
+			game->run();
 
-		window->maintainConstantFPS();
+			window->calculateFPS();
+
+			drawGUI();
+
+			handleKeyEvents();
+		}
 	}
 }
 
 
 void Program::handleKeyEvents() {
 	SDL_Event* event = &sdl->event;
-	
+
 	while (SDL_PollEvent(event)) {
 		keyboardState = SDL_GetKeyboardState(NULL);
 
@@ -75,10 +86,23 @@ void Program::handleKeyEvents() {
 	}
 
 	window->incrementFramesCount();
+	window->maintainConstantFPS();
 }
 
 
 void Program::handleKeyDownEvent() {
+	if (isPaused) {
+		if (keyboardState[SDL_SCANCODE_P]) {
+			isPaused = !isPaused;
+		}
+		
+		if (keyboardState[SDL_SCANCODE_ESCAPE]) {
+			isQuit = true;
+		}
+
+		return;
+	}
+
 	if (keyboardState[SDL_SCANCODE_UP] or keyboardState[SDL_SCANCODE_DOWN] or keyboardState[SDL_SCANCODE_LEFT] or keyboardState[SDL_SCANCODE_RIGHT]) {
 		game->handleArrowKeyPressed();
 	}
@@ -97,6 +121,10 @@ void Program::handleKeyDownEvent() {
 
 	if (keyboardState[SDL_SCANCODE_RIGHT]) {
 		game->handleArrowRightKeyPressed();
+	}
+
+	if (keyboardState[SDL_SCANCODE_P]) {
+		isPaused = !isPaused;
 	}
 
 	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
@@ -131,7 +159,14 @@ void Program::handleQuitEvent() {
 void Program::drawGUI() {
 	DrawService::drawGame();
 
-	sdl->printGameInformation(game->getScore(), window->getWorldTime(), window->getFps());
+	DrawService::drawGameInformation();
+
+	sdl->renderFrame();
+}
+
+
+void Program::drawPauseScreen() {
+	DrawService::drawPauseScreen();
 
 	sdl->renderFrame();
 }

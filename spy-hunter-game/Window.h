@@ -41,10 +41,13 @@ private:
 	SDL* sdl;
 	
 	Uint32 frameStartTime;
+	Uint32 frameStartTimeSincePaused;
 	int frameFinishTime;
 	int frames;
+
 	double delta;
 	double worldTime;
+	
 	double fpsTimer;
 	double fps;
 };

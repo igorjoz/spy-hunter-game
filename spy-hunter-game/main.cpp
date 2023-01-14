@@ -24,12 +24,11 @@ int main(int argc, char* argv[]) {
 	Window* window = new Window(sdl);
 	Game* game = new Game(sdl, window);
 	DrawService::initialize(sdl, window, game);
+	Surface::initialize(sdl, window, game);
 	Program* program = new Program(sdl, window, game);
 
 	sdl->initializeSDLVariables();
-
 	AssetsLoader::loadImages(sdl);
-	
 	window->setInitialSettings();
 
 	program->run();

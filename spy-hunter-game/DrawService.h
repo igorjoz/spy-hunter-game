@@ -24,5 +24,9 @@ public:
 	static void drawPlayerCarBorder();
 	static void drawEnemyCar();
 	static void drawNeutralCar();
+
+	static void drawGameInformation();
+	static void drawListOfImplementedFunctionalities();
+	static void drawPauseScreen();
 };
 

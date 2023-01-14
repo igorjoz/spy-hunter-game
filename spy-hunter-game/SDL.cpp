@@ -93,18 +93,6 @@ int SDL::createColor(int red, int green, int blue) {
 }
 
 
-void SDL::printGameInformation(int score, double worldTime, double fps) {
-	Surface::printGameInformation(screen, charset, redColor, blueColor, score,  worldTime, fps);
-
-	printListOfImplementedFunctionalities();
-}
-
-
-void SDL::printListOfImplementedFunctionalities() {
-	Surface::printListOfImplementedFunctionalities(screen, charset, redColor, blueColor);
-}
-
-
 void SDL::renderFrame() {
 	SDL_UpdateTexture(screenTexture, NULL, screen->pixels, screen->pitch);
 	SDL_RenderClear(renderer);

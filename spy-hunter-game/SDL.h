@@ -19,8 +19,8 @@ public:
 	void initializeColors();
 	int createColor(int red, int green, int blue);
 
-	void printGameInformation(int score, double worldTime, double fps);
-	void printListOfImplementedFunctionalities();
+	//void printGameInformation(int score, double worldTime, double fps);
+	//void printListOfImplementedFunctionalities();
 	void renderFrame();
 
 	// get

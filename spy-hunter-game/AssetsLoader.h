@@ -7,10 +7,17 @@
 class AssetsLoader
 {
 public:
-	static void loadImages(SDL* sdl);
-	static void loadCharset(SDL* sdl);
-	static void loadPlayerCar(SDL* sdl);
-	static void loadEnemyCar(SDL* sdl);
-	static void loadNeutralCar(SDL* sdl);
+	static SDL* sdl;
+
+	static void initialize(SDL* sdl);
+	
+	static void loadImages();
+	static void loadCharset();
+
+	static void loadGrass();
+
+	static void loadPlayerCar();
+	static void loadEnemyCar();
+	static void loadNeutralCar();
 };
 

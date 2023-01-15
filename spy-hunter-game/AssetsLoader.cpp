@@ -7,16 +7,27 @@
 #include<stdio.h>
 
 
-void AssetsLoader::loadImages(SDL* sdl) {
-	AssetsLoader::loadCharset(sdl);
-	AssetsLoader::loadPlayerCar(sdl);
-	AssetsLoader::loadEnemyCar(sdl);
-	AssetsLoader::loadNeutralCar(sdl);
+SDL* AssetsLoader::sdl = nullptr;
+
+
+void AssetsLoader::initialize(SDL* sdl) {
+	AssetsLoader::sdl = sdl;
+}
+
+
+void AssetsLoader::loadImages() {
+	AssetsLoader::loadCharset();
+
+	AssetsLoader::loadGrass();
+
+	AssetsLoader::loadPlayerCar();
+	AssetsLoader::loadEnemyCar();
+	AssetsLoader::loadNeutralCar();
 }
 
 
 // load charset BMP file: "cs8x8.bmp"
-void AssetsLoader::loadCharset(SDL* sdl) {
+void AssetsLoader::loadCharset() {
 	sdl->charset = SDL_LoadBMP("./assets/charset.bmp");
 
 	if (sdl->charset == NULL) {
@@ -29,7 +40,7 @@ void AssetsLoader::loadCharset(SDL* sdl) {
 
 
 // load player car BMP file: "player_car.bmp"
-void AssetsLoader::loadPlayerCar(SDL* sdl) {
+void AssetsLoader::loadPlayerCar() {
 	SDL_Surface* playerCarSurface = SDL_LoadBMP("./assets/player_car.bmp");
 	
 	sdl->playerCar = playerCarSurface;
@@ -46,7 +57,7 @@ void AssetsLoader::loadPlayerCar(SDL* sdl) {
 
 
 // load player car BMP file: "enemy_car.bmp"
-void AssetsLoader::loadEnemyCar(SDL* sdl) {
+void AssetsLoader::loadEnemyCar() {
 	SDL_Surface* enemyCarSurface = SDL_LoadBMP("./assets/enemy_car.bmp");
 
 	sdl->enemyCar = enemyCarSurface;
@@ -63,7 +74,7 @@ void AssetsLoader::loadEnemyCar(SDL* sdl) {
 
 
 // load player car BMP file: "neutral_car.bmp"
-void AssetsLoader::loadNeutralCar(SDL* sdl) {
+void AssetsLoader::loadNeutralCar() {
 	SDL_Surface* neutralCarSurface = SDL_LoadBMP("./assets/neutral_car.bmp");
 
 	sdl->neutralCar = neutralCarSurface;
@@ -78,3 +89,19 @@ void AssetsLoader::loadNeutralCar(SDL* sdl) {
 	}
 }
 
+
+// load player car BMP file: "grass.bmp"
+void AssetsLoader::loadGrass() {
+	SDL_Surface* grassSurface = SDL_LoadBMP("./assets/grass.bmp");
+
+	sdl->grass = grassSurface;
+
+	//sdl->playerCarTexture = SDL_CreateTextureFromSurface(sdl->renderer, sdl->playerCar);
+
+	if (sdl->grass == NULL) {
+		printf("SDL_LoadBMP(grass.bmp) error: %s\n", SDL_GetError());
+		delete sdl;
+
+		exit(1);
+	}
+}

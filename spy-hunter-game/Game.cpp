@@ -42,28 +42,72 @@ void Game::run() {
 	
 	playerCar->move();
 
+	handleIsPlayerCollidingWithEnemy();
+	handleIsPlayerCollidingWithNeutral();
+
+	handleHasPlayerShotEnemy();
+	handleHasPlayerShotNeutral();
+
+	handleIsPlayerCollidingWithPowerUp();
+}
+
+
+void Game::restart() {
+	playerCar->resetToStartingPosition();
+
+	resetScore();
+
+	window->resetTime();
+}
+
+
+void Game::resetScore() {
+	score = 0;
+}
+
+
+void Game::calculateScore() {
+	int verticalVelocity = static_cast<int>(playerCar->getVerticalVelocity());
+	int slowVelocity = static_cast<int>(CarSpeed::SLOW);
+	MovementDirection playerVerticalMovementDirection = playerCar->getVerticalMovementDirection();
+
+	if (
+		!isScoreFrozen and
+		verticalVelocity > slowVelocity and
+		playerVerticalMovementDirection == MovementDirection::UP
+		) {
+		this->score++;
+	}
+}
+
+
+void Game::handleIsPlayerCollidingWithEnemy() {
+	double worldTime = window->getWorldTime();
+	
 	if (isPlayerCollidingWithEnemy()) {
-		//restart();
-	}
-
-	if (hasPlayerShotEnemy()) {
-		enemyCar->setIsDestroyed(true);
-	}
-
-	if (hasPlayerShotNeutral()) {
-		neutralCar->setIsDestroyed(true);
-		isScoreFrozen = true;
-		window->setScoreFreezeTime(Window::FRAME_RATE * 5);
-	}
-
-	if (isScoreFrozen) {
-		window->decreaseScoreFreezeTime();
-		
-		if (window->getScoreFreezeTime() == 0) {
-			isScoreFrozen = false;
+		if (worldTime < static_cast<double>(Window::PLAYER_PROTECTION_TIME)) {	
+			playerCar->resetToStartingPosition();
+		}
+		else {
+			restart();
 		}
 	}
+}
 
+
+void Game::handleIsPlayerCollidingWithNeutral() {
+	if (isPlayerCollidingWithNeutral()) {
+		/*if (worldTime < static_cast<double>(Window::PLAYER_PROTECTION_TIME)) {
+			playerCar->resetToStartingPosition();
+		}
+		else {
+			restart();
+		}*/
+	}
+}
+
+
+void Game::handleIsPlayerCollidingWithPowerUp() {
 	if (isPlayerCollidingWithPowerUp()) {
 		isPowerUpActive = true;
 		isPowerUpUsedUp = true;
@@ -84,28 +128,26 @@ void Game::run() {
 }
 
 
-void Game::restart() {
-	delete playerCar;
-
-	playerCar = new PlayerCar();
-
-	score = 0;
-
-	window->resetTime();
+void Game::handleHasPlayerShotEnemy() {
+	if (hasPlayerShotEnemy()) {
+		enemyCar->setIsDestroyed(true);
+	}
 }
 
 
-void Game::calculateScore() {
-	int verticalVelocity = static_cast<int>(playerCar->getVerticalVelocity());
-	int slowVelocity = static_cast<int>(CarSpeed::SLOW);
-	MovementDirection playerVerticalMovementDirection = playerCar->getVerticalMovementDirection();
+void Game::handleHasPlayerShotNeutral() {
+	if (hasPlayerShotNeutral()) {
+		neutralCar->setIsDestroyed(true);
+		isScoreFrozen = true;
+		window->setScoreFreezeTime(Window::FRAME_RATE * 5);
+	}
 
-	if (
-		!isScoreFrozen and
-		verticalVelocity > slowVelocity and
-		playerVerticalMovementDirection == MovementDirection::UP
-		) {
-		this->score++;
+	if (isScoreFrozen) {
+		window->decreaseScoreFreezeTime();
+
+		if (window->getScoreFreezeTime() == 0) {
+			isScoreFrozen = false;
+		}
 	}
 }
 
@@ -131,16 +173,40 @@ bool Game::isPlayerCollidingWithEnemy() {
 }
 
 
+bool Game::isPlayerCollidingWithNeutral() {
+	int playerCarX = playerCar->getX();
+	int playerCarY = playerCar->getY();
+
+	int neutralCarX = neutralCar->getX();
+	int neutralCarY = neutralCar->getY();
+
+	if (
+		!neutralCar->getIsDestroyed() and
+		playerCarX < neutralCarX + Car::WIDTH and
+		playerCarX + Car::WIDTH > neutralCarX and
+		playerCarY < neutralCarY + Car::HEIGHT and
+		playerCarY + Car::HEIGHT > neutralCarY
+		) {
+		return true;
+	}
+
+	return false;
+}
+
+
 bool Game::isPlayerCollidingWithPowerUp() {
 	int playerCarX = playerCar->getX();
 	int playerCarY = playerCar->getY();
 
+	int powerUpX = PowerUp::X;
+	int powerUpY = PowerUp::Y;
+
 	if (
 		!isPowerUpUsedUp and
-		playerCarX < PowerUp::X + PowerUp::WIDTH and
-		playerCarX + PowerUp::WIDTH > PowerUp::X and
-		playerCarY < PowerUp::Y + PowerUp::HEIGHT and
-		playerCarY + PowerUp::HEIGHT > PowerUp::Y
+		playerCarX < powerUpX + PowerUp::WIDTH and
+		playerCarX + Car::WIDTH > powerUpX and
+		playerCarY < powerUpY + PowerUp::HEIGHT and
+		playerCarY + Car::HEIGHT > powerUpY
 		) {
 		return true;
 	}

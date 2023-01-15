@@ -15,11 +15,19 @@ public:
 	~Game();
 	void run();
 	void restart();
+	void resetScore();
 	void calculateScore();
 
+	void handleIsPlayerCollidingWithEnemy();
+	void handleIsPlayerCollidingWithNeutral();
+	void handleIsPlayerCollidingWithPowerUp();
+	void handleHasPlayerShotEnemy();
+	void handleHasPlayerShotNeutral();
+
 	bool isPlayerCollidingWithEnemy();
-	//bool isPlayerCollidingWithNeutral();
+	bool isPlayerCollidingWithNeutral();
 	bool isPlayerCollidingWithPowerUp();
+
 	bool hasPlayerShotEnemy();
 	bool hasPlayerShotNeutral();
 

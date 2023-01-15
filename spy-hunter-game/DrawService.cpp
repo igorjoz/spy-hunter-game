@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "Surface.h"
 #include "Bullet.h"
+#include "PowerUp.h"
 
 
 SDL* DrawService::sdl = nullptr;
@@ -24,44 +25,46 @@ void DrawService::initialize(SDL* sdlObject, Window* windowObject, Game* gameObj
 void DrawService::drawGame() {
 	drawRoadside();
 	drawRoad();
+
+	if (!game->getIsPowerUpUsedUp()) {
+		drawPowerUp();
+	}
+
 	drawCars();
 }
 
 
 void DrawService::drawCars() {
-	drawNeutralCar();
-	drawEnemyCar();
+	EnemyCar* enemyCar = game->getEnemyCar();
+	NeutralCar* neutralCar = game->getNeutralCar();
+	
+	if (!neutralCar->getIsDestroyed()) {
+		drawNeutralCar();
+	}
+	
+	if (!enemyCar->getIsDestroyed()) {
+		drawEnemyCar();
+	}
+	
 	drawPlayerCar();
 }
 
 
 void DrawService::drawRoadside() {
 	SDL_Surface* screenSurface = sdl->screen;
-
-	// use sdl->grass tile to fill the roadside
-	SDL_Rect roadside;
+	
+	SDL_Rect roadsideRectangle;
 	
 	for (int i = 0; i < Window::WIDTH; i += sdl->grass->w) {
 		for (int j = 0; j < Window::HEIGHT; j += sdl->grass->h) {
-			roadside.x = i;
-			roadside.y = j;
-			roadside.w = sdl->grass->w;
-			roadside.h = sdl->grass->h;
+			roadsideRectangle.x = i;
+			roadsideRectangle.y = j;
+			roadsideRectangle.w = sdl->grass->w;
+			roadsideRectangle.h = sdl->grass->h;
 
-			SDL_BlitSurface(sdl->grass, NULL, screenSurface, &roadside);
+			SDL_BlitSurface(sdl->grass, NULL, screenSurface, &roadsideRectangle);
 		}
 	}
-	
-
-	/*Uint32 color = SDL_MapRGB(screenSurface->format, 244, 255, 31);
-
-	SDL_Rect roadsideRectangle;
-	roadsideRectangle.x = 0;
-	roadsideRectangle.y = 0;
-	roadsideRectangle.w = Window::WIDTH;
-	roadsideRectangle.h = Window::HEIGHT;
-
-	SDL_FillRect(screenSurface, &roadsideRectangle,	 color);*/
 }
 
 
@@ -78,6 +81,20 @@ void DrawService::drawRoad() {
 	SDL_FillRect(screenSurface, &roadRectangle, color);
 
 	drawDividingLines();
+}
+
+
+void DrawService::drawPowerUp() {
+	SDL_Surface* screenSurface = sdl->screen;
+	
+	SDL_Rect powerUpRectangle;
+	
+	powerUpRectangle.x = PowerUp::X;
+	powerUpRectangle.y = PowerUp::Y;
+	powerUpRectangle.w = sdl->grass->w;
+	powerUpRectangle.h = sdl->grass->h;
+
+	SDL_BlitSurface(sdl->powerUp, NULL, screenSurface, &powerUpRectangle);
 }
 
 
@@ -156,9 +173,9 @@ void DrawService::drawBullets() {
 	PlayerCar* playerCar = game->getPlayerCar();
 	int x = playerCar->getX() + Car::WIDTH / 2;
 	int y = playerCar->getY() - 10;
+	int bulletsQuantity = playerCar->getShootingRange();
 
-	// draw 3 bullets
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < bulletsQuantity; i++) {
 		SDL_Rect bulletRectangle;
 		bulletRectangle.x = x - Bullet::OFFSET;
 		bulletRectangle.y = y - i * 20;
@@ -170,20 +187,6 @@ void DrawService::drawBullets() {
 		bulletRectangle.x = x + Bullet::OFFSET;
 		SDL_FillRect(screenSurface, &bulletRectangle, color);
 	}
-
-
-	
-	/*for (int i = 1; i < 4; i++) {
-		y -= PlayerCar::BULLET_HEIGHT * i;
-		
-		SDL_Rect bulletRectangle;
-		bulletRectangle.x = x;
-		bulletRectangle.y = y;
-		bulletRectangle.w = PlayerCar::BULLET_WIDTH;
-		bulletRectangle.h = PlayerCar::BULLET_HEIGHT;
-
-		SDL_FillRect(screenSurface, &bulletRectangle, color);
-	}*/
 }
 
 
@@ -238,7 +241,12 @@ void DrawService::drawGameInformation() {
 
 	Surface::drawRectangle(4, 4, Window::WIDTH - 8, 36, red, blue);
 
-	sprintf_s(text, "Score: %.0lf, elapsed time: %.1lf s  %.0lf frames/s", scoreDoubleValue, worldTime, fps);
+	if (game->getIsScoreFrozen()) {
+		sprintf_s(text, "Score (frozen): %.0lf, elapsed time: %.1lf s  %.0lf frames/s", scoreDoubleValue, worldTime, fps);
+	}
+	else {
+		sprintf_s(text, "Score: %.0lf, elapsed time: %.1lf s  %.0lf frames/s", scoreDoubleValue, worldTime, fps);
+	}
 	Surface::printString(screen->w / 2 - strlen(text) * 4, 10, text);
 
 	sprintf_s(text, "Esc - exit, \030 - faster, \031 - slower, \032 - left, \033 - right");

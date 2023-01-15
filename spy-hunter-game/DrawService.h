@@ -16,15 +16,19 @@ public:
 	static void initialize(SDL* sdl, Window* window, Game* game);
 	
 	static void drawGame();
-	static void drawCars();
 	static void drawRoadside();
-	static void drawDividingLines();
 	static void drawRoad();
+	static void drawPowerUp();
+	static void drawCars();
+	
+	static void drawDividingLines();
+	
 	static void drawPlayerCar();
-	static void drawPlayerCarBorder();
-	static void drawBullets();
 	static void drawEnemyCar();
 	static void drawNeutralCar();
+	
+	static void drawPlayerCarBorder();
+	static void drawBullets();
 
 	static void drawGameInformation();
 	static void drawListOfImplementedFunctionalities();

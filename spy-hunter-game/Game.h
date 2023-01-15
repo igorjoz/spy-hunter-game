@@ -18,6 +18,10 @@ public:
 	void calculateScore();
 
 	bool isPlayerCollidingWithEnemy();
+	//bool isPlayerCollidingWithNeutral();
+	bool isPlayerCollidingWithPowerUp();
+	bool hasPlayerShotEnemy();
+	bool hasPlayerShotNeutral();
 
 	void handleArrowKeyPressed();
 	void handleArrowUpKeyPressed();
@@ -35,6 +39,9 @@ public:
 	
 	int getScore() const;
 	bool getIsPaused() const;
+	bool getIsScoreFrozen() const;
+	bool getIsPowerUpActive() const;
+	bool getIsPowerUpUsedUp() const;
 
 	void setIsPaused(bool isPaused);
 	
@@ -46,6 +53,9 @@ private:
 	NeutralCar* neutralCar;
 
 	int score;
+	bool isScoreFrozen;
+	bool isPowerUpActive;
+	bool isPowerUpUsedUp;
 	bool isPaused;
 };
 

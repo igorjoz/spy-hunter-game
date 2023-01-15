@@ -40,6 +40,7 @@ public:
 	SDL_Surface* charset;
 
 	SDL_Surface* grass;
+	SDL_Surface* powerUp;
 
 	SDL_Surface* playerCar;
 	SDL_Surface* enemyCar;

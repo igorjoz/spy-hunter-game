@@ -28,6 +28,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="NeutralCar.cpp" />
     <ClCompile Include="PlayerCar.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="SDL.cpp" />
     <ClCompile Include="AssetsLoader.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="NeutralCar.h" />
     <ClInclude Include="PlayerCar.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL.h" />

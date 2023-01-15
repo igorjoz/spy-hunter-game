@@ -15,6 +15,7 @@ public:
 	static void loadCharset();
 
 	static void loadGrass();
+	static void loadPowerUp();
 
 	static void loadPlayerCar();
 	static void loadEnemyCar();

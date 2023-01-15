@@ -19,6 +19,7 @@ void AssetsLoader::loadImages() {
 	AssetsLoader::loadCharset();
 
 	AssetsLoader::loadGrass();
+	AssetsLoader::loadPowerUp();
 
 	AssetsLoader::loadPlayerCar();
 	AssetsLoader::loadEnemyCar();
@@ -100,6 +101,23 @@ void AssetsLoader::loadGrass() {
 
 	if (sdl->grass == NULL) {
 		printf("SDL_LoadBMP(grass.bmp) error: %s\n", SDL_GetError());
+		delete sdl;
+
+		exit(1);
+	}
+}
+
+
+// load player car BMP file: "power_up.bmp"
+void AssetsLoader::loadPowerUp() {
+	SDL_Surface* powerUpSurface = SDL_LoadBMP("./assets/power_up.bmp");
+
+	sdl->powerUp = powerUpSurface;
+
+	//sdl->playerCarTexture = SDL_CreateTextureFromSurface(sdl->renderer, sdl->playerCar);
+
+	if (sdl->powerUp == NULL) {
+		printf("SDL_LoadBMP(power_up.bmp) error: %s\n", SDL_GetError());
 		delete sdl;
 
 		exit(1);

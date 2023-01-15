@@ -13,6 +13,12 @@ PlayerCar::PlayerCar() {
 }
 
 
+void PlayerCar::resetToStartingPosition() {
+	this->x = PlayerCar::STARTING_X;
+	this->y = PlayerCar::STARTING_Y;
+}
+
+
 int PlayerCar::getShootingRange() const {
 	return this->shootingRange;
 }

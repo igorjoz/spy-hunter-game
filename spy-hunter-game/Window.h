@@ -16,6 +16,8 @@ public:
 	static int const FRAME_RATE = 144;
 	static int constexpr FRAME_DELAY = 1000 / FRAME_RATE;
 
+	static int const PLAYER_PROTECTION_TIME = 5;
+
 	Window(SDL* sdl);
 	void setInitialSettings();
 	

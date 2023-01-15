@@ -19,6 +19,8 @@ public:
 
 	PlayerCar();
 
+	void resetToStartingPosition();
+
 	// get / set
 	bool getIsShooting() const;
 	int getShootingRange() const;

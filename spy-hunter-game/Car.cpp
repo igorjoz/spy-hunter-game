@@ -137,6 +137,12 @@ void Car::resetMovementDirection() {
 }
 
 
+void Car::resetToStartingPosition() {
+	x = 0;
+	y = 0;
+}
+
+
 int Car::getX() const {
 	return x;
 }

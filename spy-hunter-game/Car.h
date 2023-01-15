@@ -25,6 +25,7 @@ public:
 	void moveLeft();
 	void moveRight();
 	void resetMovementDirection();
+	void resetToStartingPosition();
 	
 	int getX() const;
 	int getY() const;

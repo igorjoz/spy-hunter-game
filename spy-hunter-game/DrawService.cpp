@@ -56,13 +56,14 @@ void DrawService::drawRoadside() {
 	SDL_Rect roadsideRectangle;
 	
 	for (int i = 0; i < Window::WIDTH; i += sdl->grass->w) {
-		for (int j = 0; j < Window::HEIGHT; j += sdl->grass->h) {
+		//for (int j = sdl->destinationRectangle.y; j < Window::HEIGHT; j += sdl->grass->h) {
+		for (int j = sdl->destinationRectangle.y; j < Window::HEIGHT + sdl->destinationRectangle.y * 50; j += sdl->grass->h) {
 			roadsideRectangle.x = i;
 			roadsideRectangle.y = j;
 			roadsideRectangle.w = sdl->grass->w;
 			roadsideRectangle.h = sdl->grass->h;
 
-			SDL_BlitSurface(sdl->grass, NULL, screenSurface, &roadsideRectangle);
+			SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
 		}
 	}
 }
@@ -74,7 +75,8 @@ void DrawService::drawRoad() {
 
 	SDL_Rect roadRectangle;
 	roadRectangle.x = Map::ROAD_LEFT_X;
-	roadRectangle.y = Map::ROAD_TOP_Y;
+	//roadRectangle.y = Map::ROAD_TOP_Y;
+	//roadRectangle.y = Map::ROAD_TOP_Y + sdl->sourceRectangle.y;
 	roadRectangle.w = Map::ROAD_WIDTH;
 	roadRectangle.h = Map::ROAD_HEIGHT;
 
@@ -89,8 +91,10 @@ void DrawService::drawPowerUp() {
 	
 	SDL_Rect powerUpRectangle;
 	
+	//powerUpRectangle.x = sdl->destinationRectangle.x;
 	powerUpRectangle.x = PowerUp::X;
-	powerUpRectangle.y = PowerUp::Y;
+	powerUpRectangle.y = sdl->destinationRectangle.y;
+	//powerUpRectangle.y = PowerUp::Y;
 	powerUpRectangle.w = sdl->grass->w;
 	powerUpRectangle.h = sdl->grass->h;
 
@@ -106,15 +110,32 @@ void DrawService::drawDividingLines() {
 	PlayerCar* playerCar = game->getPlayerCar();
 	int playerCarVerticalVelocity = static_cast<int>(playerCar->getVerticalVelocity()) + 1;
 	
-	for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
+	//for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
+	for (int i = -500; i < Map::ROAD_HEIGHT; i += Map::WHITE_LANE_HEIGHT * 2) {
 		SDL_Rect whiteLineRectangle;
 		whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
 		//whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::HEIGHT;
-		whiteLineRectangle.y = -i + Window::HEIGHT;
+		whiteLineRectangle.y = -i - Window::HEIGHT + sdl->destinationRectangle.y;
 		whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
 		whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
 
 		SDL_FillRect(screenSurface, &whiteLineRectangle, color);
+	}
+
+
+
+	// draw lines on double size of the map, use modulo to draw only lines that are visible, use sdl->destinationRectangle
+	
+	//for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::YELLOW_LANE_HEIGHT * 2) {
+	for (int i = -500; i < Map::ROAD_HEIGHT; i += Map::WHITE_LANE_HEIGHT * 2) {
+		SDL_Rect yellowLineRectangle;
+		yellowLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
+		//yellowLineRectangle.y = -i * playerCarVerticalVelocity + Window::HEIGHT;
+		yellowLineRectangle.y = -i - Window::HEIGHT + sdl->destinationRectangle.y;
+		yellowLineRectangle.w = Map::WHITE_LANE_WIDTH;
+		yellowLineRectangle.h = Map::WHITE_LANE_HEIGHT;
+
+		SDL_FillRect(screenSurface, &yellowLineRectangle, color);
 	}
 }
 

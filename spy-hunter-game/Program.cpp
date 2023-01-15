@@ -62,6 +62,8 @@ void Program::run() {
 
 void Program::handleKeyEvents() {
 	SDL_Event* event = &sdl->event;
+	// screen texture
+	//SDL_Texture* screenTexture = sdl->screenTexture;
 
 	while (SDL_PollEvent(event)) {
 		keyboardState = SDL_GetKeyboardState(NULL);
@@ -86,6 +88,8 @@ void Program::handleKeyEvents() {
 	}
 
 	window->incrementFramesCount();
+	//sdl->sourceRectangle.y += 1;
+	//sdl->destinationRectangle.y += 1;
 	window->maintainConstantFPS();
 }
 
@@ -105,18 +109,28 @@ void Program::handleKeyDownEvent() {
 
 	if (keyboardState[SDL_SCANCODE_UP]) {
 		game->handleArrowUpKeyPressed();
+		//sdl->destinationRectangle.y += 1;
+		//sdl->sourceRectangle.y -= 1;
+		//sdl->sourceRectangle.y -= 3;
+		sdl->camera.y += 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_DOWN]) {
 		game->handleArrowDownKeyPressed();
+		//sdl->sourceRectangle.y += 3;
+		sdl->camera.y -= 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_LEFT]) {
 		game->handleArrowLeftKeyPressed();
+		//sdl->sourceRectangle.x -= 3;
+		sdl->camera.x += 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_RIGHT]) {
 		game->handleArrowRightKeyPressed();
+		//sdl->sourceRectangle.x += 3;
+		sdl->camera.x -= 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_SPACE]) {

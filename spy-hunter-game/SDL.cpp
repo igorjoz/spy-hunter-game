@@ -10,18 +10,18 @@
 
 
 SDL::SDL() {
-	this->initializeSDL();
-	this->initializeWindowAndRenderer();
+	initializeSDL();
+	initializeWindowAndRenderer();
 }
 
 
 SDL::~SDL() {
-	SDL_FreeSurface(this->screen);
-	SDL_FreeSurface(this->charset);
+	SDL_FreeSurface(screen);
+	SDL_FreeSurface(charset);
 
-	SDL_DestroyTexture(this->screenTexture);
-	SDL_DestroyRenderer(this->renderer);
-	SDL_DestroyWindow(this->window);
+	SDL_DestroyTexture(screenTexture);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 
 	SDL_Quit();
 }
@@ -54,74 +54,140 @@ void SDL::initializeWindowAndRenderer() {
 
 
 void SDL::initializeSDLVariables() {
-	this->initializeRendererSettings();
-	this->initializeScreen();
-	this->initializeScreenTexture();
-	this->initializeColors();
+	initializeRendererSettings();
+	
+	initializeScreen();
+	initializeScreenTexture();
+
+	initializeSourceRectangle();
+	initializeDestinationRectangle();
+	initializeCamera();
+	
+	initializeColors();
 }
 
 
 void SDL::initializeRendererSettings() {
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-	SDL_RenderSetLogicalSize(this->renderer, Window::WIDTH, Window::HEIGHT);
-	SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+	SDL_RenderSetLogicalSize(renderer, Window::WIDTH, Window::HEIGHT);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 }
 
 
 void SDL::initializeScreen() {
-	this->screen = SDL_CreateRGBSurface(0, Window::WIDTH, Window::HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+	screen = SDL_CreateRGBSurface(0, Window::WIDTH, Window::HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
 }
 
 
 void SDL::initializeScreenTexture() {
-	this->screenTexture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Window::WIDTH, Window::HEIGHT);
+	screenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Window::WIDTH, Window::HEIGHT);
+}
+
+
+void SDL::initializeSourceRectangle() {
+	sourceRectangle.x = 0;
+	sourceRectangle.y = 0;
+	sourceRectangle.w = Window::WIDTH;
+	sourceRectangle.h = Window::HEIGHT;
+}
+
+
+void SDL::initializeDestinationRectangle() {
+	destinationRectangle.x = 10;
+	destinationRectangle.y = 10;
+	destinationRectangle.w = Window::WIDTH - 20;
+	destinationRectangle.h = Window::HEIGHT - 20;
+}
+
+
+void SDL::initializeCamera() {
+	camera.x = 0;
+	camera.y = 0;
+	camera.w = Window::WIDTH;
+	camera.h = Window::HEIGHT;
+
+	/*camera.x = 0;
+	camera.y = -1.5 * RTILE_HEIGHT;
+	camera.w = SCREEN_WIDTH * SCREEN_SIZE;
+	camera.h = SCREEN_HEIGHT * SCREEN_SIZE;*/
 }
 
 
 void SDL::initializeColors() {
-	this->whiteColor = this->createColor(0xFF, 0xFF, 0xFF);
-	this->blackColor = this->createColor(0x00, 0x00, 0x00);
-	this->redColor = this->createColor(0xFF, 0x00, 0x00);
-	this->greenColor = this->createColor(0x00, 0xFF, 0x00);
-	this->blueColor = this->createColor(0x11, 0x11, 0xCC);
+	whiteColor = createColor(0xFF, 0xFF, 0xFF);
+	blackColor = createColor(0x00, 0x00, 0x00);
+	redColor = createColor(0xFF, 0x00, 0x00);
+	greenColor = createColor(0x00, 0xFF, 0x00);
+	blueColor = createColor(0x11, 0x11, 0xCC);
 }
 
 
 int SDL::createColor(int red, int green, int blue) {
-	int color = SDL_MapRGB(this->screen->format, red, green, blue);
-	return color;
+	return SDL_MapRGB(screen->format, red, green, blue);
 }
 
 
 void SDL::renderFrame() {
-	SDL_UpdateTexture(screenTexture, NULL, screen->pixels, screen->pitch);
+	SDL_Rect rect;
+	//rect.x = (int)(camera.x * 1) + 1 * Window::WIDTH;
+	rect.x = (int)(camera.x * 1);
+	//rect.x = (int)(camera.x * speed) + x * SCREEN_SIZE;
+	//rect.y = (int)(camera.y * 1) + 1 * Window::HEIGHT;
+	rect.y = (int)(camera.y * 1);
+	//rect.y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+
+	printf("x: %d, y: %d\n", rect.x, rect.y);
+
+	//if (section != NULL)
+	//{
+	//rect.w = sourceRectangle.w;
+	rect.w = Window::WIDTH;
+	rect.h = Window::HEIGHT;
+		//rect.w = section->h;
+		//rect.h = section->h;
+		// 
+	printf("w: %d, h: %d\n", rect.w, rect.h);
+	//}
+	/*else
+	{
+		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+	}*/
+
+	rect.w *= Window::WIDTH;
+	rect.h *= Window::HEIGHT;
+
+	SDL_RenderCopy(renderer, screenTexture, &sourceRectangle, &rect);
+	
+	//SDL_UpdateTexture(screenTexture, &sourceRectangle, screen->pixels, screen->pitch);
+	
+	SDL_UpdateTexture(screenTexture, &sourceRectangle, screen->pixels, screen->pitch);
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, screenTexture, NULL, NULL);
+	//SDL_RenderCopy(renderer, screenTexture, &sourceRectangle, &destinationRectangle);
 	SDL_RenderPresent(renderer);
 }
 
 
 // get / set
 int SDL::getWhiteColor() const {
-	return this->whiteColor;
+	return whiteColor;
 }
 
 
 int SDL::getBlackColor() const {
-	return this->blackColor;
+	return blackColor;
 }
 
 
 int SDL::getRedColor() const {
-	return this->redColor;
+	return redColor;
 }
 
 
 int SDL::getGreenColor() const {
-	return this->greenColor;
+	return greenColor;
 }
 
 
 int SDL::getBlueColor() const {
-	return this->blueColor;
+	return blueColor;
 }

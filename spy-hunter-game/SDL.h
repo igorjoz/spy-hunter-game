@@ -13,9 +13,15 @@ public:
 	void initializeSDL();
 	void initializeWindowAndRenderer();
 	void initializeSDLVariables();
+	
 	void initializeRendererSettings();
 	void initializeScreen();
 	void initializeScreenTexture();
+	
+	void initializeSourceRectangle();
+	void initializeDestinationRectangle();
+	void initializeCamera();
+
 	void initializeColors();
 	int createColor(int red, int green, int blue);
 
@@ -32,10 +38,14 @@ public:
 	
 	// SDL variables
 	SDL_Event event;
-	SDL_Surface* screen;
-	SDL_Texture* screenTexture;
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
+	
+	SDL_Surface* screen;
+	SDL_Texture* screenTexture;
+	SDL_Rect sourceRectangle;
+	SDL_Rect destinationRectangle;
+	SDL_Rect camera;
 	
 	SDL_Surface* charset;
 

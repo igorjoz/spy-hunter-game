@@ -19,6 +19,7 @@ Game::Game(SDL* sdl, Window* window) {
 	this->neutralCar = new NeutralCar();
 
 	this->score = 0;
+	this->isPaused = false;
 }
 
 
@@ -139,4 +140,14 @@ NeutralCar* Game::getNeutralCar() const {
 
 int Game::getScore() const {
 	return score;
+}
+
+
+bool Game::getIsPaused() const {
+	return isPaused;
+}
+
+
+void Game::setIsPaused(bool isPaused) {
+	this->isPaused = isPaused;
 }

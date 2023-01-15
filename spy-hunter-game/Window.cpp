@@ -29,14 +29,16 @@ void Window::setInitialSettings() {
 }
 
 
-double Window::calculateWorldTime() {
+double Window::calculateWorldTime(bool isPaused) {
 	frameFinishTime = SDL_GetTicks();
 
 	double delta = calculateDelta();
 
 	frameStartTime = frameFinishTime;
-
-	worldTime += delta;
+	
+	if (!isPaused) {
+		worldTime += delta;
+	}
 
 	return worldTime;
 }

@@ -7,9 +7,9 @@
 class Map {
 public:
 	static int const ROAD_WIDTH = 250;
-	static int const ROAD_HEIGHT = Window::WINDOW_HEIGHT;
+	static int const ROAD_HEIGHT = Window::HEIGHT;
 
-	static int constexpr ROAD_LEFT_X = Window::WINDOW_WIDTH / 2 - ROAD_WIDTH / 2;
+	static int constexpr ROAD_LEFT_X = Window::WIDTH / 2 - ROAD_WIDTH / 2;
 	static int constexpr ROAD_TOP_Y = 0;
 	static int constexpr ROAD_MIDDLE_X = ROAD_LEFT_X + ROAD_WIDTH / 2;
 

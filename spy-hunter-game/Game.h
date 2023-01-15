@@ -28,11 +28,15 @@ public:
 	void stopVerticalMovement();
 	void stopHorizontalMovement();
 	
-	// get
+	// get / set
 	PlayerCar* getPlayerCar() const;
 	EnemyCar* getEnemyCar() const;
 	NeutralCar* getNeutralCar() const;
+	
 	int getScore() const;
+	bool getIsPaused() const;
+
+	void setIsPaused(bool isPaused);
 	
 private:
 	SDL* sdl;
@@ -42,5 +46,6 @@ private:
 	NeutralCar* neutralCar;
 
 	int score;
+	bool isPaused;
 };
 

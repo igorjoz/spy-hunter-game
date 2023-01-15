@@ -21,7 +21,6 @@ Program::Program(SDL* sdl, Window* window, Game* game) {
 	this->keyboardState = nullptr;
 	
 	this->isQuit = false;
-	this->isPaused = false;
 	this->areMultipleArrowKeysPressed = false;
 }
 
@@ -35,24 +34,25 @@ Program::~Program() {
 
 void Program::run() {
 	while (!isQuit) {
+		bool isPaused = game->getIsPaused();
+		
 		if (isPaused) {
-			//pause();
-			window->calculateWorldTime();
+			window->calculateWorldTime(isPaused);
 
 			window->calculateFPS();
 
-			drawPauseScreen();
+			renderPauseScreen();
 
 			handleKeyEvents();
 		}
 		else {
-			window->calculateWorldTime();
+			window->calculateWorldTime(isPaused);
 			
 			game->run();
 
 			window->calculateFPS();
 
-			drawGUI();
+			renderGUI();
 
 			handleKeyEvents();
 		}
@@ -91,14 +91,10 @@ void Program::handleKeyEvents() {
 
 
 void Program::handleKeyDownEvent() {
+	bool isPaused = game->getIsPaused();
+	
 	if (isPaused) {
-		if (keyboardState[SDL_SCANCODE_P]) {
-			isPaused = !isPaused;
-		}
-		
-		if (keyboardState[SDL_SCANCODE_ESCAPE]) {
-			isQuit = true;
-		}
+		handleKeyDownEventWhenPaused();
 
 		return;
 	}
@@ -123,8 +119,27 @@ void Program::handleKeyDownEvent() {
 		game->handleArrowRightKeyPressed();
 	}
 
+	if (keyboardState[SDL_SCANCODE_SPACE]) {
+		game->getPlayerCar()->setIsShooting(true);
+	}
+
 	if (keyboardState[SDL_SCANCODE_P]) {
-		isPaused = !isPaused;
+		game->setIsPaused(true);
+	}
+
+	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
+		isQuit = true;
+	}
+
+	if (keyboardState[SDL_SCANCODE_N]) {
+		restart();
+	}
+}
+
+
+void Program::handleKeyDownEventWhenPaused() {
+	if (keyboardState[SDL_SCANCODE_P]) {
+		game->setIsPaused(false);
 	}
 
 	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
@@ -148,6 +163,10 @@ void Program::handleKeyUpEvent() {
 	if (hasHorizontalMovement and !keyboardState[SDL_SCANCODE_LEFT] and !keyboardState[SDL_SCANCODE_RIGHT]) {
 		game->stopHorizontalMovement();
 	}
+
+	if (!keyboardState[SDL_SCANCODE_SPACE]) {
+		game->getPlayerCar()->setIsShooting(false);
+	}
 }
 
 
@@ -156,7 +175,7 @@ void Program::handleQuitEvent() {
 }
 
 
-void Program::drawGUI() {
+void Program::renderGUI() {
 	DrawService::drawGame();
 
 	DrawService::drawGameInformation();
@@ -165,8 +184,15 @@ void Program::drawGUI() {
 }
 
 
-void Program::drawPauseScreen() {
+void Program::renderPauseScreen() {
 	DrawService::drawPauseScreen();
+
+	sdl->renderFrame();
+}
+
+
+void Program::renderGameOverScreen() {
+	DrawService::drawGameOverScreen();
 
 	sdl->renderFrame();
 }

@@ -38,6 +38,9 @@ public:
 	SDL_Renderer* renderer = NULL;
 	
 	SDL_Surface* charset;
+
+	SDL_Surface* grass;
+
 	SDL_Surface* playerCar;
 	SDL_Surface* enemyCar;
 	SDL_Surface* neutralCar;

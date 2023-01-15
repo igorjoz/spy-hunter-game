@@ -7,8 +7,11 @@
 class Window
 {
 public:
-	static int const WINDOW_WIDTH = 640;
-	static int const WINDOW_HEIGHT = 480;
+	static int const WIDTH = 640;
+	static int const HEIGHT = 480;
+
+	static int const LINE_HEIGHT = 10;
+	static int const BIG_LINE_HEIGHT = 14;
 	
 	static int const FRAME_RATE = 144;
 	static int constexpr FRAME_DELAY = 1000 / FRAME_RATE;
@@ -16,7 +19,7 @@ public:
 	Window(SDL* sdl);
 	void setInitialSettings();
 	
-	double calculateWorldTime();
+	double calculateWorldTime(bool isPaused);
 	double calculateDelta();
 	void calculateFPS();
 	

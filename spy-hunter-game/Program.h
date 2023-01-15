@@ -15,12 +15,13 @@ public:
 	void run();
 	void handleKeyEvents();
 	void handleKeyDownEvent();
+	void handleKeyDownEventWhenPaused();
 	void handleKeyUpEvent();
 	void handleQuitEvent();
 	
-	void drawGUI();
-	void drawPauseScreen();
-	//void drawGameOverScreen();
+	void renderGUI();
+	void renderPauseScreen();
+	void renderGameOverScreen();
 	
 	void restart();
 
@@ -37,7 +38,6 @@ private:
 	const Uint8* keyboardState;
 	
 	bool isQuit;
-	bool isPaused;
 	bool areMultipleArrowKeysPressed;
 };
 

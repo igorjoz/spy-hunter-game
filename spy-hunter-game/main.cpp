@@ -23,12 +23,13 @@ int main(int argc, char* argv[]) {
 	SDL* sdl = new SDL();
 	Window* window = new Window(sdl);
 	Game* game = new Game(sdl, window);
+	AssetsLoader::initialize(sdl);
 	DrawService::initialize(sdl, window, game);
 	Surface::initialize(sdl, window, game);
 	Program* program = new Program(sdl, window, game);
 
 	sdl->initializeSDLVariables();
-	AssetsLoader::loadImages(sdl);
+	AssetsLoader::loadImages();
 	window->setInitialSettings();
 
 	program->run();

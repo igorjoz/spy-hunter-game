@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Map.h"
 #include "Surface.h"
+#include "Bullet.h"
 
 
 SDL* DrawService::sdl = nullptr;
@@ -36,15 +37,31 @@ void DrawService::drawCars() {
 
 void DrawService::drawRoadside() {
 	SDL_Surface* screenSurface = sdl->screen;
-	Uint32 color = SDL_MapRGB(screenSurface->format, 244, 255, 31);
+
+	// use sdl->grass tile to fill the roadside
+	SDL_Rect roadside;
+	
+	for (int i = 0; i < Window::WIDTH; i += sdl->grass->w) {
+		for (int j = 0; j < Window::HEIGHT; j += sdl->grass->h) {
+			roadside.x = i;
+			roadside.y = j;
+			roadside.w = sdl->grass->w;
+			roadside.h = sdl->grass->h;
+
+			SDL_BlitSurface(sdl->grass, NULL, screenSurface, &roadside);
+		}
+	}
+	
+
+	/*Uint32 color = SDL_MapRGB(screenSurface->format, 244, 255, 31);
 
 	SDL_Rect roadsideRectangle;
 	roadsideRectangle.x = 0;
 	roadsideRectangle.y = 0;
-	roadsideRectangle.w = Window::WINDOW_WIDTH;
-	roadsideRectangle.h = Window::WINDOW_HEIGHT;
+	roadsideRectangle.w = Window::WIDTH;
+	roadsideRectangle.h = Window::HEIGHT;
 
-	SDL_FillRect(screenSurface, &roadsideRectangle,	 color);
+	SDL_FillRect(screenSurface, &roadsideRectangle,	 color);*/
 }
 
 
@@ -60,7 +77,7 @@ void DrawService::drawRoad() {
 
 	SDL_FillRect(screenSurface, &roadRectangle, color);
 
-	DrawService::drawDividingLines();
+	drawDividingLines();
 }
 
 
@@ -75,8 +92,8 @@ void DrawService::drawDividingLines() {
 	for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
 		SDL_Rect whiteLineRectangle;
 		whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
-		//whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::WINDOW_HEIGHT;
-		whiteLineRectangle.y = -i + Window::WINDOW_HEIGHT;
+		//whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::HEIGHT;
+		whiteLineRectangle.y = -i + Window::HEIGHT;
 		whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
 		whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
 
@@ -101,6 +118,10 @@ void DrawService::drawPlayerCar() {
 	playerCarRectangle.h = Car::HEIGHT;
 	
 	SDL_BlitSurface(sdl->playerCar, NULL, screenSurface, &playerCarRectangle);
+
+	if (playerCar->getIsShooting()) {
+		drawBullets();
+	}
 }
 
 
@@ -125,6 +146,44 @@ void DrawService::drawPlayerCarBorder() {
 	if (game->isPlayerCollidingWithEnemy()) {
 		SDL_FillRect(screenSurface, &playerCarBorderRectangle, redColor);
 	}
+}
+
+
+void DrawService::drawBullets() {
+	SDL_Surface* screenSurface = sdl->screen;
+	Uint32 color = SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF);
+
+	PlayerCar* playerCar = game->getPlayerCar();
+	int x = playerCar->getX() + Car::WIDTH / 2;
+	int y = playerCar->getY() - 10;
+
+	// draw 3 bullets
+	for (int i = 0; i < 5; i++) {
+		SDL_Rect bulletRectangle;
+		bulletRectangle.x = x - Bullet::OFFSET;
+		bulletRectangle.y = y - i * 20;
+		bulletRectangle.w = Bullet::WIDTH;
+		bulletRectangle.h = Bullet::HEIGHT;
+
+		SDL_FillRect(screenSurface, &bulletRectangle, color);
+
+		bulletRectangle.x = x + Bullet::OFFSET;
+		SDL_FillRect(screenSurface, &bulletRectangle, color);
+	}
+
+
+	
+	/*for (int i = 1; i < 4; i++) {
+		y -= PlayerCar::BULLET_HEIGHT * i;
+		
+		SDL_Rect bulletRectangle;
+		bulletRectangle.x = x;
+		bulletRectangle.y = y;
+		bulletRectangle.w = PlayerCar::BULLET_WIDTH;
+		bulletRectangle.h = PlayerCar::BULLET_HEIGHT;
+
+		SDL_FillRect(screenSurface, &bulletRectangle, color);
+	}*/
 }
 
 
@@ -177,20 +236,19 @@ void DrawService::drawGameInformation() {
 	char text[100];
 	double scoreDoubleValue = static_cast<double>(score);
 
-	Surface::drawRectangle(4, 4, Window::WINDOW_WIDTH - 8, 36, red, blue);
+	Surface::drawRectangle(4, 4, Window::WIDTH - 8, 36, red, blue);
 
 	sprintf_s(text, "Score: %.0lf, elapsed time: %.1lf s  %.0lf frames/s", scoreDoubleValue, worldTime, fps);
-	Surface::printString(screen->w / 2 - strlen(text) * 8 / 2, 10, text);
+	Surface::printString(screen->w / 2 - strlen(text) * 4, 10, text);
 
 	sprintf_s(text, "Esc - exit, \030 - faster, \031 - slower, \032 - left, \033 - right");
-	Surface::printString(screen->w / 2 - strlen(text) * 8 / 2, 26, text);
+	Surface::printString(screen->w / 2 - strlen(text) * 4, 26, text);
 
 	drawListOfImplementedFunctionalities();
 }
 
 
 void DrawService::drawListOfImplementedFunctionalities() {
-	//Surface::printListOfImplementedFunctionalities(sdl->screen, sdl->charset, sdl->getRedColor(), sdl->getBlackColor());
 	SDL_Surface* screen = sdl->screen;
 	SDL_Surface* charset = sdl->charset;
 
@@ -203,18 +261,18 @@ void DrawService::drawListOfImplementedFunctionalities() {
 	int heightOffset = 60;
 	int lineOffset = 2;
 
-	int const width = Window::WINDOW_WIDTH - widthOffset;
-	int const height = Window::WINDOW_HEIGHT - heightOffset;
+	int const width = Window::WIDTH - widthOffset;
+	int const height = Window::HEIGHT - heightOffset;
 
 	Surface::drawRectangle(width, height, 100, 56, red, blue);
 
 	sprintf_s(text, "Implemented:");
 	Surface::printString(width, height + lineOffset, text);
-	lineOffset += 10;
+	lineOffset += Window::LINE_HEIGHT;
 
 	sprintf_s(text, " - abcdef");
 	Surface::printString(width, height + lineOffset, text);
-	lineOffset += 10;
+	lineOffset += Window::LINE_HEIGHT;
 
 	sprintf_s(text, " - ij");
 	Surface::printString(width, height + lineOffset, text);
@@ -222,21 +280,52 @@ void DrawService::drawListOfImplementedFunctionalities() {
 
 
 void DrawService::drawPauseScreen() {
-	/*SDL_Surface* screenSurface = sdl->screen;
+	SDL_Surface* screenSurface = sdl->screen;
 
-	SDL_Rect pauseScreenRectangle;
-	pauseScreenRectangle.x = 0;
-	pauseScreenRectangle.y = 0;
-	pauseScreenRectangle.w = Window::WINDOW_WIDTH;
-	pauseScreenRectangle.h = Window::WINDOW_HEIGHT;
+	SDL_Rect blackRectangle;
+	blackRectangle.x = 0;
+	blackRectangle.y = 0;
+	blackRectangle.w = Window::WIDTH;
+	blackRectangle.h = Window::HEIGHT;
+	
+	Uint32 blackColor = SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00);
+	SDL_FillRect(screenSurface, &blackRectangle, blackColor);
+	
+	char text[100] = "GAME PAUSED";
+	int width = Window::WIDTH / 2 - strlen(text) * 4;
+	int height = Window::HEIGHT / 2;
 
-	SDL_FillRect(screenSurface, &pauseScreenRectangle, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+	Surface::printString(width, height, text);
 
-	SDL_Rect pauseScreenTextRectangle;
-	pauseScreenTextRectangle.x = Window::WINDOW_WIDTH / 2 - 100;
-	pauseScreenTextRectangle.y = Window::WINDOW_HEIGHT / 2 - 50;
-	pauseScreenTextRectangle.w = 200;
-	pauseScreenTextRectangle.h = 100;
+	sprintf_s(text, "Press P to continue");
+	width = Window::WIDTH / 2 - strlen(text) * 4;
+	height = Window::HEIGHT / 2 + Window::BIG_LINE_HEIGHT;
 
-	SDL_BlitSurface(sdl->pauseScreenText, NULL, screenSurface, &pauseScreenTextRectangle);*/
+	Surface::printString(width, height, text);
+}
+
+
+void DrawService::drawGameOverScreen() {
+	SDL_Surface* screenSurface = sdl->screen;
+
+	SDL_Rect blackRectangle;
+	blackRectangle.x = 0;
+	blackRectangle.y = 0;
+	blackRectangle.w = Window::WIDTH;
+	blackRectangle.h = Window::HEIGHT;
+
+	Uint32 blackColor = SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00);
+	SDL_FillRect(screenSurface, &blackRectangle, blackColor);
+
+	char text[100] = "GAME OVER";
+	int width = Window::WIDTH / 2 - strlen(text) * 4;
+	int height = Window::HEIGHT / 2;
+
+	Surface::printString(width, height, text);
+
+	sprintf_s(text, "Press R to restart");
+	width = Window::WIDTH / 2 - strlen(text) * 4;
+	height = Window::HEIGHT / 2 - Window::BIG_LINE_HEIGHT;
+
+	Surface::printString(width, height, text);
 }

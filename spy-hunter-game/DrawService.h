@@ -22,11 +22,13 @@ public:
 	static void drawRoad();
 	static void drawPlayerCar();
 	static void drawPlayerCarBorder();
+	static void drawBullets();
 	static void drawEnemyCar();
 	static void drawNeutralCar();
 
 	static void drawGameInformation();
 	static void drawListOfImplementedFunctionalities();
 	static void drawPauseScreen();
+	static void drawGameOverScreen();
 };
 

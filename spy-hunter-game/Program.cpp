@@ -5,6 +5,7 @@
 #include "Surface.h"
 #include "SDL.h"
 #include "Window.h"
+#include "FileService.h"
 
 
 Program::Program(SDL* sdl, Window* window, Game* game) {
@@ -21,6 +22,8 @@ Program::Program(SDL* sdl, Window* window, Game* game) {
 	this->keyboardState = nullptr;
 	
 	this->isQuit = false;
+	this->isGameBeingSaved = false;
+	this->isGameSaved = false;
 	this->areMultipleArrowKeysPressed = false;
 }
 
@@ -35,6 +38,7 @@ Program::~Program() {
 void Program::run() {
 	while (!isQuit) {
 		bool isPaused = game->getIsPaused();
+		bool isGameOver = game->getIsGameOver();
 		
 		if (isPaused) {
 			window->calculateWorldTime(isPaused);
@@ -45,9 +49,33 @@ void Program::run() {
 
 			handleKeyEvents();
 		}
+		else if (isGameOver) {
+			if (!isGameSaved) {
+				saveToResults();
+
+				isGameSaved = true;
+			}
+			
+			window->calculateWorldTime(isPaused);
+
+			window->calculateFPS();
+
+			renderGameOverScreen();
+
+			handleKeyEvents();
+		}
+		else if (isGameBeingSaved) {
+			window->calculateWorldTime(isPaused);
+
+			window->calculateFPS();
+
+			renderGameSavingScreen();
+
+			handleKeyEvents();
+		}
 		else {
 			window->calculateWorldTime(isPaused);
-			
+
 			game->run();
 
 			window->calculateFPS();
@@ -62,8 +90,6 @@ void Program::run() {
 
 void Program::handleKeyEvents() {
 	SDL_Event* event = &sdl->event;
-	// screen texture
-	//SDL_Texture* screenTexture = sdl->screenTexture;
 
 	while (SDL_PollEvent(event)) {
 		keyboardState = SDL_GetKeyboardState(NULL);
@@ -96,9 +122,20 @@ void Program::handleKeyEvents() {
 
 void Program::handleKeyDownEvent() {
 	bool isPaused = game->getIsPaused();
+	bool isGameOver = game->getIsGameOver();
 	
 	if (isPaused) {
 		handleKeyDownEventWhenPaused();
+
+		return;
+	}
+	else if (isGameOver) {
+		handleKeyDownEventWhenGameIsOver();
+
+		return;
+	}
+	else if (isGameBeingSaved) {
+		handleKeyDownEventWhenGameIsBeingSaved();
 
 		return;
 	}
@@ -112,29 +149,36 @@ void Program::handleKeyDownEvent() {
 		//sdl->destinationRectangle.y += 1;
 		//sdl->sourceRectangle.y -= 1;
 		//sdl->sourceRectangle.y -= 3;
-		sdl->camera.y += 4;
+		 
+		sdl->camera.y += 8;
 	}
 
 	if (keyboardState[SDL_SCANCODE_DOWN]) {
 		game->handleArrowDownKeyPressed();
 		//sdl->sourceRectangle.y += 3;
-		sdl->camera.y -= 4;
+		sdl->camera.y -= 8;
 	}
 
 	if (keyboardState[SDL_SCANCODE_LEFT]) {
 		game->handleArrowLeftKeyPressed();
 		//sdl->sourceRectangle.x -= 3;
-		sdl->camera.x += 4;
+		//sdl->camera.x += 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_RIGHT]) {
 		game->handleArrowRightKeyPressed();
 		//sdl->sourceRectangle.x += 3;
-		sdl->camera.x -= 4;
+		//sdl->camera.x -= 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_SPACE]) {
 		game->getPlayerCar()->setIsShooting(true);
+	}
+
+	if (keyboardState[SDL_SCANCODE_S]) {
+		isGameBeingSaved = true;
+		
+		saveGame();
 	}
 
 	if (keyboardState[SDL_SCANCODE_P]) {
@@ -162,6 +206,34 @@ void Program::handleKeyDownEventWhenPaused() {
 
 	if (keyboardState[SDL_SCANCODE_N]) {
 		restart();
+	}
+}
+
+
+void Program::handleKeyDownEventWhenGameIsOver() {
+	if (keyboardState[SDL_SCANCODE_R]) {
+		game->setIsGameOver(false);
+		game->restart();
+
+		restart();
+	}
+
+	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
+		isQuit = true;
+	}
+}
+
+
+void Program::handleKeyDownEventWhenGameIsBeingSaved() {
+	if (keyboardState[SDL_SCANCODE_R]) {
+		game->setIsGameOver(false);
+		game->restart();
+
+		restart();
+	}
+
+	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
+		isQuit = true;
 	}
 }
 
@@ -212,10 +284,53 @@ void Program::renderGameOverScreen() {
 }
 
 
+void Program::renderGameSavingScreen() {
+	DrawService::drawGameSavingScreen();
+
+	sdl->renderFrame();
+}
+
+
 void Program::restart() {
 	game->restart();
 
 	window->resetTime();
+}
+
+
+void Program::saveGame() {
+	DrawService::drawGameSavingScreen();
+
+	/*else if (console.getKeyCode() == SAVE_GAME_KEY_CHARACTER) {
+			if (menu.getShouldDisplayFileNameInput()) {
+				menu.showFileNameInputModal(console, cursor);
+
+				char characters[100] = {};
+				int characterIndex = 0;
+
+				do {
+					console.setKeyCode(getche());
+
+					characters[characterIndex] = (char)(console.getKeyCode());
+					characterIndex++;
+				} while (console.getKeyCode() != ENTER_KEY_CODE);
+
+				characterIndex--;
+
+				characters[characterIndex] = '\0';
+
+				board.saveBoardToFile(characters);
+
+				continue;
+			}
+		}*/
+}
+
+
+void Program::saveToResults() {
+	int score = game->getScore();
+	
+	FileService::saveToResults(score);
 }
 
 

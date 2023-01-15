@@ -16,14 +16,20 @@ public:
 	void handleKeyEvents();
 	void handleKeyDownEvent();
 	void handleKeyDownEventWhenPaused();
+	void handleKeyDownEventWhenGameIsOver();
+	void handleKeyDownEventWhenGameIsBeingSaved();
 	void handleKeyUpEvent();
 	void handleQuitEvent();
 	
 	void renderGUI();
 	void renderPauseScreen();
 	void renderGameOverScreen();
+	void renderGameSavingScreen();
 	
 	void restart();
+
+	void saveGame();
+	void saveToResults();
 
 	// get / set
 	bool getIsQuit() const;
@@ -38,6 +44,8 @@ private:
 	const Uint8* keyboardState;
 	
 	bool isQuit;
+	bool isGameBeingSaved;
+	bool isGameSaved;
 	bool areMultipleArrowKeysPressed;
 };
 

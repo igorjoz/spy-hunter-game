@@ -24,6 +24,7 @@ Game::Game(SDL* sdl, Window* window) {
 	this->isPowerUpActive = false;
 	this->isPowerUpUsedUp = false;
 	this->isPaused = false;
+	this->isGameOver = false;
 }
 
 
@@ -37,10 +38,13 @@ Game::~Game() {
 void Game::run() {
 	PlayerCar* playerCar = getPlayerCar();
 	EnemyCar* enemyCar = getEnemyCar();
+	NeutralCar* neutralCar = getNeutralCar();
 	
 	calculateScore();
 	
 	playerCar->move();
+	enemyCar->move();
+	neutralCar->move();
 
 	handleIsPlayerCollidingWithEnemy();
 	handleIsPlayerCollidingWithNeutral();
@@ -89,7 +93,9 @@ void Game::handleIsPlayerCollidingWithEnemy() {
 			playerCar->resetToStartingPosition();
 		}
 		else {
-			restart();
+			//DrawService::drawGameOverScreen();
+			//restart();
+			isGameOver = true;
 		}
 	}
 }
@@ -112,7 +118,7 @@ void Game::handleIsPlayerCollidingWithPowerUp() {
 		isPowerUpActive = true;
 		isPowerUpUsedUp = true;
 
-		window->setScoreFreezeTime(Window::FRAME_RATE * 10);
+		//window->setScoreFreezeTime(Window::FRAME_RATE * 10);
 
 		playerCar->setShootingRange(PlayerCar::SPECIAL_BULLETS_QUANTITY);
 	}
@@ -346,6 +352,16 @@ bool Game::getIsPowerUpUsedUp() const {
 }
 
 
+bool Game::getIsGameOver() const {
+	return isGameOver;
+}
+
+
 void Game::setIsPaused(bool isPaused) {
 	this->isPaused = isPaused;
+}
+
+
+void Game::setIsGameOver(bool isGameOver) {
+	this->isGameOver = isGameOver;
 }

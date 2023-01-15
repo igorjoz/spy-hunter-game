@@ -18,7 +18,6 @@
 #include "Surface.h"
 
 
-
 int main(int argc, char* argv[]) {
 	SDL* sdl = new SDL();
 	Window* window = new Window(sdl);

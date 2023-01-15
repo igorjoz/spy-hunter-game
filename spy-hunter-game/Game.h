@@ -50,8 +50,10 @@ public:
 	bool getIsScoreFrozen() const;
 	bool getIsPowerUpActive() const;
 	bool getIsPowerUpUsedUp() const;
+	bool getIsGameOver() const;
 
 	void setIsPaused(bool isPaused);
+	void setIsGameOver(bool isGameOver);
 	
 private:
 	SDL* sdl;
@@ -65,5 +67,6 @@ private:
 	bool isPowerUpActive;
 	bool isPowerUpUsedUp;
 	bool isPaused;
+	bool isGameOver;
 };
 

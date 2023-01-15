@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="DrawService.cpp" />
     <ClCompile Include="EnemyCar.cpp" />
@@ -39,6 +40,7 @@
     <Image Include="eti.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DrawService.h" />

@@ -17,6 +17,7 @@ public:
 	
 	static void drawGame();
 	static void drawRoadside();
+	static void drawIrregularRoadside();
 	static void drawRoad();
 	static void drawPowerUp();
 	static void drawCars();
@@ -34,5 +35,6 @@ public:
 	static void drawListOfImplementedFunctionalities();
 	static void drawPauseScreen();
 	static void drawGameOverScreen();
+	static void drawGameSavingScreen();
 };
 

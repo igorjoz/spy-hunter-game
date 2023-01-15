@@ -12,6 +12,8 @@
 Car::Car() {
 	this->x = 0;
 	this->y = 0;
+	this->isDestroyed = false;
+
 	this->horizontalVelocity = CarSpeed::NONE;
 	this->verticalVelocity = CarSpeed::NONE;
 
@@ -145,6 +147,11 @@ int Car::getY() const {
 }
 
 
+bool Car::getIsDestroyed() const {
+	return isDestroyed;
+}
+
+
 MovementDirection Car::getVerticalMovementDirection() const {
 	return verticalMovementDirection;
 }
@@ -172,6 +179,11 @@ void Car::setX(int x) {
 
 void Car::setY(int y) {
 	this->y = y;
+}
+
+
+void Car::setIsDestroyed(bool isDestroyed) {
+	this->isDestroyed = isDestroyed;
 }
 
 

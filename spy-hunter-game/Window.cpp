@@ -10,9 +10,10 @@ Window::Window(SDL* sdl)
 	this->sdl = sdl;
 	
 	this->frameStartTime = SDL_GetTicks();
-	this->frameStartTimeSincePaused = SDL_GetTicks();
 	this->frameFinishTime = 0;
 	this->frames = 0;
+
+	this->scoreFreezeTime = 0;
 	
 	this->delta = 0;
 	this->worldTime = 0.0;
@@ -64,6 +65,20 @@ void Window::calculateFPS() {
 }
 
 
+void Window::decreaseScoreFreezeTime() {
+	if (scoreFreezeTime > 0) {
+		scoreFreezeTime--;
+	}
+}
+
+
+void Window::decreasePowerUpTime() {
+	if (powerUpTime > 0) {
+		powerUpTime--;
+	}
+}
+
+
 void Window::maintainConstantFPS() {
 	int frameTime = SDL_GetTicks() - frameStartTime;
 
@@ -103,6 +118,16 @@ double Window::getWorldTime() {
 }
 
 
+int Window::getScoreFreezeTime() {
+	return this->scoreFreezeTime;
+}
+
+
+int Window::getPowerUpTime() {
+	return this->powerUpTime;
+}
+
+
 double Window::getFpsTimer() {
 	return this->fpsTimer;
 }
@@ -120,6 +145,11 @@ void Window::setDelta(double delta) {
 
 void Window::setWorldTime(double time) {
 	this->worldTime = time;
+}
+
+
+void Window::setScoreFreezeTime(int scoreFreezeTime) {
+	this->scoreFreezeTime = scoreFreezeTime;
 }
 
 

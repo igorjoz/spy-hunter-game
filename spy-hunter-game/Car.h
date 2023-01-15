@@ -16,6 +16,8 @@ public:
 	bool checkIfBeforeLeftSideOfWindow();
 	bool checkIfBeforeRightSideOfWindow();
 	bool checkIfInsideRoad();
+
+	//bool checkIfCollidingWith(Car& otherCar);
 	
 	void move();
 	void moveForward();
@@ -26,6 +28,8 @@ public:
 	
 	int getX() const;
 	int getY() const;
+	bool getIsDestroyed() const;
+	
 	MovementDirection getVerticalMovementDirection() const;
 	MovementDirection getHorizontalMovementDirection() const;
 	CarSpeed getVerticalVelocity() const;
@@ -33,6 +37,8 @@ public:
 
 	void setX(int x);
 	void setY(int y);
+	void setIsDestroyed(bool isDestroyed);
+	
 	void setVerticalMovementDirection(MovementDirection verticalMovementDirection);
 	void setHorizontalMovementDirection(MovementDirection horizontalMovementDirection);
 	void setVerticalVelocity(CarSpeed velocity);
@@ -41,6 +47,8 @@ public:
 protected:
 	int x;
 	int y;
+	bool isDestroyed;
+
 	CarSpeed verticalVelocity;
 	CarSpeed horizontalVelocity;
 	MovementDirection verticalMovementDirection;

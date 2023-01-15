@@ -22,6 +22,9 @@ public:
 	double calculateWorldTime(bool isPaused);
 	double calculateDelta();
 	void calculateFPS();
+
+	void decreaseScoreFreezeTime();
+	void decreasePowerUpTime();
 	
 	void maintainConstantFPS();
 	void incrementFramesCount();
@@ -32,11 +35,14 @@ public:
 	int getFrameFinishTime();
 	double getDelta();
 	double getWorldTime();
+	int getScoreFreezeTime();
+	int getPowerUpTime();
 	double getFpsTimer();
 	double getFps();
 	
 	void setDelta(double delta);
 	void setWorldTime(double time);
+	void setScoreFreezeTime(int scoreFreezeTime);
 	void setFpsTimer(double fpsTimer);
 	void setFps(double fps);
 
@@ -44,9 +50,11 @@ private:
 	SDL* sdl;
 	
 	Uint32 frameStartTime;
-	Uint32 frameStartTimeSincePaused;
 	int frameFinishTime;
 	int frames;
+
+	int scoreFreezeTime;
+	int powerUpTime;
 
 	double delta;
 	double worldTime;

@@ -14,6 +14,7 @@ Window::Window(SDL* sdl)
 	this->frames = 0;
 
 	this->scoreFreezeTime = 0;
+	this->powerUpTime = 0;
 	
 	this->delta = 0;
 	this->worldTime = 0.0;

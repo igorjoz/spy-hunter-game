@@ -7,6 +7,8 @@
 class Window
 {
 public:
+	const int LEVEL_HEIGHT = 960;
+
 	static int const WIDTH = 640;
 	static int const HEIGHT = 480;
 

@@ -97,8 +97,6 @@ void AssetsLoader::loadGrass() {
 
 	sdl->grass = grassSurface;
 
-	//sdl->playerCarTexture = SDL_CreateTextureFromSurface(sdl->renderer, sdl->playerCar);
-
 	if (sdl->grass == NULL) {
 		printf("SDL_LoadBMP(grass.bmp) error: %s\n", SDL_GetError());
 		delete sdl;
@@ -113,8 +111,6 @@ void AssetsLoader::loadPowerUp() {
 	SDL_Surface* powerUpSurface = SDL_LoadBMP("./assets/power_up.bmp");
 
 	sdl->powerUp = powerUpSurface;
-
-	//sdl->playerCarTexture = SDL_CreateTextureFromSurface(sdl->renderer, sdl->playerCar);
 
 	if (sdl->powerUp == NULL) {
 		printf("SDL_LoadBMP(power_up.bmp) error: %s\n", SDL_GetError());

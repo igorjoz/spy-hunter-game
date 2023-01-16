@@ -47,7 +47,6 @@ double Window::calculateWorldTime(bool isPaused) {
 
 
 double Window::calculateDelta() {
-	// time in seconds; frameFinishTime - frameStartTime is time in milliseconds since the last screen was drawn
 	delta = (frameFinishTime - frameStartTime) * 0.001;
 
 	return delta;
@@ -55,7 +54,6 @@ double Window::calculateDelta() {
 
 
 void Window::calculateFPS() {
-	
 	fpsTimer += delta;
 
 	if (fpsTimer > 0.5) {

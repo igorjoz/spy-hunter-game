@@ -13,12 +13,6 @@ enum class CarSpeed {
 };
 
 
-enum class CarType {
-	PLAYER,
-	ENEMY
-};
-
-
 enum class MovementDirection {
 	NONE,
 	UP,

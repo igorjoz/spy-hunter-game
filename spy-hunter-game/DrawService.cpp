@@ -58,14 +58,12 @@ void DrawService::drawRoadside() {
 	
 	for (int i = 0; i < Window::WIDTH; i += sdl->grass->w) {
 		for (int j = sdl->destinationRectangle.y; j < Window::HEIGHT; j += sdl->grass->h) {
-		//for (int j = -100; j < 100; j += sdl->grass->h) {
 			roadsideRectangle.x = i + sdl->destinationRectangle.x;
 			roadsideRectangle.y = j + sdl->destinationRectangle.y;
 			roadsideRectangle.w = sdl->grass->w;
 			roadsideRectangle.h = sdl->grass->h;
 
 			SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
-			//SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
 		}
 	}
 }
@@ -74,7 +72,7 @@ void DrawService::drawRoadside() {
 void DrawService::drawIrregularRoadside() {
 	SDL_Surface* screenSurface = sdl->screen;
 	Uint32 color = SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF);
-	double worldTime = window->getWorldTime();
+	int worldTime = static_cast<int>(window->getWorldTime());
 
 	PlayerCar* playerCar = game->getPlayerCar();
 	int playerCarVerticalVelocity = static_cast<int>(playerCar->getVerticalVelocity()) + 1;
@@ -83,33 +81,21 @@ void DrawService::drawIrregularRoadside() {
 	roadsideRectangle.w = sdl->grass->w;
 	roadsideRectangle.h = sdl->grass->h;
 	
+	if (worldTime != 0 and worldTime % 7 == 0 or (worldTime - 1) % 7 == 0 or (worldTime -2) % 7 == 0) {
+		for (int j = 0; j < 20; j++) {
+			roadsideRectangle.x = Map::ROAD_LEFT_X;
+			roadsideRectangle.y = Map::ROAD_TOP_Y + j * sdl->grass->h;
 
-
-	//for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
-		//SDL_Rect whiteLineRectangle;
-		//whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
-		////whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::HEIGHT;
-		//whiteLineRectangle.y = -i + Window::HEIGHT;
-		//whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
-		//whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
-
-		//SDL_FillRect(screenSurface, &whiteLineRectangle, color);
-		if (static_cast<int>(worldTime) != 0 and static_cast<int>(worldTime) % 7 == 0 or (static_cast<int>(worldTime) - 1) % 7 == 0 or (static_cast<int>(worldTime) -2) % 7 == 0) {
-			for (int j = 0; j < 20; j++) {
-				roadsideRectangle.x = Map::ROAD_LEFT_X;
-				roadsideRectangle.y = Map::ROAD_TOP_Y + j * sdl->grass->h;
-
-				SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
-			}
-
-			for (int j = 0; j < 20; j++) {
-				roadsideRectangle.x = Map::ROAD_RIGHT_X;
-				roadsideRectangle.y = Map::ROAD_TOP_Y + j * sdl->grass->h;
-
-				SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
-			}
+			SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
 		}
-	//}
+
+		for (int j = 0; j < 20; j++) {
+			roadsideRectangle.x = Map::ROAD_RIGHT_X;
+			roadsideRectangle.y = Map::ROAD_TOP_Y + j * sdl->grass->h;
+
+			SDL_BlitSurface(sdl->grass, &sdl->sourceRectangle, screenSurface, &roadsideRectangle);
+		}
+	}
 }
 
 
@@ -120,7 +106,6 @@ void DrawService::drawRoad() {
 	SDL_Rect roadRectangle;
 	roadRectangle.x = Map::ROAD_LEFT_X;
 	roadRectangle.y = Map::ROAD_TOP_Y;
-	//roadRectangle.y = Map::ROAD_TOP_Y + sdl->sourceRectangle.y;
 	roadRectangle.w = Map::ROAD_WIDTH;
 	roadRectangle.h = Map::ROAD_HEIGHT;
 
@@ -129,37 +114,16 @@ void DrawService::drawRoad() {
 	drawDividingLines();
 }
 
-//void DrawService::drawRoad() {
-//	// generate red road and draw it bearing in mind sdl->sourceRectangle, sdl->destinationRectangle, sdl->camera
-//	
-//	SDL_Surface* screenSurface = sdl->screen;
-//		Uint32 color = SDL_MapRGB(screenSurface->format, 0xFF, 0x00, 0x00);
-//	
-//		SDL_Rect roadRectangle;
-//		roadRectangle.x = Map::ROAD_LEFT_X;
-//		roadRectangle.y = -Map::ROAD_HEIGHT * 20;
-//		//roadRectangle.y = Map::ROAD_TOP_Y + sdl->sourceRectangle.y;
-//		roadRectangle.w = Map::ROAD_WIDTH;
-//		roadRectangle.h = Map::ROAD_HEIGHT * 100;
-//	
-//		sdl->screen = screenSurface;
-//		sdl->screenTexture = SDL_CreateTextureFromSurface(sdl->renderer, sdl->screen);
-//
-//		SDL_FillRect(screenSurface, &roadRectangle, color);
-//}
-
 
 void DrawService::drawPowerUp() {
 	SDL_Surface* screenSurface = sdl->screen;
 	
 	SDL_Rect powerUpRectangle;
 	
-	//powerUpRectangle.x = sdl->destinationRectangle.x;
 	powerUpRectangle.x = PowerUp::X;
-	//powerUpRectangle.y = sdl->destinationRectangle.y;
 	powerUpRectangle.y = PowerUp::Y;
-	powerUpRectangle.w = sdl->grass->w;
-	powerUpRectangle.h = sdl->grass->h;
+	powerUpRectangle.w = sdl->powerUp->w;
+	powerUpRectangle.h = sdl->powerUp->h;
 
 	SDL_BlitSurface(sdl->powerUp, NULL, screenSurface, &powerUpRectangle);
 }
@@ -176,7 +140,6 @@ void DrawService::drawDividingLines() {
 	for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
 		SDL_Rect whiteLineRectangle;
 		whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
-		//whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::HEIGHT;
 		whiteLineRectangle.y = -i + Window::HEIGHT;
 		whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
 		whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
@@ -184,28 +147,6 @@ void DrawService::drawDividingLines() {
 		SDL_FillRect(screenSurface, &whiteLineRectangle, color);
 	}
 }
-
-
-//void DrawService::drawDividingLines() {
-//	SDL_Surface* screenSurface = sdl->screen;
-//	Uint32 color = SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF);
-//	double worldTime = window->getWorldTime();
-//
-//	PlayerCar* playerCar = game->getPlayerCar();
-//	int playerCarVerticalVelocity = static_cast<int>(playerCar->getVerticalVelocity()) + 1;
-//	
-//	//for (int i = -worldTime * 100 * playerCarVerticalVelocity; i < Map::ROAD_HEIGHT + worldTime * 100 * playerCarVerticalVelocity; i += Map::WHITE_LANE_HEIGHT * 2) {
-//	for (int i = -500; i < Map::ROAD_HEIGHT; i += Map::WHITE_LANE_HEIGHT * 2) {
-//		SDL_Rect whiteLineRectangle;
-//		whiteLineRectangle.x = Map::ROAD_MIDDLE_X - Map::WHITE_LANE_WIDTH / 2;
-//		//whiteLineRectangle.y = -i * playerCarVerticalVelocity + Window::HEIGHT;
-//		whiteLineRectangle.y = -i - Window::HEIGHT + sdl->destinationRectangle.y;
-//		whiteLineRectangle.w = Map::WHITE_LANE_WIDTH;
-//		whiteLineRectangle.h = Map::WHITE_LANE_HEIGHT;
-//
-//		SDL_FillRect(screenSurface, &whiteLineRectangle, color);
-//	}
-//}
 
 
 void DrawService::drawPlayerCar() {
@@ -371,7 +312,7 @@ void DrawService::drawListOfImplementedFunctionalities() {
 	Surface::printString(width, height + lineOffset, text);
 	lineOffset += Window::LINE_HEIGHT;
 
-	sprintf_s(text, " - ijknhgo");
+	sprintf_s(text, " - ijknho");
 	Surface::printString(width, height + lineOffset, text);
 }
 

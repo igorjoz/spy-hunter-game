@@ -17,8 +17,6 @@ public:
 	bool checkIfBeforeRightSideOfWindow();
 	bool checkIfInsideRoad();
 
-	//bool checkIfCollidingWith(Car& otherCar);
-	
 	void move();
 	void moveForward();
 	void moveBackward();

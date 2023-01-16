@@ -87,37 +87,24 @@ void SDL::initializeScreenTexture() {
 void SDL::initializeSourceRectangle() {
 	sourceRectangle.x = 0;
 	sourceRectangle.y = 0;
-	//sourceRectangle.w = Window::WIDTH;
 	sourceRectangle.w = Window::WIDTH;
 	sourceRectangle.h = Window::HEIGHT;
-	//sourceRectangle.h = Window::HEIGHT * 2;
 }
 
 
 void SDL::initializeDestinationRectangle() {
 	destinationRectangle.x = 0;
-	//destinationRectangle.x = 10;
 	destinationRectangle.y = 0;
-	//destinationRectangle.y = 10;
-	// 
-	//destinationRectangle.w = Window::WIDTH - 20;
 	destinationRectangle.w = Window::WIDTH;
-	//destinationRectangle.h = Window::HEIGHT - 20;
-	//destinationRectangle.h = Window::HEIGHT * 2;
 	destinationRectangle.h = Window::HEIGHT;
 }
 
 
 void SDL::initializeCamera() {
-	camera.x = 0;
-	camera.y = 0;
-	camera.w = Window::WIDTH;
-	camera.h = Window::HEIGHT;
-
-	/*camera.x = 0;
-	camera.y = -1.5 * RTILE_HEIGHT;
-	camera.w = SCREEN_WIDTH * SCREEN_SIZE;
-	camera.h = SCREEN_HEIGHT * SCREEN_SIZE;*/
+	cameraRectangle.x = 0;
+	cameraRectangle.y = 0;
+	cameraRectangle.w = Window::WIDTH;
+	cameraRectangle.h = Window::HEIGHT;
 }
 
 
@@ -141,41 +128,6 @@ void SDL::renderFrame() {
 	SDL_RenderCopy(renderer, screenTexture, &sourceRectangle, &destinationRectangle);
 	SDL_RenderPresent(renderer);
 }
-
-
-//void SDL::renderFrame() {
-//	float speed = 1.0;
-//
-//	SDL_Rect rect;
-//	//rect.x = (int)(camera.x * speed) * Window::WIDTH;
-//	rect.x = (int)(camera.x * speed);
-//	//rect.y = (int)(camera.y * speed) * Window::HEIGHT;
-//	rect.y = (int)(camera.y * speed);
-//
-//	rect.y = sourceRectangle.y;
-//	sourceRectangle.y -= speed;
-//
-//
-//
-//	//rect.w = Window::WIDTH;
-//	rect.w = Window::WIDTH;
-//	//rect.h = Window::HEIGHT;
-//	rect.h = Window::HEIGHT;
-//	//rect.w = section->h;
-//	//rect.h = section->h;
-//
-//
-//	SDL_UpdateTexture(screenTexture, &sourceRectangle, screen->pixels, screen->pitch);
-//	//SDL_UpdateTexture(screenTexture, &destinationRectangle, screen->pixels, screen->pitch);
-//	SDL_RenderClear(renderer);
-//
-//	printf("rect: x: %d, y: %d, w: %d, h: %d\n", rect.x, rect.y, rect.w, rect.h);
-//	SDL_RenderCopy(renderer, screenTexture, &destinationRectangle, &rect);
-//
-//	//printf("dest: x: %d, y: %d, w: %d, h: %d\n", destinationRectangle.x, destinationRectangle.y, destinationRectangle.w, destinationRectangle.h);
-//	//SDL_RenderCopy(renderer, screenTexture, &sourceRectangle, &destinationRectangle);
-//	SDL_RenderPresent(renderer);
-//}
 
 
 // get / set

@@ -25,8 +25,6 @@ public:
 	void initializeColors();
 	int createColor(int red, int green, int blue);
 
-	//void printGameInformation(int score, double worldTime, double fps);
-	//void printListOfImplementedFunctionalities();
 	void renderFrame();
 
 	// get
@@ -45,7 +43,7 @@ public:
 	SDL_Texture* screenTexture;
 	SDL_Rect sourceRectangle;
 	SDL_Rect destinationRectangle;
-	SDL_Rect camera;
+	SDL_Rect cameraRectangle;
 	
 	SDL_Surface* charset;
 

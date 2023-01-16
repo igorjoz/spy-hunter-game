@@ -118,8 +118,6 @@ void Game::handleIsPlayerCollidingWithPowerUp() {
 		isPowerUpActive = true;
 		isPowerUpUsedUp = true;
 
-		//window->setScoreFreezeTime(Window::FRAME_RATE * 10);
-
 		playerCar->setShootingRange(PlayerCar::SPECIAL_BULLETS_QUANTITY);
 	}
 

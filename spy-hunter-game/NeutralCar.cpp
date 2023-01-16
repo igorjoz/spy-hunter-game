@@ -8,12 +8,28 @@ NeutralCar::NeutralCar() {
 
 
 void NeutralCar::move() {
-	if (y > 0) {
+	if (y > -NeutralCar::HEIGHT) {
 		moveForward();
 	}
 	else {
 		resetToStartingPosition();
 	}
+}
+
+
+void NeutralCar::moveForward() {
+	int verticalVelocityValue;
+
+	if (checkIfInsideRoad()) {
+		verticalVelocity = CarSpeed::REGULAR;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+	else {
+		verticalVelocity = CarSpeed::SLOW;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+
+	y -= verticalVelocityValue;
 }
 
 

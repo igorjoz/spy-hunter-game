@@ -14,6 +14,10 @@ public:
 	EnemyCar();
 
 	void move();
+	void moveForward();
+	
+	void respawn();
 	void resetToStartingPosition();
+	void resetPosition();
 };
 

@@ -14,6 +14,10 @@ public:
 	NeutralCar();
 
 	void move();
+	void moveForward();
+	
+	void respawn();
 	void resetToStartingPosition();
+	void resetPosition();
 };
 

@@ -11,12 +11,28 @@ EnemyCar::EnemyCar() {
 
 
 void EnemyCar::move() {
-	if (y > 0) {
+	if (y > -EnemyCar::HEIGHT) {
 		moveForward();
 	}
 	else {
 		resetToStartingPosition();
 	}
+}
+
+
+void EnemyCar::moveForward() {
+	int verticalVelocityValue;
+
+	if (checkIfInsideRoad()) {
+		verticalVelocity = CarSpeed::REGULAR;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+	else {
+		verticalVelocity = CarSpeed::SLOW;
+		verticalVelocityValue = static_cast<int>(verticalVelocity);
+	}
+
+	y -= verticalVelocityValue;
 }
 
 

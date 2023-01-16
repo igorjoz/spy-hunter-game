@@ -10,11 +10,11 @@ public:
 	String();
 	String(const char* string);
 	String(const String& source);
-	String(String&& source);
+	String(String&& source) noexcept;
 	~String();
 
 	String& operator=(const String& rhs);
-	String& operator=(String&& rhs);
+	String& operator=(String&& rhs) noexcept;
 
 	int length() const;
 	const char* get() const;

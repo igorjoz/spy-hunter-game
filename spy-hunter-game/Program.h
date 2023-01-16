@@ -12,7 +12,13 @@ class Program
 public:
 	Program(SDL* sdl, Window* window, Game* game);
 	~Program();
+	
 	void run();
+	void runWhenIsPaused();
+	void runWhenGameIsOver();
+	void runWhenGameIsBeingSaved();
+	void runGame();
+	
 	void handleKeyEvents();
 	void handleKeyDownEvent();
 	void handleKeyDownEventWhenPaused();

@@ -37,54 +37,73 @@ Program::~Program() {
 
 void Program::run() {
 	while (!isQuit) {
-		bool isPaused = game->getIsPaused();
-		bool isGameOver = game->getIsGameOver();
-		
-		if (isPaused) {
-			window->calculateWorldTime(isPaused);
-
-			window->calculateFPS();
-
-			renderPauseScreen();
-
-			handleKeyEvents();
+		if (game->getIsPaused()) {
+			runWhenIsPaused();
 		}
-		else if (isGameOver) {
-			if (!isGameSaved) {
-				saveToResults();
-
-				isGameSaved = true;
-			}
-			
-			window->calculateWorldTime(isPaused);
-
-			window->calculateFPS();
-
-			renderGameOverScreen();
-
-			handleKeyEvents();
+		else if (game->getIsGameOver()) {
+			runWhenGameIsOver();
 		}
 		else if (isGameBeingSaved) {
-			window->calculateWorldTime(isPaused);
-
-			window->calculateFPS();
-
-			renderGameSavingScreen();
-
-			handleKeyEvents();
+			runWhenGameIsBeingSaved();
 		}
 		else {
-			window->calculateWorldTime(isPaused);
-
-			game->run();
-
-			window->calculateFPS();
-
-			renderGUI();
-
-			handleKeyEvents();
+			runGame();
 		}
 	}
+}
+
+
+void Program::runWhenIsPaused() {
+	bool isPaused = game->getIsPaused();
+	
+	window->calculateWorldTime(isPaused);
+
+	window->calculateFPS();
+
+	renderPauseScreen();
+
+	handleKeyEvents();
+}
+
+
+void Program::runWhenGameIsOver() {
+	if (!isGameSaved) {
+		saveToResults();
+
+		isGameSaved = true;
+	}
+
+	window->calculateWorldTime();
+
+	window->calculateFPS();
+
+	renderGameOverScreen();
+
+	handleKeyEvents();
+}
+
+
+void Program::runWhenGameIsBeingSaved() {
+	window->calculateWorldTime();
+
+	window->calculateFPS();
+
+	renderGameSavingScreen();
+
+	handleKeyEvents();
+}
+
+
+void Program::runGame() {
+	window->calculateWorldTime();
+
+	game->run();
+
+	window->calculateFPS();
+
+	renderGUI();
+
+	handleKeyEvents();
 }
 
 
@@ -114,8 +133,6 @@ void Program::handleKeyEvents() {
 	}
 
 	window->incrementFramesCount();
-	//sdl->sourceRectangle.y += 1;
-	//sdl->destinationRectangle.y += 1;
 	window->maintainConstantFPS();
 }
 
@@ -146,29 +163,18 @@ void Program::handleKeyDownEvent() {
 
 	if (keyboardState[SDL_SCANCODE_UP]) {
 		game->handleArrowUpKeyPressed();
-		//sdl->destinationRectangle.y += 1;
-		//sdl->sourceRectangle.y -= 1;
-		//sdl->sourceRectangle.y -= 3;
-		 
-		sdl->camera.y += 8;
 	}
 
 	if (keyboardState[SDL_SCANCODE_DOWN]) {
 		game->handleArrowDownKeyPressed();
-		//sdl->sourceRectangle.y += 3;
-		sdl->camera.y -= 8;
 	}
 
 	if (keyboardState[SDL_SCANCODE_LEFT]) {
 		game->handleArrowLeftKeyPressed();
-		//sdl->sourceRectangle.x -= 3;
-		//sdl->camera.x += 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_RIGHT]) {
 		game->handleArrowRightKeyPressed();
-		//sdl->sourceRectangle.x += 3;
-		//sdl->camera.x -= 4;
 	}
 
 	if (keyboardState[SDL_SCANCODE_SPACE]) {
@@ -298,32 +304,9 @@ void Program::restart() {
 }
 
 
+// TODO: Implement saveGame method - display GameSavingScreen
 void Program::saveGame() {
 	DrawService::drawGameSavingScreen();
-
-	/*else if (console.getKeyCode() == SAVE_GAME_KEY_CHARACTER) {
-			if (menu.getShouldDisplayFileNameInput()) {
-				menu.showFileNameInputModal(console, cursor);
-
-				char characters[100] = {};
-				int characterIndex = 0;
-
-				do {
-					console.setKeyCode(getche());
-
-					characters[characterIndex] = (char)(console.getKeyCode());
-					characterIndex++;
-				} while (console.getKeyCode() != ENTER_KEY_CODE);
-
-				characterIndex--;
-
-				characters[characterIndex] = '\0';
-
-				board.saveBoardToFile(characters);
-
-				continue;
-			}
-		}*/
 }
 
 

@@ -23,7 +23,7 @@ public:
 	Window(SDL* sdl);
 	void setInitialSettings();
 	
-	double calculateWorldTime(bool isPaused);
+	double calculateWorldTime(bool isPaused = false);
 	double calculateDelta();
 	void calculateFPS();
 

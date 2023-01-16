@@ -25,7 +25,7 @@ String::String(const String& source) : string{ nullptr } {
 }
 
 
-String::String(String&& source) : string{ source.string } {
+String::String(String&& source) noexcept : string{ source.string } {
 	source.string = nullptr;
 }
 
@@ -46,7 +46,7 @@ String& String::operator=(const String& rhs) {
 }
 
 
-String& String::operator=(String&& rhs) {
+String& String::operator=(String&& rhs) noexcept {
 	if (this != &rhs) {
 		delete[] string;
 		string = rhs.string;

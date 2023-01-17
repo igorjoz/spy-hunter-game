@@ -150,7 +150,7 @@ void DrawService::drawDividingLines() {
 
 
 void DrawService::drawPlayerCar() {
-	drawPlayerCarBorder();
+	//drawPlayerCarBorder();
 	
 	SDL_Surface* screenSurface = sdl->screen;
 	
@@ -203,7 +203,7 @@ void DrawService::drawBullets() {
 	PlayerCar* playerCar = game->getPlayerCar();
 	int x = playerCar->getX() + Car::WIDTH / 2;
 	int y = playerCar->getY() - 10;
-	int bulletsQuantity = playerCar->getShootingRange();
+	int bulletsQuantity = playerCar->getBulletsQuantity();
 
 	for (int i = 0; i < bulletsQuantity; i++) {
 		SDL_Rect bulletRectangle;
@@ -343,7 +343,7 @@ void DrawService::drawPauseScreen() {
 }
 
 
-void DrawService::drawGameOverScreen() {
+void DrawService::drawGameOverScreen(int* results) {
 	SDL_Surface* screenSurface = sdl->screen;
 
 	SDL_Rect blackRectangle;
@@ -358,14 +358,25 @@ void DrawService::drawGameOverScreen() {
 	char text[100] = "GAME OVER";
 	int width = Window::WIDTH / 2 - strlen(text) * 4;
 	int height = Window::HEIGHT / 2;
-
 	Surface::printString(width, height, text);
 
 	sprintf_s(text, "Press R to restart");
 	width = Window::WIDTH / 2 - strlen(text) * 4;
-	height = Window::HEIGHT / 2 - Window::BIG_LINE_HEIGHT;
-
+	height = Window::HEIGHT / 2 + Window::BIG_LINE_HEIGHT;
 	Surface::printString(width, height, text);
+
+	// print player score
+	sprintf_s(text, "Your score: %d", results[0]);
+	width = Window::WIDTH / 2 - strlen(text) * 4;
+	height = Window::HEIGHT / 2 + Window::BIG_LINE_HEIGHT * 2;
+	Surface::printString(width, height, text);
+
+	for (int i = 0; i < 5; i++) {
+		sprintf_s(text, "%d. %d", i + 1, results[i]);
+		width = Window::WIDTH / 2 - strlen(text) * 4;
+		height = Window::HEIGHT / 2 + Window::BIG_LINE_HEIGHT * 3 + i * Window::BIG_LINE_HEIGHT;
+		Surface::printString(width, height, text);
+	}
 }
 
 

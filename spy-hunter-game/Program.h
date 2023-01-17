@@ -53,5 +53,7 @@ private:
 	bool isGameBeingSaved;
 	bool isGameSaved;
 	bool areMultipleArrowKeysPressed;
+
+	int* results;
 };
 

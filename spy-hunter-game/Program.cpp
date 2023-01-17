@@ -25,6 +25,8 @@ Program::Program(SDL* sdl, Window* window, Game* game) {
 	this->isGameBeingSaved = false;
 	this->isGameSaved = false;
 	this->areMultipleArrowKeysPressed = false;
+
+	this->results = nullptr;
 }
 
 
@@ -284,7 +286,7 @@ void Program::renderPauseScreen() {
 
 
 void Program::renderGameOverScreen() {
-	DrawService::drawGameOverScreen();
+	DrawService::drawGameOverScreen(results);
 
 	sdl->renderFrame();
 }
@@ -313,7 +315,8 @@ void Program::saveGame() {
 void Program::saveToResults() {
 	int score = game->getScore();
 	
-	FileService::saveToResults(score);
+	FileService fileService;
+	results = fileService.saveToResults(score);
 }
 
 

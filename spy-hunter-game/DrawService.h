@@ -34,7 +34,7 @@ public:
 	static void drawGameInformation();
 	static void drawListOfImplementedFunctionalities();
 	static void drawPauseScreen();
-	static void drawGameOverScreen();
+	static void drawGameOverScreen(int* results);
 	static void drawGameSavingScreen();
 };
 

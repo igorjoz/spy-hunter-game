@@ -16,8 +16,8 @@ public:
 	void move();
 	void moveForward();
 	
-	void respawn();
+	void respawn(int x, int y);
 	void resetToStartingPosition();
-	void resetPosition();
+	void resetPosition(int x, int y);
 };
 

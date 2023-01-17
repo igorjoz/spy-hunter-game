@@ -43,16 +43,19 @@ void Game::run() {
 	calculateScore();
 	
 	playerCar->move();
+
+	handleCarsRespawning();
+
 	enemyCar->move();
+	
 	neutralCar->move();
 
 	handleIsPlayerCollidingWithEnemy();
 	handleIsPlayerCollidingWithNeutral();
+	handleIsPlayerCollidingWithPowerUp();
 
 	handleHasPlayerShotEnemy();
 	handleHasPlayerShotNeutral();
-
-	handleIsPlayerCollidingWithPowerUp();
 }
 
 
@@ -74,27 +77,40 @@ void Game::calculateScore() {
 	int verticalVelocity = static_cast<int>(playerCar->getVerticalVelocity());
 	int slowVelocity = static_cast<int>(CarSpeed::SLOW);
 	MovementDirection playerVerticalMovementDirection = playerCar->getVerticalMovementDirection();
+	bool isInsideRoad = Map::checkIfInsideRoad(playerCar->getX(), playerCar->getY());
 
-	if (
-		!isScoreFrozen and
-		verticalVelocity > slowVelocity and
-		playerVerticalMovementDirection == MovementDirection::UP
-		) {
-		this->score++;
+	if (!isScoreFrozen and isInsideRoad) {
+		score += Game::SCORE_INCREMENT;
+
+		if (playerVerticalMovementDirection == MovementDirection::UP) {
+			score += Game::PREMIUM_SCORE_INCREMENT;
+		}
+	}
+}
+
+
+void Game::handleCarsRespawning() {
+	int playerCarX = playerCar->getX();
+	
+	if (enemyCar->getIsDestroyed()) {
+		enemyCar->respawn(playerCarX, EnemyCar::STARTING_Y);
+	}
+
+	if (neutralCar->getIsDestroyed()) {
+		neutralCar->respawn();
 	}
 }
 
 
 void Game::handleIsPlayerCollidingWithEnemy() {
 	double worldTime = window->getWorldTime();
+	double playerProtectionTime = static_cast<double>(Window::PLAYER_PROTECTION_TIME);
 	
 	if (isPlayerCollidingWithEnemy()) {
-		if (worldTime < static_cast<double>(Window::PLAYER_PROTECTION_TIME)) {	
+		if (worldTime < playerProtectionTime) {
 			playerCar->resetToStartingPosition();
 		}
 		else {
-			//DrawService::drawGameOverScreen();
-			//restart();
 			isGameOver = true;
 		}
 	}
@@ -103,12 +119,19 @@ void Game::handleIsPlayerCollidingWithEnemy() {
 
 void Game::handleIsPlayerCollidingWithNeutral() {
 	if (isPlayerCollidingWithNeutral()) {
-		/*if (worldTime < static_cast<double>(Window::PLAYER_PROTECTION_TIME)) {
-			playerCar->resetToStartingPosition();
+		neutralCar->setIsDestroyed(true);
+		isScoreFrozen = true;
+
+		int fiveSeconds = Window::FRAME_RATE * 5;
+		window->setScoreFreezeTime(fiveSeconds);
+	}
+
+	if (isScoreFrozen) {
+		window->decreaseScoreFreezeTime();
+
+		if (window->getScoreFreezeTime() <= 0) {
+			isScoreFrozen = false;
 		}
-		else {
-			restart();
-		}*/
 	}
 }
 
@@ -118,15 +141,20 @@ void Game::handleIsPlayerCollidingWithPowerUp() {
 		isPowerUpActive = true;
 		isPowerUpUsedUp = true;
 
-		playerCar->setShootingRange(PlayerCar::SPECIAL_BULLETS_QUANTITY);
+		playerCar->setShootingRange(PlayerCar::SPECIAL_SHOOTING_RANGE);
+		playerCar->setBulletsQuantity(PlayerCar::SPECIAL_BULLETS_QUANTITY);
+
+		int tenSeconds = Window::FRAME_RATE * 10;
+		window->setPowerUpTime(tenSeconds);
 	}
 
 	if (isPowerUpActive) {
 		window->decreasePowerUpTime();
 
-		if (window->getPowerUpTime() == 0) {
+		if (window->getPowerUpTime() <= 0) {
 			isPowerUpActive = false;
-			playerCar->setShootingRange(PlayerCar::REGULAR_BULLETS_QUANTITY);
+			playerCar->setShootingRange(PlayerCar::REGULAR_SHOOTING_RANGE);
+			playerCar->setBulletsQuantity(PlayerCar::REGULAR_BULLETS_QUANTITY);
 		}
 	}
 }
@@ -143,7 +171,9 @@ void Game::handleHasPlayerShotNeutral() {
 	if (hasPlayerShotNeutral()) {
 		neutralCar->setIsDestroyed(true);
 		isScoreFrozen = true;
-		window->setScoreFreezeTime(Window::FRAME_RATE * 5);
+
+		int fiveSeconds = Window::FRAME_RATE * 5;
+		window->setScoreFreezeTime(fiveSeconds);
 	}
 
 	if (isScoreFrozen) {
@@ -231,8 +261,8 @@ bool Game::hasPlayerShotEnemy() {
 		playerCar->getIsShooting() and
 		playerCarX + horizontalShootingRange >= enemyCarX and
 		playerCarX + horizontalShootingRange <= enemyCarX + Car::WIDTH and
-		playerCarY + shootingRange >= enemyCarY
-		
+		playerCarY >= enemyCarY and
+		playerCarY - shootingRange <= enemyCarY
 		) {
 		return true;
 	}
@@ -252,14 +282,9 @@ bool Game::hasPlayerShotNeutral() {
 	if (
 		playerCar->getIsShooting() and
 		playerCarX + horizontalShootingRange >= neutralCarX and
-		playerCarX + horizontalShootingRange <= neutralCarX + Car::WIDTH
-		and
-		playerCarY >= neutralCarY + Car::HEIGHT
-		and 
-		playerCarY + shootingRange <= neutralCarY + Car::HEIGHT
-		//playerCarY + shootingRange >= neutralCarY
-		//and 
-		//playerCarY + shootingRange >= neutralCarY - Car::HEIGHT
+		playerCarX + horizontalShootingRange <= neutralCarX + Car::WIDTH and
+		playerCarY >= neutralCarY and
+		playerCarY - shootingRange <= neutralCarY
 		) {
 		return true;
 	}

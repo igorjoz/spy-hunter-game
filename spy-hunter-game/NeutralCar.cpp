@@ -33,6 +33,12 @@ void NeutralCar::moveForward() {
 }
 
 
+void NeutralCar::respawn() {
+	resetToStartingPosition();
+	isDestroyed = false;
+}
+
+
 void NeutralCar::resetToStartingPosition() {
 	x = NeutralCar::STARTING_X;
 	y = NeutralCar::STARTING_Y;

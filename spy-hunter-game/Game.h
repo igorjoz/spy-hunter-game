@@ -11,6 +11,9 @@
 class Game
 {
 public:
+	static const int SCORE_INCREMENT = 1;
+	static const int PREMIUM_SCORE_INCREMENT = 4;
+
 	Game(SDL* sdl, Window* window);
 	~Game();
 	void run();
@@ -18,6 +21,7 @@ public:
 	void resetScore();
 	void calculateScore();
 
+	void handleCarsRespawning();
 	void handleIsPlayerCollidingWithEnemy();
 	void handleIsPlayerCollidingWithNeutral();
 	void handleIsPlayerCollidingWithPowerUp();

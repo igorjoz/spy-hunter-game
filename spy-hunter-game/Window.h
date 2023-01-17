@@ -47,6 +47,7 @@ public:
 	void setDelta(double delta);
 	void setWorldTime(double time);
 	void setScoreFreezeTime(int scoreFreezeTime);
+	void setPowerUpTime(int powerUpTime);
 	void setFpsTimer(double fpsTimer);
 	void setFps(double fps);
 

@@ -8,7 +8,8 @@ PlayerCar::PlayerCar() {
 	this->x = PlayerCar::STARTING_X;
 	this->y = PlayerCar::STARTING_Y;
 
-	this->shootingRange = PlayerCar::REGULAR_BULLETS_QUANTITY;
+	this->shootingRange = PlayerCar::REGULAR_SHOOTING_RANGE;
+	this->bulletsQuantity = PlayerCar::REGULAR_BULLETS_QUANTITY;
 	this->isShooting = false;
 }
 
@@ -29,6 +30,11 @@ bool PlayerCar::getIsShooting() const {
 }
 
 
+int PlayerCar::getBulletsQuantity() const {
+	return this->bulletsQuantity;
+}
+
+
 void PlayerCar::setIsShooting(bool isShooting) {
 	this->isShooting = isShooting;
 }
@@ -36,4 +42,9 @@ void PlayerCar::setIsShooting(bool isShooting) {
 
 void PlayerCar::setShootingRange(int shootingRange) {
 	this->shootingRange = shootingRange;
+}
+
+
+void PlayerCar::setBulletsQuantity(int bulletsQuantity) {
+	this->bulletsQuantity = bulletsQuantity;
 }

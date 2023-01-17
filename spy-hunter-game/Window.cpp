@@ -152,6 +152,11 @@ void Window::setScoreFreezeTime(int scoreFreezeTime) {
 }
 
 
+void Window::setPowerUpTime(int powerUpTime) {
+	this->powerUpTime = powerUpTime;
+}
+
+
 void Window::setFpsTimer(double fpsTimer) {
 	this->fpsTimer = fpsTimer;
 }

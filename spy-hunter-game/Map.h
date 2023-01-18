@@ -20,7 +20,5 @@ public:
 	static int const WHITE_LANE_HEIGHT = 30;
 
 	static bool checkIfInsideRoad(int x, int y);
-	
-private:
 };
 

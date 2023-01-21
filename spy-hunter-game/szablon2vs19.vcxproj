@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="DrawService.cpp" />
     <ClCompile Include="EnemyCar.cpp" />
@@ -30,7 +29,6 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="NeutralCar.cpp" />
     <ClCompile Include="PlayerCar.cpp" />
-    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="SDL.cpp" />
     <ClCompile Include="AssetsLoader.cpp" />

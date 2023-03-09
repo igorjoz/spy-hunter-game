@@ -25,7 +25,9 @@ void DrawService::initialize(SDL* sdlObject, Window* windowObject, Game* gameObj
 void DrawService::drawGame() {
 	drawRoadside();
 	drawRoad();
-	drawIrregularRoadside();
+	
+	// TODO: Improve road width changing
+	// drawIrregularRoadside();
 
 	if (!game->getIsPowerUpUsedUp()) {
 		drawPowerUp();
